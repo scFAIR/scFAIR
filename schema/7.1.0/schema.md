@@ -11,19 +11,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Schema versioning
 
-The scFAIR schema version is based on [Semantic Versioning](https://semver.org/).
-
-**Major version** is incremented when schema updates are incompatible with the AnnData data encoding or CELLxGENE API(s). Examples include:
-  * Renaming metadata fields
-  * Deprecating metadata fields
-  * Changing the type or format of a metadata field
- 
-**Minor version** is incremented when schema updates may require changes only to the `cellxgene-schema` CLI or the curation process. Examples include:
-  * Adding metadata fields
-  * Updating pinned ontologies or gene references
-  * Changing the validation requirements for a metadata field
-  
-**Patch version** is incremented for editorial updates and when adding organisms that do not require new metadata fields.
+The scFAIR schema version is based on [Semantic Versioning](https://semver.org/) and matches major/minor versions of the CELLxGENE schemas (see below for exact fork).
 
 All changes are documented in the schema [Changelog](#appendix-a-changelog).
 
