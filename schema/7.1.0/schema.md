@@ -1,17 +1,17 @@
 
 # Schema
 
-Contact: brianraymor@chanzuckerberg.com
+Contact: vincent.gardeux@epfl.ch
 
 Document Status: _Drafting_
 
-Version: 7.1.0
+Version: 7.1.0_scfair
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED" "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14](https://tools.ietf.org/html/bcp14), [RFC2119](https://www.rfc-editor.org/rfc/rfc2119.txt), and [RFC8174](https://www.rfc-editor.org/rfc/rfc8174.txt) when, and only when, they appear in all capitals, as shown here.
 
 ## Schema versioning
 
-The CELLxGENE schema version is based on [Semantic Versioning](https://semver.org/).
+The scFAIR schema version is based on [Semantic Versioning](https://semver.org/).
 
 **Major version** is incremented when schema updates are incompatible with the AnnData data encoding or CELLxGENE API(s). Examples include:
   * Renaming metadata fields
@@ -27,16 +27,15 @@ The CELLxGENE schema version is based on [Semantic Versioning](https://semver.or
 
 All changes are documented in the schema [Changelog](#appendix-a-changelog).
 
+## Acknowledgments
+
+This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for CELLxGENE.
 
 ## Background
 
-CELLxGENE aims to support the publication, sharing, and exploration of single-cell datasets. Building on those published datasets, CELLxGENE seeks to create references of the phenotypes and composition of cells that make up human tissues.
+This document describes the schema, a type of contract, that scFAIR requires all datasets to adhere to so that it can enable searching, filtering, and integration of datasets across platforms.
 
-Creating references from multiple datasets requires some harmonization of metadata and features, but if that harmonization is too onerous, it will burden the goal of rapid data sharing. CELLxGENE balances publishing and reference creation needs by requiring datasets hosted by CELLxGENE Discover to include a small set of metadata readily available from data submitters.
-
-This document describes the schema, a type of contract, that CELLxGENE requires all datasets to adhere to so that it can enable searching, filtering, and integration of datasets it hosts.
-
-Note that the requirements in the schema are just the minimum required information. Datasets often have additional metadata, which is preserved in datasets submitted to CELLxGENE Discover.
+Note that the requirements in the schema are just the minimum required information. Datasets may have additional metadata.
 
 ## Overview
 
@@ -58,7 +57,7 @@ This document is organized by:
 
 ## General Requirements
 
-**AnnData.** The canonical data format for CELLxGENE Discover is HDF5-backed [AnnData](https://anndata.readthedocs.io/en/latest) as written by AnnData version 0.8.0 or greater. The on-disk format must be [AnnData specification (v0.1.0)](https://anndata.readthedocs.io/en/latest/fileformat-prose.html#anndata-specification-v0-1-0). Part of the rationale for selecting this format is to allow CELLxGENE to access both the data and metadata within a single file. The schema requirements and definitions for the AnnData `X`, `obs`, `var`, `raw.var`, `obsm`, and `uns` attributes are described below.
+**AnnData.** The canonical data format adopted by scFAIR is HDF5-backed [AnnData](https://anndata.readthedocs.io/en/latest) as written by AnnData version 0.8.0 or greater. The on-disk format must be [AnnData specification (v0.1.0)](https://anndata.readthedocs.io/en/latest/fileformat-prose.html#anndata-specification-v0-1-0). Part of the rationale for selecting this format is to allow resources to access both the data and metadata within a single file. The schema requirements and definitions for the AnnData `X`, `obs`, `var`, `raw.var`, `obsm`, and `uns` attributes are described below.
 
 **Reserved Names**. The names of metadata fields MUST NOT start with `"__"`. The names of the metadata fields specified by the schema are **reserved** for the purposes and specifications described in the schema.
 
@@ -161,9 +160,9 @@ Reserved Names from previous schema versions that have since been deprecated MUS
 
 **Redundant Metadata**. It is STRONGLY RECOMMENDED to avoid multiple metadata fields containing identical or similar information.
 
-**No Personal Identifiable Information (PII)**.  This is not strictly enforced by validation because it is difficult for software to predict what is and is not PII; however, curators MUST agree to the data submission policies of CELLxGENE Discover on behalf of data submitters which includes this requirement:
+**No Personal Identifiable Information (PII)**.  This is not strictly enforced by validation because it is difficult to predict what is and is not PII; however, curators MUST agree with this requirement:
 
-> It is my responsibility to ensure that this data is not identifiable. In particular, I commit that I will remove any [direct personal identifiers](https://docs.google.com/document/d/1sboOmbafvMh3VYjK1-3MAUt0I13UUJfkQseq8ANLPl8/edit) in the metadata portions of the data, and that CZI may further contact me if it believes more work is needed to de-identify it.
+> It is my responsibility to ensure that this data is not identifiable. In particular, I commit that I will remove any [direct personal identifiers](https://docs.google.com/document/d/1sboOmbafvMh3VYjK1-3MAUt0I13UUJfkQseq8ANLPl8/edit) in the metadata portions of the data.
 
 This includes names, emails, or other PII for researchers or curators involved in the data generation and submission.
 
@@ -172,8 +171,7 @@ The types below are python3 types. Note that a python3 `str` is a sequence of Un
 
 ## `X` (Matrix Layers)
 
-The data stored in the `AnnData.X` data matrix is the data that is viewable in CELLxGENE Explorer. For `AnnData.X`, `AnnData.raw.X`, and all layers, if a data matrix contains 50% or more values that are zeros, it MUST be encoded as a [`scipy.sparse.csr_matrix`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html) with zero values encoded as <a href="https://docs.scipy.org/doc/scipy/tutorial/sparse.html#sparse-arrays-implicit-zeros-and-duplicates">implicit zeros</a>.
-
+The data stored in the `AnnData.X` data matrix is the main dataset viewable in a portal resource. For `AnnData.X`, `AnnData.raw.X`, and all layers, if a data matrix contains 50% or more values that are zeros, it MUST be encoded as a [`scipy.sparse.csr_matrix`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html) with zero values encoded as <a href="https://docs.scipy.org/doc/scipy/tutorial/sparse.html#sparse-arrays-implicit-zeros-and-duplicates">implicit zeros</a>.
 
 CELLxGENE's matrix layer requirements are tailored to optimize data reuse. Because each assay has different characteristics, the requirements differ by assay type. In general, CELLxGENE requires submission of "raw" data suitable for computational reuse when a standard raw matrix format exists for an assay. It is STRONGLY RECOMMENDED to also include a "normalized" matrix with processed values ready for data analysis and suitable for visualization in CELLxGENE Explorer. So that CELLxGENE's data can be provided in download formats suitable for both R and Python, the schema imposes the following requirements:
 
