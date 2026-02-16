@@ -3118,7 +3118,7 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 * obsm (Embeddings)
   * Updated the general requirements to depend on `[uns]['is_pre_analysis']`
 * [uns](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) (Dataset Metadata)
-  * Added [`ensembl_release`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_release)
-  * Added [`ensembl_database`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_database)
-  * Added [`ensembl_assembly`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_assembly)
+  * Added [`ensembl_release`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_release)
+  * Added [`ensembl_database`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_database)
+  * Added [`ensembl_assembly`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_assembly)
 
