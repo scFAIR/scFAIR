@@ -11,13 +11,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Schema versioning
 
-The scFAIR schema version is based on [Semantic Versioning](https://semver.org/) and matches major/minor versions of the CELLxGENE schemas (see below for exact fork).
+The scFAIR schema version is based on [Semantic Versioning](https://semver.org/) and matches major/minor versions of the scFAIR schemas (see below for exact fork).
 
-All changes are documented in the schema [Changelog](#appendix-a-changelog).
+All changes from the CZI scFAIR schema are documented in the scFAIR schema [Changelog](#appendix-a-changelog).
 
 ## Acknowledgments
 
-This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for CELLxGENE.
+This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for scFAIR.
 
 ## Background
 
@@ -65,83 +65,78 @@ Reserved Names from previous schema versions that have since been deprecated MUS
  <tr>
     <td>organism</td>
     <td>obs</td>
-    <td>6.0.0</td>
+    <td>CELLxGENE schema 6.0.0</td>
   </tr>
   <tr>
     <td>organism_ontology_term_id</td>
     <td>obs</td>
-    <td>6.0.0</td>
+    <td>CELLxGENE schema 6.0.0</td>
   </tr>
   <tr>
   <tr>
     <td>ethnicity</td>
     <td>obs</td>
-    <td>3.0.0</td>
+    <td>CELLxGENE schema 3.0.0</td>
   </tr>
   <tr>
     <td>ethnicity_ontology_term_id</td>
     <td>obs</td>
-    <td>3.0.0</td>
+    <td>CELLxGENE schema 3.0.0</td>
   </tr>
   <tr>
     <td>X_normalization</td>
     <td>uns</td>
-    <td>3.0.0</td>
+    <td>CELLxGENE schema 3.0.0</td>
   </tr>
   <tr>
     <td>default_field</td>
     <td>uns</td>
-    <td>2.0.0</td>
+    <td>CELLxGENE schema 2.0.0</td>
   </tr>
   <tr>
     <td>layer_descriptions</td>
     <td>uns</td>
-    <td>2.0.0</td>
+    <td>CELLxGENE schema 2.0.0</td>
   </tr>
   <tr>
     <td>tags</td>
     <td>uns</td>
-    <td>2.0.0</td>
+    <td>CELLxGENE schema 2.0.0</td>
   </tr>
    <tr>
     <td>version</td>
     <td>uns</td>
-    <td>2.0.0</td>
+    <td>CELLxGENE schema 2.0.0</td>
   </tr>
   <tr>
     <td>contributors</td>
     <td>uns</td>
-    <td>1.1.0</td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
   <tr>
     <td>preprint_doi</td>
     <td>uns</td>
-    <td>1.1.0</td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
   <tr>
     <td>project_description</td>
     <td>uns</td>
-    <td>1.1.0</td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
   <tr>
     <td>project_links</td>
     <td>uns</td>
-    <td>1.1.0</td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
   <tr>
     <td>project_name</td>
     <td>uns</td>
-    <td>1.1.0</td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
   <tr>
     <td>publication_doi</td>
     <td>uns</td>
-    <td>1.1.0</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>CELLxGENE schema 1.1.0</td>
   </tr>
 </tbody>
 </table>
@@ -161,7 +156,7 @@ The types below are python3 types. Note that a python3 `str` is a sequence of Un
 
 The data stored in the `AnnData.X` data matrix is the main dataset viewable in a portal resource. For `AnnData.X`, `AnnData.raw.X`, and all layers, if a data matrix contains 50% or more values that are zeros, it MUST be encoded as a [`scipy.sparse.csr_matrix`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html) with zero values encoded as <a href="https://docs.scipy.org/doc/scipy/tutorial/sparse.html#sparse-arrays-implicit-zeros-and-duplicates">implicit zeros</a>.
 
-CELLxGENE's matrix layer requirements are tailored to optimize data reuse. Because each assay has different characteristics, the requirements differ by assay type. In general, CELLxGENE requires submission of "raw" data suitable for computational reuse when a standard raw matrix format exists for an assay. It is STRONGLY RECOMMENDED to also include a "normalized" matrix with processed values ready for data analysis and suitable for visualization in CELLxGENE Explorer. So that CELLxGENE's data can be provided in download formats suitable for both R and Python, the schema imposes the following requirements:
+scFAIR's matrix layer requirements are tailored to optimize data reuse. Because each assay has different characteristics, the requirements differ by assay type. In general, scFAIR requires submission of "raw" data suitable for computational reuse when a standard raw matrix format exists for an assay. It is STRONGLY RECOMMENDED to also include a "normalized" matrix with processed values ready for data analysis and suitable for visualization in scFAIR Explorer. So that scFAIR's data can be provided in download formats suitable for both R and Python, the schema imposes the following requirements:
 
 *   All matrix layers MUST have the same shape, and have the same cell labels and gene labels.
 *   Because it is impractical to retain all barcodes in raw and normalized matrices, any cell filtering MUST be applied to both.
@@ -186,21 +181,17 @@ The following table describes the matrix data and layers requirements that are *
 | Visium Spatial (e.g. V1, CytAssist) | REQUIRED. Values MUST be de-duplicated molecule counts. All non-zero values MUST be positive integers stored as `numpy.float32`.<br><br>If <code>uns['spatial']['is_single']</code> is <code>False</code> then each cell MUST contain at least one non-zero value.<br><br>If <code>uns['spatial']['is_single']</code> is <code>True</code> then the unfiltered feature-barcode matrix (<code>raw_feature_bc_matrix</code>) MUST be used. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/space-ranger-feature-barcode-matrices">Space Ranger Feature-Barcode Matrices</a>.<br><br>if <code>assay_ontology_term_id</code> is <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022860"><code>"EFO:0022860"</code></a> for <i>Visium CytAssist Spatial Gene Expression, 11mm</i>, this matrix MUST contain 14336 rows; otherwise, this matrix MUST contain 4992 rows.<br><br>If the <code>obs['in_tissue']</code> value is <code>1</code>, then the cell MUST contain at least one non-zero value and any two cells MUST NOT contain identical values for all their features.<br><br>If any <code>obs['in_tissue']</code> values are <code>0</code>, then at least one cell corresponding to a <code>obs['in_tissue']</code> with a value of <code>0</code> MUST contain a non-zero value.| `AnnData.raw.X` unless no "normalized" is provided, then `AnnData.X` | STRONGLY RECOMMENDED | `AnnData.X` |
 | scRNA-seq (non-UMI, e.g. SS2) | REQUIRED. Values MUST be one of read counts (e.g. FeatureCounts) or  estimated fragments (e.g. output of RSEM). Each cell MUST contain at least one non-zero value. All non-zero values MUST be positive integers stored as `numpy.float32`. Any two cells MUST NOT contain identical values for all their features. | `AnnData.raw.X` unless no "normalized" is provided, then `AnnData.X` | STRONGLY RECOMMENDED | `AnnData.X` |
 | unpaired Accessibility (e.g. ATAC-seq, mCT-seq) | NOT REQUIRED | | REQUIRED | `AnnData.X` | STRONGLY RECOMMENDED |
-|||||
 
 ## Integration Metadata
 
-CELLxGENE requires ontology terms to enable search, comparison, and integration of data. With the exception of Cellosaurus, ontology terms for cell metadata MUST use [OBO-format identifiers](http://www.obofoundry.org/id-policy.html), meaning a CURIE (prefixed identifier) of the form **Ontology:Identifier**. For example, [EFO:0000001](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0000001) is a term in the Experimental Factor Ontology (EFO). Cellosaurus requires a prefixed identifier of the form **Ontology_Identifier** such as [CVCL_1P02](https://www.cellosaurus.org/CVCL_1P02).
+scFAIR requires ontology terms to enable search, comparison, and integration of data. With the exception of Cellosaurus, ontology terms for cell metadata MUST use [OBO-format identifiers](http://www.obofoundry.org/id-policy.html), meaning a CURIE (prefixed identifier) of the form **Ontology:Identifier**. For example, [EFO:0000001](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0000001) is a term in the Experimental Factor Ontology (EFO). Cellosaurus requires a prefixed identifier of the form **Ontology_Identifier** such as [CVCL_1P02](https://www.cellosaurus.org/CVCL_1P02).
 
 
 The most accurate ontology term MUST always be used. If an exact or approximate ontology term is not available, a new term may be requested:
 
-- For the [Cell Ontology], data submitters may [suggest a new term](https://github.com/obophenotype/cell-ontology/issues/new?assignees=bvarner-ebi&labels=new+term+request%2C+cellxgene&template=a_adding_term_cellxgene.md&title=%5BNTR-cxg%5D) and [notify the curation team](mailto:cellxgene@chanzuckerberg.com) of the pending term request, so that the datasets can be updated once the term is available.
+- For the [Cell Ontology], data submitters may [suggest a new term](https://github.com/obophenotype/cell-ontology/issues/new?assignees=bvarner-ebi&labels=new+term+request%2C+scFAIR&template=a_adding_term_scFAIR.md&title=%5BNTR-cxg%5D).
 
-  To meet CELLxGENE schema requirements, the most accurate available CL term MUST be used until the new term is available. For example if `cell_type_ontology_term_id` describes a relay interneuron, but the most accurate available term in the CL ontology is [CL:0000099](https://www.ebi.ac.uk/ols4/ontologies/cl/classes?obo_id=CL%3A0000099) for *interneuron*, then the interneuron term can be used to fulfill this requirement and ensures that users searching for "neuron" are able to find these data.  If no appropriate term can be found (e.g. the cell type is unknown), then `"unknown"` MUST be used. Users will still be able to access more specific cell type annotations that have been submitted with the dataset (but aren't required by the schema).
-
-   
-- For all other ontologies, data submitters may submit a [request to the curation team](mailto:cellxgene@chanzuckerberg.com) during the submission process.
+  To meet scFAIR schema requirements, the most accurate available CL term MUST be used until the new term is available. For example if `cell_type_ontology_term_id` describes a relay interneuron, but the most accurate available term in the CL ontology is [CL:0000099](https://www.ebi.ac.uk/ols4/ontologies/cl/classes?obo_id=CL%3A0000099) for *interneuron*, then the interneuron term can be used to fulfill this requirement and ensures that users searching for "neuron" are able to find these data.  If no appropriate term can be found (e.g. the cell type is unknown), then `"unknown"` MUST be used. Users will still be able to access more specific cell type annotations that have been submitted with the dataset (but aren't required by the schema).
 
 Terms documented as obsolete in an ontology MUST NOT be used. For example, [EFO:0009310](https://www.ebi.ac.uk/ols4/ontologies/efo/classes/http%253A%252F%252Fwww.ebi.ac.uk%252Fefo%252FEFO_0009310) for *obsolete_10x v2* was marked as obsolete in EFO version 3.31.0 and replaced by [EFO:0009899](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0009899) for *10x 3' v2*.
 
@@ -227,7 +218,6 @@ The following ontology dependencies are *pinned* for this version of the schema.
 | [Uberon multi-species anatomy ontology] |  UBERON: | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [uberon.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/uberon.owl) |
 | [UniProt Knowledgebase] | uniprot: | [08-Oct-2025](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/)<br>2025_04 | [uniprot_sprot.xml](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.xml.gz) _(UniProt may replace this download with a newer release. Previous releases are [available](https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases/).)_ | 
 | [Zebrafish Anatomy Ontology] | ZFA:<br>ZFS: | [2025-09-05](https://github.com/ZFIN/zebrafish-anatomical-ontology/releases/tag/v2025-09-05) | [zfa.owl](https://github.com/ZFIN/zebrafish-anatomical-ontology/blob/v2025-09-05/zfa.owl) |
-| | | | |
 
 [C. elegans Development Ontology]: https://obofoundry.org/ontology/wbls.html
 
@@ -681,7 +671,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
       <th>Value</th>
         <td>categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>; otherwise, this MUST NOT be <code>"na"</code>, but MUST be free-text that identifies a unique individual that data were derived from. It is STRONGLY RECOMMENDED that this identifier be designed so that it is unique to:<br><br>
           <ul><li>a given individual within the collection of datasets that includes this dataset</li>
-          <li>a given individual across all collections in CELLxGENE Discover</li></ul><br>
+          <li>a given individual across all collections in scFAIR Discover</li></ul><br>
           It is STRONGLY RECOMMENDED that <code>"pooled"</code> be used  for observations from a sample of multiple individuals that were not confidently assigned to a single individual through demultiplexing.<br><br>It is STRONGLY RECOMMENDED that <code>"unknown"</code> ONLY be used for observations in a dataset when it is not known which observations are from the same individual.<br><br>
         </td>
     </tr>
@@ -1140,7 +1130,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
               <td><code>"cell"</code> or <code>"nucleus"</code></td>
            </tr> 
           </tbody></table>
-          <br>If the assay does not appear in this table, the most appropriate value MUST be selected and <a href="mailto:cellxgene@chanzuckerberg.com">the curation team informed</a> during submission so that the assay can be added to the table.<br>
+          <br>If the assay does not appear in this table, the most appropriate value MUST be selected and <a href="mailto:scFAIR@chanzuckerberg.com">the curation team informed</a> during submission so that the assay can be added to the table.<br>
         </td>
     </tr>
 </tbody></table>
@@ -1232,7 +1222,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
 </tbody></table>
 <br>
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matching human-readable name for the corresponding ontology term to the `obs` dataframe. Curators MUST NOT annotate the following columns.
+When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding ontology term to the `obs` dataframe. Curators MUST NOT annotate the following columns.
 
 ### assay
 
@@ -1243,7 +1233,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1262,7 +1252,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
+      <td>scFAIR Discover MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1282,7 +1272,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1301,7 +1291,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1321,7 +1311,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> is present; otherwise this key MUST NOT be present.</td>
+      <td>scFAIR Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> is present; otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1333,7 +1323,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matchi
 </tbody></table>
 <br>
 
-When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observation identifier for each cell. Curators MUST NOT annotate the following column.
+When a dataset is uploaded, scFAIR Discover MUST annotate a unique observation identifier for each cell. Curators MUST NOT annotate the following column.
 
 ### observation_joinid
 
@@ -1344,7 +1334,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observatio
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1362,7 +1352,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observatio
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present; otherwise this key MUST NOT be present.</td>
+      <td>scFAIR Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present; otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1393,7 +1383,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observatio
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1412,7 +1402,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observatio
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1431,7 +1421,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST annotate a unique observatio
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1447,7 +1437,7 @@ The value for each `str` key MUST be a  `numpy.ndarray` of shape `(n_obs, m)`, w
 
 `obsm` MUST NOT be present if <code>uns['is_pre_analysis']</code> is <code>True</code>.
 
-Otherwise, to display a dataset in CELLxGENE Explorer, Curators MUST annotate **one or more** embeddings of at least two-dimensions (e.g. tSNE, UMAP, PCA, spatial coordinates) as `numpy.ndarrays` in `obsm`.<br><br>
+Otherwise, to display a dataset in scFAIR Explorer, Curators MUST annotate **one or more** embeddings of at least two-dimensions (e.g. tSNE, UMAP, PCA, spatial coordinates) as `numpy.ndarrays` in `obsm`.<br><br>
 
 ### spatial
 
@@ -1485,7 +1475,7 @@ Otherwise, to display a dataset in CELLxGENE Explorer, Curators MUST annotate **
         <li>The first character of {suffix} MUST be a letter of the alphabet and the remaining characters MUST be alphanumeric characters, <code>'_'</code>, <code>'-'</code>, or <code>'.'</code> (This is equivalent to the regular expression pattern <code>"^[a-zA-Z][a-zA-Z0-9_.-]*$"</code>.)</li>
          <li>{suffix} MUST NOT be <code>"spatial"</code>.
       </ul><br>
-      {suffix} is presented as text to users in the <b>Embedding Choice</b> selector in CELLxGENE Explorer so it is STRONGLY RECOMMENDED that it be descriptive.<br><br>See also <code>default_embedding</code> in <code>uns</code>.</td>
+      {suffix} is presented as text to users in the <b>Embedding Choice</b> selector in scFAIR Explorer so it is STRONGLY RECOMMENDED that it be descriptive.<br><br>See also <code>default_embedding</code> in <code>uns</code>.</td>
     </tr>
     <tr>
       <th>Annotator</th>
@@ -1641,7 +1631,7 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Annotation</th>
-        <td>CELLxGENE Discover MUST annotate if <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03488-8">Genome-wide CRISPR guide RNA design and specificity analysis with GuideScan2</a> successfully matched the values of <code>genetic_perturbations[<i>id</i>]['protospacer']</code> and <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code> to genomic regions in the following FASTA references:<br><br>
+        <td>scFAIR Discover MUST annotate if <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03488-8">Genome-wide CRISPR guide RNA design and specificity analysis with GuideScan2</a> successfully matched the values of <code>genetic_perturbations[<i>id</i>]['protospacer']</code> and <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code> to genomic regions in the following FASTA references:<br><br>
           <table>
             <thead>
               <tr>
@@ -1690,7 +1680,7 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Annotation</th>
-      <td>CELLxGENE Discover MUST annotate when <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> is annotated and one or more features in the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> overlapped a genomic region by at least one nucleotide; otherwise, this key MUST NOT be present.  
+      <td>scFAIR Discover MUST annotate when <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> is annotated and one or more features in the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> overlapped a genomic region by at least one nucleotide; otherwise, this key MUST NOT be present.  
     </tr>
     <tr>
       <th>Value</th>
@@ -1715,7 +1705,7 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Annotation</th>
-      <td>CELLxGENE Discover MUST annotate.  The key MUST be the <code>gene_id</code> attribute from the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> for a feature that overlapped a genomic region in <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> by at least one nucleotide.<br><br> Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the <code><i>feature_id</i></code> MUST be <code>“ENSG00000186092”</code>.</td>
+      <td>scFAIR Discover MUST annotate.  The key MUST be the <code>gene_id</code> attribute from the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> for a feature that overlapped a genomic region in <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> by at least one nucleotide.<br><br> Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the <code><i>feature_id</i></code> MUST be <code>“ENSG00000186092”</code>.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2039,7 +2029,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. This text describes and differentiates the dataset from other datasets in the same collection. It is displayed on a page in CELLxGENE Discover that also has the collection name. To illustrate, the first dataset name in the <a href="https://cellxgene.cziscience.com/collections/b52eb423-5d0d-4645-b217-e1c6d38b2e72">Cells of the adult human heart collection</a> is "All — Cells of the adult human heart".<br><br>It is STRONGLY RECOMMENDED that each dataset <code>title</code> in a collection is unique and does not depend on other metadata such as a different  <code>assay</code> to disambiguate it from other datasets in the collection.
+          <code>str</code>. This text describes and differentiates the dataset from other datasets in the same collection. It is displayed on a page in scFAIR Discover that also has the collection name. To illustrate, the first dataset name in the <a href="https://scFAIR.cziscience.com/collections/b52eb423-5d0d-4645-b217-e1c6d38b2e72">Cells of the adult human heart collection</a> is "All — Cells of the adult human heart".<br><br>It is STRONGLY RECOMMENDED that each dataset <code>title</code> in a collection is unique and does not depend on other metadata such as a different  <code>assay</code> to disambiguate it from other datasets in the collection.
         </td>
     </tr>
 </tbody></table>
@@ -2074,7 +2064,7 @@ Curators MUST annotate the following keys and values in `uns`:
   <tr>
     <th>Key</th>
       <td>
-        {column}_colors where {column} MUST be the name of a <code>category</code> data type column in <code>obs</code> that<br> is annotated by the data submitter or curator. The following columns that are annotated by CELLxGENE<br> Discover MUST NOT be specified as {column}:<br><br>
+        {column}_colors where {column} MUST be the name of a <code>category</code> data type column in <code>obs</code> that<br> is annotated by the data submitter or curator. The following columns that are annotated by scFAIR<br> Discover MUST NOT be specified as {column}:<br><br>
       <ul>
         <li>assay</li>
         <li>cell_type</li>
@@ -2147,7 +2137,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. The value MUST match a key to an embedding in <code>obsm</code> for the embedding to display by default in CELLxGENE Explorer.
+          <code>str</code>. The value MUST match a key to an embedding in <code>obsm</code> for the embedding to display by default in scFAIR Explorer.
         </td>
     </tr>
 </tbody></table>
@@ -2167,7 +2157,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. CELLxGENE Discover runs a heuristic to detect the approximate distribution of the data in X so that it can accurately calculate statistical properties of the data. This field enables the curator to override this heuristic and specify the data distribution explicitly. The value MUST be <code>"count"</code> (for data whose distributions are best approximated by counting distributions like Poisson, Binomial, or Negative Binomial) or <code>"normal"</code> (for data whose distributions are best approximated by the Gaussian distribution.)
+          <code>str</code>. scFAIR Discover runs a heuristic to detect the approximate distribution of the data in X so that it can accurately calculate statistical properties of the data. This field enables the curator to override this heuristic and specify the data distribution explicitly. The value MUST be <code>"count"</code> (for data whose distributions are best approximated by counting distributions like Poisson, Binomial, or Negative Binomial) or <code>"normal"</code> (for data whose distributions are best approximated by the Gaussian distribution.)
         </td>
     </tr>
 </tbody></table>
@@ -2175,7 +2165,7 @@ Curators MUST annotate the following keys and values in `uns`:
 
 Curators MUST NOT annotate the following keys and values in `uns`.
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `citation` key and set its value.
+When a dataset is uploaded, scFAIR Discover MUST automatically add the `citation` key and set its value.
 
 ### citation
 
@@ -2186,7 +2176,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `citat
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2208,18 +2198,18 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `citat
               <td><i><code>"Dataset Version: "</code></i></td>
               <td>Permanent url to this version of the dataset</td>
             </tr>
-              <td><i><code>" curated and distributed by<br> CZ CELLxGENE Discover in Collection: "</code> </i></td>
+              <td><i><code>" curated and distributed by<br> CZ scFAIR Discover in Collection: "</code> </i></td>
               <td>Permanent url to the collection</td>
             </tr>
           </tbody></table>
-          A citation for a H5AD dataset with a Publication DOI:<br><br>"<code><b>Publication:</b> https://doi.org/10.1126/science.abl4896 <b>Dataset Version:</b> https://datasets.cellxgene.cziscience.com/dbd8b789-3efa-4a63-9243-90cff64f2045.h5ad <b>curated and distributed by CZ CELLxGENE Discover in Collection:</b> https://cellxgene.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5"</code><br><br>
-          A citation for a RDS dataset without a Publication DOI:<br><br><code>"<b>Dataset Version:</b> https://datasets.cellxgene.cziscience.com/08ea16dc-3f4e-4c84-8692-74d70be22d12.rds <b>curated and distributed by CZ CELLxGENE Discover in Collection:</b> https://cellxgene.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31"</code><br><br>
+          A citation for a H5AD dataset with a Publication DOI:<br><br>"<code><b>Publication:</b> https://doi.org/10.1126/science.abl4896 <b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/dbd8b789-3efa-4a63-9243-90cff64f2045.h5ad <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5"</code><br><br>
+          A citation for a RDS dataset without a Publication DOI:<br><br><code>"<b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/08ea16dc-3f4e-4c84-8692-74d70be22d12.rds <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31"</code><br><br>
         </td>
     </tr>
 </tbody></table>
 <br>
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `is_pre_analysis` key and set its value.
+When a dataset is uploaded, scFAIR Discover MUST automatically add the `is_pre_analysis` key and set its value.
 
 ### is_pre_analysis
 
@@ -2230,7 +2220,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `is_pr
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2240,7 +2230,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `is_pr
 </tbody></table>
 <br>
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `organism` key and set its value to the matching human-readable name for the corresponding ontology term.
+When a dataset is uploaded, scFAIR Discover MUST automatically add the `organism` key and set its value to the matching human-readable name for the corresponding ontology term.
 
 ### organism
 
@@ -2251,7 +2241,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `organ
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2261,7 +2251,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `organ
 </tbody></table>
 <br>
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `schema_reference` key and set its value to the permanent URL of this document. 
+When a dataset is uploaded, scFAIR Discover MUST automatically add the `schema_reference` key and set its value to the permanent URL of this document. 
 
 ### schema_reference
 
@@ -2272,7 +2262,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `schem
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2285,7 +2275,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `schem
 
 ---
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `schema_version` key and its value to `uns`.
+When a dataset is uploaded, scFAIR Discover MUST automatically add the `schema_version` key and its value to `uns`.
 
 ### schema_version
 
@@ -2296,7 +2286,7 @@ When a dataset is uploaded, CELLxGENE Discover MUST automatically add the `schem
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2358,7 +2348,7 @@ Curators MUST annotate the following column only in the `var` dataframe. This co
 
 Curators MUST NOT annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
 
-When a dataset is uploaded, CELLxGENE Discover MUST automatically add the matching human-readable name for the corresponding feature biotype, identifier, and the NCBITaxon term for the reference organism to the `var` and `raw.var` dataframes. In addition, it MUST
+When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding feature biotype, identifier, and the NCBITaxon term for the reference organism to the `var` and `raw.var` dataframes. In addition, it MUST
 add the feature length and type.
 
 ### feature_biotype
@@ -2370,7 +2360,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2389,7 +2379,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2409,7 +2399,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2428,7 +2418,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2538,7 +2528,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>CELLxGENE Discover MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2659,11 +2649,11 @@ The curator MUST annotate the following header-less columns. Additional columns 
 
 ## scATAC-seq Asset: Processed Fragments File
 
-From every submitted fragments file asset, CELLxGENE Discover MUST generate <code>{artifact_id}-fragments.tsv.gz</code>, a tab-separated values (TSV) file position-sorted and compressed by bgzip.
+From every submitted fragments file asset, scFAIR Discover MUST generate <code>{artifact_id}-fragments.tsv.gz</code>, a tab-separated values (TSV) file position-sorted and compressed by bgzip.
 
 ## scATAC-seq Asset: Fragments File index
 
-From every processed fragments file asset, CELLxGENE Discover MUST generate <code>{artifact_id}-fragments.tsv.gz.tbi</code>, a <a href="https://www.htslib.org/doc/tabix.html">tabix</a> index of the fragment intervals from the fragments file.
+From every processed fragments file asset, scFAIR Discover MUST generate <code>{artifact_id}-fragments.tsv.gz.tbi</code>, a <a href="https://www.htslib.org/doc/tabix.html">tabix</a> index of the fragment intervals from the fragments file.
 
 ## Chromosome Tables
 
@@ -3368,7 +3358,7 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
   * Added `citation`
   * Added `{column}_colors`
   * Added `schema_reference`
-  * Updated the requirements for `schema_version` to be annotated by CELLxGENE Discover and not the curator
+  * Updated the requirements for `schema_version` to be annotated by scFAIR Discover and not the curator
 * var and raw.var (Gene metadata)
   * Added `feature_length`
 * varm
@@ -3405,7 +3395,7 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
     * Updated Seq-Well [EFO:0008919] to Seq-Well [EFO:0008919] and its children
 * uns (Dataset metadata)
   * `schema_version`
-    * Must be annotated by CELLxGENE Discover and not the Curator.
+    * Must be annotated by scFAIR Discover and not the Curator.
 
 
 ### schema v3.0.0
@@ -3422,7 +3412,7 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
   * Renamed `ethnicity` to `self_reported_ethnicity`. Added `"multiethnic"` value.
   * Added `suspension_type`
 * var and raw.var (Gene metadata)
-  * `feature_biotype` must be annotated by CELLxGENE Discover and not the Curator.
+  * `feature_biotype` must be annotated by scFAIR Discover and not the Curator.
 * uns (Dataset metadata)
   * Updated `schema_version`
   * Deprecated `X_normalization`
@@ -3433,14 +3423,14 @@ schema v2.0.0 substantially *remodeled* schema v1.1.0:
 
 * "must", "should", and select other words have a defined, standard meaning.
 
-* Curators are responsible for annotating ontology and gene identifiers. CELLxGENE Discover adds the assigned human-readable names for all identifiers.
+* Curators are responsible for annotating ontology and gene identifiers. scFAIR Discover adds the assigned human-readable names for all identifiers.
 
 * Documented and *pinned* the required versions of ontologies and gene annotations used in schema validation.
 
 * General Requirements
   * AnnData is now the canonical data format. The schema outline and descriptions are AnnData-centric.
 
-  * Metazoan multi-organism data is accepted by CELLxGene Discover. For data that is neither Human, Mouse, nor SARS-COV-2, features MUST be translated into orthologous genes from the Human and Mouse gene annotations. 
+  * Metazoan multi-organism data is accepted by scFAIR Discover. For data that is neither Human, Mouse, nor SARS-COV-2, features MUST be translated into orthologous genes from the Human and Mouse gene annotations. 
 
   * Policies for reserved names and redundant metadata are documented.
 
