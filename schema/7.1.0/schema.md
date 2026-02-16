@@ -1752,12 +1752,12 @@ Curators MUST annotate the following keys and values in `uns`:
         <td>
           <code>str</code>. The key MUST be the <b>Ensembl</b> database name of the assembly used for gene annotation. One of the following terms MUST be used: 
           <table>
-            <tr><td><a href="https://www.ensembl.org/">Ensembl</a></td></tr>
-            <tr><td><a href="https://bacteria.ensembl.org/">EnsemblBacteria</a></td></tr>
-            <tr><td><a href="https://fungi.ensembl.org/">EnsemblFungi</a></td></tr>
-            <tr><td><a href="https://plants.ensembl.org/">EnsemblPlants</a></td></tr>
-            <tr><td><a href="https://protists.ensembl.org/">EnsemblProtists</a></td></tr>
-            <tr><td><a href="https://metazoa.ensembl.org/">EnsemblMetazoa</a></td></tr>
+            <tr><td><a href="https://www.ensembl.org/"><code>"Ensembl"</code></a></td></tr>
+            <tr><td><a href="https://bacteria.ensembl.org/"><code>"EnsemblBacteria"</code></a></td></tr>
+            <tr><td><a href="https://fungi.ensembl.org/"><code>"EnsemblFungi"</code></a></td></tr>
+            <tr><td><a href="https://plants.ensembl.org/"><code>"EnsemblPlants"</code></a></td></tr>
+            <tr><td><a href="https://protists.ensembl.org/"><code>"EnsemblProtists"</code></a></td></tr>
+            <tr><td><a href="https://metazoa.ensembl.org/"><code>"EnsemblMetazoa"</code></a></td></tr>
           </table>
         </td>
     </tr>
