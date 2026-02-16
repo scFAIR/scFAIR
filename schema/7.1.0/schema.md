@@ -11,13 +11,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Schema versioning
 
-The scFAIR schema version is based on [Semantic Versioning](https://semver.org/) and matches major/minor versions of the scFAIR schemas (see below for exact fork).
+The scFAIR schema version is based on [Semantic Versioning](https://semver.org/) and matches major/minor versions of the CZI CELLxGENE schemas (see below for exact fork).
 
-All changes from the CZI scFAIR schema are documented in the scFAIR schema [Changelog](#appendix-a-changelog).
+All changes from the CZI CELLxGENE schema are documented in the scFAIR schema [Changelog](#appendix-a-changelog).
 
 ## Acknowledgments
 
-This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for scFAIR.
+This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for CZI CELLxGENE.
 
 ## Background
 
