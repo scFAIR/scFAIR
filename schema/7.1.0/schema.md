@@ -1716,6 +1716,74 @@ Curators MUST annotate the following keys and values in `uns`:
 </tbody></table>
 <br>
 
+### ensembl_release
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>ensembl_release</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          <code>int</code>. The key MUST be the <b>Ensembl</b> release number of the assembly used for gene annotation. E.g. <code>115</code> for <a href="https://ftp.ensembl.org/pub/release-115/">Ensembl r.115</a>.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### ensembl_database
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>ensembl_database</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          <code>str</code>. The key MUST be the <b>Ensembl</b> database name of the assembly used for gene annotation. One of the following terms MUST be used: 
+          <table>
+            <tr><td><a href="https://www.ensembl.org/">Ensembl</a></td></tr>
+            <tr><td><a href="https://bacteria.ensembl.org/">EnsemblBacteria</a></td></tr>
+            <tr><td><a href="https://fungi.ensembl.org/">EnsemblFungi</a></td></tr>
+            <tr><td><a href="https://plants.ensembl.org/">EnsemblPlants</a></td></tr>
+            <tr><td><a href="https://protists.ensembl.org/">EnsemblProtists</a></td></tr>
+            <tr><td><a href="https://metazoa.ensembl.org/">EnsemblMetazoa</a></td></tr>
+          </table>
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### ensembl_assembly
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>ensembl_assembly</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MAY annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          <code>str</code>. The key MUST be the <b>Ensembl</b> assembly name of the assembly used for gene annotation. For e.g. <code>"GRCh38.p14"</code> for Homo Sapiens release 115. You can relate for e.g. to this <a href="https://www.ensembl.org/info/website/archives/assembly.html">correspondance table</a> for the main Ensembl database.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
 ### organism_ontology_term_id
 
 <table><tbody>
@@ -3031,7 +3099,11 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
 
 ## Appendix A. Changelog
 
-### schema v7.1.0
+### Schema v7.1.0
+This is the first fork of CELLxGENE schema. So, here are recorded the differences with CZI CELLxGENE schema v7.1.0
+
+* [Required Gene Annotations](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#required-gene-annotations)
+  * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), and [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)).
 * Required Ontologies
   * Added Chemical Entities of Biological Interest (CHEBI) release 248
   * Added UniProt Knowledgebase (uniprot) release 2025_04
@@ -3045,419 +3117,8 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
   * Updated the requirements for `cell_type` to depend on `[uns]['is_pre_analysis']`
 * obsm (Embeddings)
   * Updated the general requirements to depend on `[uns]['is_pre_analysis']`
-* uns (Dataset Metadata)
-  * Added `genetic_perturbations`
-  * Added `is_pre_analysis`
-  * Updated the requirements for `default_embedding` to depend on `[uns]['is_pre_analysis']`
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md"</code>
-  * Updated `schema_version` to <code>"7.1.0"</code>
+* [uns](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) (Dataset Metadata)
+  * Added [`ensembl_release`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_release)
+  * Added [`ensembl_database`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_database)
+  * Added [`ensembl_assembly`](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md#ensembl_assembly)
 
-### schema v7.0.0
-* General Requirements
-  * Integration Metadata
-    * Updated the requirements for prefixed ontology identifiers to address the Cellosaurus exception
-* Required Ontologies
-  * Added Cellosaurus release 53.0
-  * Updated C. elegans Development Ontology (WBls) to release 2025-08-12 WS298
-  * Updated C. elegans Gross Anatomy Ontology (WBbt) to release 2025-08-18 WS298
-  * Updated Cell Ontology (CL) to release 2025-07-30
-  * Updated Drosophila Anatomy Ontology (FBbt) to release 2025-08-07
-  * Updated Drosophila Development Ontology (FBdv) to release 2025-05-29
-  * Updated Experimental Factor Ontology (EFO) to release 2025-09-15 EFO 3.82.0
-  * Updated Human Ancestry Ontology (HANCESTRO) to release 2025-04-01
-  * Updated Mondo Disease Ontology (MONDO) to release 2025-09-02
-  * Updated NCBI organismal classification (NCBITaxon) to release 2025-09-11
-  * Updated Uberon multi-species anatomy ontology (UBERON) to release 2025-08-15
-  * Updated Zebrafish Anatomy Ontology (ZFA+ZFS) release 2025-09-05
-* Required Gene Annotations
-  * Updated *Caenorhabditis elegans* to WBcel235 (GCA_000002985.3) Ensembl 114
-  * Updated *Callithrix jacchus* to mCalJac1.pat.X (GCA_011100555.1) Ensembl 114
-  * Updated *Danio rerio* to GRCz11 (GCA_000002035.4) Ensembl 114
-  * Updated *Drosophila melanogaster* to BDGP6.54 (GCA_000001215.4) Ensembl 114
-  * Updated *Gorilla gorilla gorilla* to gorGor4 (GCA_000151905.3) Ensembl 114
-  * Updated *Homo sapiens* to GENCODE v48 (GRCh38.p14) Ensembl 114
-  * Updated *Macaca fascicularis* to Macaca_fascicularis_6. (GCA_011100615.1) Ensembl 114
-  * Updated *Macaca mulatta* to Mmul_10 (GCA_003339765.3) Ensembl 114
-  * Updated *Microcebus murinus* to Mmur_3.0 (GCA_000165445.3) Ensembl 114
-  * Updated *Mus musculus* to GENCODE vM37 (GRCm39) Ensembl 114
-  * Updated *Oryctolagus cuniculus* to OryCun2.0 (GCA_000003625.1) Ensembl 114
-  * Updated *Pan troglodytes* to Pan_tro_3.0 (GCA_000001515.5) Ensembl 114
-  * Updated *Rattus norvegicus* to GRCr8 (GCA_036323735.1) Ensembl 114
-  * Updated *Sus scrofa* to Sscrofa11.1 (GCA_000003025.6) Ensembl 114
-* obs (Cell metadata)
-  * Updated the requirements for <code>cell_type</code> to require <code>"na"</code> when the <code>cell_type_ontology_term_id</code> is <code>"na"</code>
-  * Updated the requirements for <code>cell_type_ontology_term_id</code> to allow <code>"na"</code> when the <code>tissue_type</code> is <code>"cell line"</code>
-  * Updated the requirements for <code>development_stage</code> to require <code>"na"</code> when the <code>development_stage__ontology_term_id</code> is <code>"na"</code>
-  * Updated the requirements for <code>development_stage_ontology_term_id</code> to require <code>"na"</code> when the <code>tissue_type</code> is <code>"cell line"</code>
-  * Updated the requirements for <code>donor_id</code> to require <code>"na"</code> when the <code>tissue_type</code> is <code>"cell line"</code>
-  * Updated the requirements for <code>self_reported_ethnicity_ontology_term_id</code> to require <code>"na"</code> when the <code>tissue_type</code> is <code>"cell line"</code>
-  * Updated the requirements for <code>self_reported_ethnicity_ontology_term_id</code> to require HANCESTRO or AfPO terms that are descendants of <code>"HANCESTRO:0601"</code> for <i>ethnicity category</i> or <code>"HANCESTRO:0602"</code> for <i>geography-based population category</i>
-  * Updated the requirements for <code>sex</code> to require <code>"na"</code> when the <code>sex_ontology_term_id</code> is <code>"na"</code>
-  * Updated the requirements for <code>sex_ontology_term_id</code> to require <code>"na"</code> when the <code>tissue_type</code> is <code>"cell line"</code>
-  * Updated the requirements for <code>suspension_type</code>:
-    * Added Cel-seq
-    * Added Quartz-seq
-    * Deleted sci-RNA-seq
-    * Updated CEL-seq2 to CEL-seq2 and its descendants
-    * Updated SPLiT-seq to SPLiT-seq and its descendants
-    * Updated STRT-seq to STRT-seq and its descendants
-  * **Breaking change**. Updated the requirements for <code>tissue_ontology_term_id</code> to rename the <code>tissue_type</code> of <code>"cell culture"</code> to <code>"primary cell culture"</code>
-  * Updated the requirements for <code>tissue_ontology_term_id</code> to add the <code>tissue_type</code> of <code>"cell line"</code>
-  * Updated the requirements for <code>tissue_ontology_term_id</code> when the <code>tissue_type</code> is <code>"organoid"</code> 
-  * Updated the requirements for <code>tissue_ontology_term_id</code> for species with taxon specific ontologies to require the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> when the <code>tissue_type</code> is <code>"tissue"</code> or <code>"organoid"</code>
-  * **Breaking change**. Updated the requirements for <code>tissue_type</code> to rename <code>"cell culture"</code> to <code>"primary cell culture"</code>
-  * Added <code>"cell line"</code> to <code>tissue_type</code>
-* uns (Dataset Metadata)
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.0.0/schema.md"</code>
-  * Updated `schema_version` to <code>"7.0.0"</code>
-
-### schema v6.0.0
-
-* General Requirements
-  * Added <code>organism</code> in <code>obs</code> to Reserved Names
-  * Added <code>organism_ontology_term_id</code> in <code>obs</code> to Reserved Names
-* Required Ontologies
-  * Updated C. elegans Development Ontology (WBls) to release 2025-04-01 WS297
-  * Updated C. elegans Gross Anatomy Ontology (WBbt) to release 2025-03-26 WS297
-  * Updated Cell Ontology (CL) to release 2025-04-10
-  * Updated Drosophila Anatomy Ontology (FBbt) to release 2025-03-27
-  * Updated Drosophila Development Ontology (FBdv) to release 2025-03-26
-  * Updated Experimental Factor Ontology (EFO) to release 2025-05-15 EFO 3.78.0
-  * Updated Mondo Disease Ontology (MONDO) to release 2025-05-06
-  * Updated NCBI organismal classification (NCBITaxon) to release 2025-03-13
-  * Updated Phenotype And Trait Ontology (PATO) to release 2025-05-14
-  * Updated  Uberon multi-species anatomy ontology (UBERON) to release 2025-05-28
-* X (Matrix Layers)
-  * Updated requirements in table to not allow duplicate `obs`by raw counts
-* obs (Cell metadata)
-  * Updated <code>disease</code> to address multiple labels
-  * Updated <code>disease_ontology_term_id</code> to allow multiple terms
-  * Updated <code>self_reported_ethnicity</code> delimiter requirements
-  * Updated <code>self_reported_ethnicity_ontology_term_id</code> delimiter requirements
-  * Deprecated <code>organism</code>
-  * Deprecated <code>organism_ontology_term_id</code>
-* uns (Dataset Metadata)
-  * Updated `{column}_colors` requirements to not reference <code>organism</code> 
-  * Added <code>organism</code>
-  * Added <code>organism_ontology_term_id</code>
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/6.0.0/schema.md"</code>
-  * Updated `schema_version` to <code>"6.0.0"</code>
-* var and raw.var (Gene Metadata)
-  * Updated <code>index of pandas.DataFrame</code> requirements to remove version suffixes from Ensembl stable identifiers
-  * Clarified <code>feature_is_filtered</code> requirements
-  * Updated <code>feature_name</code> requirements to use feature identifier if a <code>gene_name</code> is unavailable
-* scATAC-seq assets
-  * Updated requirements for *one organism per dataset*
-
-### schema v5.3.0
-* Schema Versioning
-  * **Patch versions** may be used to add organisms that do not require new metadata fields. 
-* General Requirements
-* Required Ontologies
-  * Added C. elegans Development Ontology (WBls) release 2025-01-04 WS296
-  * Added C. elegans Gross Anatomy Ontology (WBbt) release 2025-01-02 WS296
-  * Updated Cell Ontology (CL) to the 2025-02-13 release
-  * Added Drosophila Anatomy Ontology (FBbt) release 2025-02-13
-  * Added Drosophila Development Ontology (FBdv) release 2025-02-12
-  * Updated Experimental Factor Ontology (EFO) to release 2025-02-17 EFO 3.75.0
-  * Updated Human Developmental Stages (HsapDv) to release 2025-01-23
-  * Updated Mondo Disease Ontology (MONDO) to release 2025-02-04
-  * Updated Mouse Developmental Stages (MmusDv) to release 2025-01-2
-  * Updated NCBI organismal classification (NCBITaxon) to release 2024-11-25
-  * Updated Phenotype And Trait Ontology (PATO) to release 2025-02-01
-  * Updated Uberon multi-species anatomy ontology (UBERON) to release 2025-01-15
-  * Added Zebrafish Anatomy Ontology (ZFA+ZFS) release 2025-01-28
-* Required Gene Annotations
-  * Refactored table to include NCBI Taxon for supported organisms
-  * Added *Caenorhabditis elegans* WBcel235 (GCA_000002985.3) Ensembl 113
-  * Added *Callithrix jacchus* mCalJac1.pat.X (GCA_011100555.1) Ensembl 113
-  * Added *Danio rerio* GRCz11 (GCA_000002035.4) Ensembl 113
-  * Added *Drosophila melanogaster* BDGP6.46 (GCA_000001215.4) Ensembl 113
-  * Added *Gorilla gorilla gorilla* gorGor4 (GCA_000151905.3) Ensembl 113
-  * Added *Macaca fascicularis* Macaca_fascicularis_6.0 (GCA_011100615.1) Ensembl 113
-  * Added *Macaca mulatta* Mmul_10 (GCA_003339765.3) Ensembl 113
-  * Added *Microcebus murinus* Mmur_3.0 (GCA_000165445.3) Ensembl 113
-  * Added *Oryctolagus cuniculus* OryCun2.0 (GCA_000003625.1) Ensembl 113
-  * Added *Pan troglodytes* Pan_tro_3.0 (GCA_000001515.5) Ensembl 113
-  * Added *Rattus norvegicus* mRatBN7.2 (GCA_015227675.2) Ensembl 113
-  * Added *Sus scrofa* Sscrofa11.1 (GCA_000003025.6) Ensembl 113
-* X (Matrix Layers)
-  * Updated _Visium Spatial Gene Expression_ table row to _Descendants of Visium Spatial Gene Expression_
-  * Added matrix requirements for _Visium CytAssist Spatial Gene Expression, 11mm_.
-  * Updated the STRONGLY RECOMMENDED requirement to a MUST. A matrix with 50% or more values that are zeros MUST be encoded as `scipy.sparse.csr_matrix`.
-* obs (Cell metadata)
-  * Updated the requirements for `array_col`:
-    * MUST be annotated if the `assay_ontology_term_id` is a descendant of _Visium Spatial Gene Expression_
-    * Added ranges for _Visium CytAssist Spatial Gene Expression, 6.5mm_ and _Visium CytAssist Spatial Gene Expression, 11mm_ 
-  * Updated the requirements for `array_row`:
-     * MUST be annotated if the `assay_ontology_term_id` is a descendant of _Visium Spatial Gene Expression_
-    * Added ranges for _Visium CytAssist Spatial Gene Expression, 6.5mm_ and _Visium CytAssist Spatial Gene Expression, 11mm_ 
-  * Updated the requirements for `assay_ontology_term_id`:
-    * For _Visium Spatial Gene Expression_, only its descendants are allowed. All observations must contain the same value.
-    * For _scATAC-seq and its descendants_, added reference to scATAC-seq fragment asset requirements 
-    * Added more recommended terms for assays
-  * Updated the requirements for `cell_type_ontology_term_id` to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the ontology requirements for `cell_type_ontology_term_id` to include:
-    * WBbt for *Caenorhabditis elegans*
-    * ZFA for *Danio rerio*
-    * FBbt for *Drosophila melanogaster* 
-  * Updated the ontology requirements for `development_stage_ontology_term_id` to include:
-    * WBls for *Caenorhabditis elegans*
-    * ZFS for *Danio rerio*
-    * FBdv for *Drosophila melanogaster*
-  * Updated `development_stage_ontology_term_id` to include descendants of <i>Mus musclus</i>
-  * Updated the requirements for `in_tissue` to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for `organism_ontology_term_id` to limit its values to a list of NCBITaxon terms
-  * Updated the requirements for `sex_ontology_term_id`:
-    * For *Caenorhabditis elegans*, values are limited to <i>hermaphrodite</i>, <i>male</i>, or `"unknown"`
-    * For all other organisms, values are limited to <i>female</i>, <i>hermaphrodite</i>, <i>male</i>, or `"unknown"`
-  * Updated the ontology requirements for `tissue_ontology_term_id` to include:
-    * WBbt for *Caenorhabditis elegans*
-    * ZFA for *Danio rerio*
-    * FBbt for *Drosophila melanogaster* 
-* obsm (Embeddings)
-  * Updated the requirements for `spatial` to include descendants of  _Visium Spatial Gene Expression_ and to prohibit 'Not a Number' values. 
-  * Updated the requirements for `X_{suffix}` to include descendants of  _Visium Spatial Gene Expression_.
-* uns (Dataset Metadata)
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/5.3.0/schema.md"</code>
-  * Updated `schema_version` to <code>"5.3.0"</code>
-  * Updated the requirements for `spatial` to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial['is_single']</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['images']</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['images']['fullres']</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['images']['hires']</code> to include descendants of  _Visium Spatial Gene Expression_. Added requirements for <i>Visium CytAssist Spatial Gene Expression, 11mm</i>.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['scalefactors']</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['scalefactors']['spot_diameter_fullres']</code> to include descendants of  _Visium Spatial Gene Expression_.
-  * Updated the requirements for  <code>spatial[<i>library_id</i>]['scalefactors']['tissue_hires_scalef']</code> to include descendants of  _Visium Spatial Gene Expression_.
-* var and raw.var (Gene Metadata)
-  * Updated `feature_reference` to include MUST requirements for:
-    * *Caenorhabditis elegans*
-    * *Danio rerio*
-    * *Drosophila melanogaster*
-    * *Macaca fascicularis*
-    * *Microcebus murinus*
-    * *Oryctolagus cuniculus*
-    * *Rattus norvegicus*
-  * Updated `feature_reference` to include STRONGLY RECOMMENDED requirements and warning for current organisms with orthologous gene references:
-    * *Callithrix jacchus*
-    * *Gorilla gorilla gorilla*
-    * *Macaca mulatta*
-    * *Pan troglodytes*
-    * *Sus scrofa and its descendants*
-* Added **scATAC-seq assets** section
-
-
-### schema v5.2.0
-
-* General Requirements
-  * Updated AnnData from version 0.8.0 to version 0.8.0 or greater
-* Required Ontologies
-  * Updated CL to the 2024-08-16 release
-  * Updated EFO to the 2024-08-15 EFO 3.69.0 release
-  * Updated HsapDv to the 2024-05-28 release
-  * Updated MONDO to the 2024-08-06 release
-  * Updated MmusDv to the 2024-05-28 release
-  * Updated UBERON to the 2024-08-07 release
-* obs (Cell metadata)
-  * Updated requirements for `development_stage_ontology_term_id` to require the most accurate descendant of _life cycle_. 
-    * If <code>organism_ontology_term_id</code> is <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i>, this MUST be the most accurate descendant of `HsapDv:0000001` for _life cycle_
-    * If <code>organism_ontology_term_id</code> is <code>"NCBITaxon:10090"</code> for <i>Mus musculus</i>, this MUST be the most accurate descendant of `MmusDv:0000001` for _life cycle_
-  * Updated requirements for `suspension_type`
-    * Added mCT-seq
-    * Added MERFISH
-    * Added ScaleBio single cell RNA sequencing
-    * Added sci-RNA-seq3
-    * Removed CITE-seq and its descendants
-    * Removed smFISH and its descendants
-    * Removed snmC-seq
-    * Removed spatial proteomics and its descendants
-    * Replaced snmC-seq2 with methylation profiling by high throughput sequencing and its descendants
-* uns (Dataset metadata)
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/5.2.0/schema.md"</code>
-  * Updated `schema_version` to <code>"5.2.0"</code>
-* var and raw.var (Gene metadata)
-  * Updated the requirements for `feature_length`. All `feature_biotypes` are now included. The calculation of the value changed from the merged length of isoforms to the median of the lengths of isoforms.
-  * Added `feature_type`
-
-### schema v5.1.0
-
-* All references to "child" and "children" have been changed to "descendant" and "descendants" for accuracy.
-* Required Ontologies
-  * Updated CL to the 2024-04-05 release
-  * Updated EFO to the 2024-04-15 EFO 3.65.0 release
-  * Updated MONDO to the 2024-05-08 release
-  * Updated UBERON to the 2024-03-22 release
-* X (Matrix Layers)
-  * Added _Visium Spatial Gene Expression_ to the table of assays
-* obs (Cell metadata)
-  * Added `array_col` for _Visium Spatial Gene Expression_ when <code>uns['spatial']['is_single']</code> is <code>True</code>
-  * Added `array_row` for _Visium Spatial Gene Expression_ when <code>uns['spatial']['is_single']</code> is <code>True</code>
-  * Updated the requirements for `assay_ontology_term_id` for _Visium Spatial Gene Expression_ and _Slide-seqV2_. All observations must contain the same value.
-  * Updated the requirements for `cell_type_ontology_term_id` for _Visium Spatial Gene Expression_ when <code>uns['spatial']['is_single']</code> is <code>True</code>. The value must be `"unknown"` if the corresponding value of `in_tissue` is `0`.
-  * Added `in_tissue` for _Visium Spatial Gene Expression_ when <code>uns['spatial']['is_single']</code> is <code>True</code>
-  * Updated the requirements for `is_primary_data` for _Visium Spatial Gene Expression_. The value must be <code>False</code>when <code>uns['spatial']['is_single']</code> is <code>False</code>.
-  * Updated the requirements for `self_reported_ethnicity_ontology_term_id`. There must be no duplication of terms.
-* obsm (Embeddings)
-  * Restored v3.1.0 requirement allowing only `numpy.ndarray` values with specific shapes due to Seurat conversion failures
-  * Added `spatial` for _Visium Spatial Gene Expression_ and _Slide-seqV2_
-  * Updated requirements for `X_{suffix}`. {suffix} MUST NOT be `"spatial"`.
-* uns (Dataset metadata)
-  * Updated `{column}_colors` instructions
-  * Updated `schema_reference` to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/5.1.0/schema.md"</code>
-  * Updated `schema_version` to <code>"5.1.0"</code>
-  * Added `spatial` for _Visium Spatial Gene Expression_ and _Slide-seqV2_, including scale factors and underlay images for _Visium Spatial Gene Expression_.
-
-### schema v5.0.0
-
-* General Requirements
-  * Updated requirements to prohibit duplicate data submitter metadata field names in `obs` and `var`
-* Required Ontologies
-  * Updated CL to the 2024-01-04 release
-  * Updated EFO to the 2024-01-15 EFO 3.62.0 release
-  * Updated MONDO to the 2024-01-03 release
-  * Updated UBERON to the 2024-01-18 release
-* Required Gene Annotations
-  * Updated GENCODE (Human) to Human Reference GRCh38.p14 (GENCODE v44/Ensembl 110)
-  * Updated GENCODE (Mouse) to Mouse reference GRCm39 (GENCODE vM33/Ensembl 110)
-* obs (Cell metadata)
-  * Updated the requirements for `assay_ontology_term_id` to not allow the parent terms `EFO:0002772` for _assay by molecule_ and `EFO:0010183` for _single cell library construction_. Their most accurate children are still valid. 
-  * **Breaking change**. Updated the requirements for `cell_type` to annotate `"unknown"` as the label when the `cell_type_ontology_term_id` value is  `"unknown"`. 
-  * **Breaking change**. Updated the requirements for `cell_type_ontology_term_id` to replace `"CL:0000003"` for *native cell* with `"unknown"` to indicate that the cell type is unknown. 
-  * Updated the requirements for `disease_ontology_term_id` to restrict MONDO terms to the most accurate child of `"MONDO:0000001"` for _disease_ or `"MONDO:0021178"` for _injury_ or preferably its most accurate child.
-* obsm (Embeddings)
-  * Updated requirements for `X_{suffix}` to change the regular expression pattern from `"^[a-zA-Z][a-zA-Z0-9]*$"` to `"^[a-zA-Z][a-zA-Z0-9_.-]*$"`
-* uns (Dataset metadata)
-  * Updated requirements. The data stored as a value for a key in `uns` MUST be `True`, `False`, `None`, or its size MUST NOT be zero.
-  * Updated schema_reference to <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/5.0.0/schema.md"</code>
-  * Updated schema_version to <code>"5.0.0"</code>
-
-### schema v4.0.0
-
-* Required Ontologies
-  * Updated CL to the 2023-08-24 release
-  * Updated EFO to the 2023-08-15 EFO 3.57.0 release
-  * Updated HANCESTRO to the 3.0 release
-  * Updated MONDO to the 2023-08-02 release
-  * Updated UBERON to the 2023-09-05 release
-* obs (Cell metadata)
-  * Updated the requirements for `cell_type_ontology_term_id`
-  * Added `index`
-  * Added `observation_joinid`
-  * Updated the requirements for `self_reported_ethnicity`
-  * Updated the requirements for `self_reported_ethnicity_ontology_term_id`
-  * Added `tissue_type`
-  * Updated the requirements for `tissue`
-  * Updated the requirements for `tissue_ontology_term_id`
-* obsm (Embeddings)
-  * Prohibited ndarrays with a size of zero
-  * Updated requirements for `X_{suffix}`
-* obsp
-  * Added section and prohibited ndarrays with a size of zero
-* uns (Dataset metadata)
-  * Added `citation`
-  * Added `{column}_colors`
-  * Added `schema_reference`
-  * Updated the requirements for `schema_version` to be annotated by scFAIR Discover and not the curator
-* var and raw.var (Gene metadata)
-  * Added `feature_length`
-* varm
-  * Added section and prohibited ndarrays with a size of zero
-* varp
-  * Added section and prohibited ndarrays with a size of zero
-* X (Matrix Layers)
-  * Updated requirements for raw matrices
-
-### schema v3.1.0
-
-* Added section for Schema versioning
-* Required Ontologies
-  * Updated CL to the 2023-07-20 release
-  * Updated EFO to the 2023-07-17 EFO 3.56.0 release
-  * Updated MONDO to the 2023-07-03 release
-  * Updated NCBITaxon to the 2023-06-20 release
-  * Updated PATO to the 2023-05-18 release
-  * Updated UBERON to the 2023-06-28 release
-* obs (Cell metadata)
-  * `assay_ontology_term_id`
-    * Added Visium Spatial Gene Expression to recommended values
-    * Removed Smart-seq from recommended values
-  * `suspension_type`
-    * Added MARS-seq
-    * Added BD Rhapsody Whole Transcriptome Analysis
-    * Added BD Rhapsody Targeted mRNA
-    * Added inDrop
-    * Added STRT-seq
-    * Added TruDrop
-    * Added GEXSCOPE technology
-    * Added SPLiT-seq
-    * Changed spatial transcriptomics by high-throughput sequencing [EFO:0030005] and its children to spatial transcriptomics [EFO:0008994] and its children
-    * Updated Seq-Well [EFO:0008919] to Seq-Well [EFO:0008919] and its children
-* uns (Dataset metadata)
-  * `schema_version`
-    * Must be annotated by scFAIR Discover and not the Curator.
-
-
-### schema v3.0.0
-
-* Updated AnnData version 0.7 to version 0.8.0
-* All references to the "final" matrix has been replaced with "normalized" for clarity.
-* General Requirements
-  * Reserved Names from previous schema versions that have since been deprecated MUST NOT be present.
-  * Updated *pinned* ontologies to require the most recent version
-* obs (Cell metadata)
-  * Removed guidance in `assay_ontology_term_id` that allowed clarifying text enclosed in parentheses if there was not an exact match for an assay.
-  * Added `donor_id`
-  * Renamed `ethnicity_ontology_term_id` to `self_reported_ethnicity_ontology_term_id`. Added `"multiethnic"` value.
-  * Renamed `ethnicity` to `self_reported_ethnicity`. Added `"multiethnic"` value.
-  * Added `suspension_type`
-* var and raw.var (Gene metadata)
-  * `feature_biotype` must be annotated by scFAIR Discover and not the Curator.
-* uns (Dataset metadata)
-  * Updated `schema_version`
-  * Deprecated `X_normalization`
-
-### schema v2.0.0
-
-schema v2.0.0 substantially *remodeled* schema v1.1.0:
-
-* "must", "should", and select other words have a defined, standard meaning.
-
-* Curators are responsible for annotating ontology and gene identifiers. scFAIR Discover adds the assigned human-readable names for all identifiers.
-
-* Documented and *pinned* the required versions of ontologies and gene annotations used in schema validation.
-
-* General Requirements
-  * AnnData is now the canonical data format. The schema outline and descriptions are AnnData-centric.
-
-  * Metazoan multi-organism data is accepted by scFAIR Discover. For data that is neither Human, Mouse, nor SARS-COV-2, features MUST be translated into orthologous genes from the Human and Mouse gene annotations. 
-
-  * Policies for reserved names and redundant metadata are documented.
-
-  * [#45](https://github.com/chanzuckerberg/single-cell-curation/issues/45) Updated reference to new PII content
-
-* X (matrix layers)
-  * Added guidance for sparse matrices
-  * Clarified matrix requirements by assay
-
-* obs (cell metadata)
-  * Empty ontology fields are no longer permitted.
-  * Moved organism from uns to obs
-  * Clarified requirements and added detailed guidance for assays, tissue, and development stages
-  * Added ontology for mouse development stages
-  * Added ontology for sex
-  * Added `is_primary_data`
-
-* var
-  * Replaced HGNC gene **symbols** as `var.index` with ENSEMBL or ERCC spike-in **identifiers** 
-  * Added `feature_name`, `index`, and `feature_reference`
-  * Added `feature_is_filtered`
-  * Added requirements for `raw.var` which must be identical to `var`
-
-* uns
-  * Added `batch_condition`
-  * Added `X_approximate_distribution`
-  * Replaced `layer_descriptions` with `X_normalization`
-  * Replaced `version` which included `corpora_schema_version` and `corpora_encoding_version` with `schema_version`
-  * Deprecated `tags` and `default_field` presentation metadata
-  * Removed <code><i>obs_column</i>_colors</code>
