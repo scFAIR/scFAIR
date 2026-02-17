@@ -43,7 +43,7 @@ If no description -> same as core
 * [`AnnData.raw.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
-  * *<Same as core>*
+  * *(Same as core)*
   * **[`array_col`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#array_col)** [`int`] - Value of the column coordinate for the corresponding spot from the `array_col` field in `tissue_positions_list.csv` or `tissue_positions.csv`.
   * **[`array_row`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#array_row)** [`int`] - Value of the row coordinate for the corresponding spot from the `array_row` field in in `tissue_positions_list.csv` or `tissue_positions.csv`.
   * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
@@ -55,7 +55,7 @@ If no description -> same as core
 * [`AnnData.raw.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
-  * *<Same as core>*
+  * *(Same as core)*
   * **[`genetic_perturbation_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_id)** [`str`] - `"na"` or one or more genetic perturbation identifiers in ascending lexical order separated by the delimiter `" || "` with no duplication of identifiers.
   * **[`genetic_perturbation_strategy`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_strategy)** [`str`] - One of `"control"`, `"CRISPR activation screen"`, `"CRISPR interference screen"`, `"CRISPR knockout mutant"`, or `"CRISPR knockout screen"` (or `"no perturbations"` if `genetic_perturbation_id` is `"na"`).
 
