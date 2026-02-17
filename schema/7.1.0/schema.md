@@ -15,6 +15,12 @@ The scFAIR schema version is based on [Semantic Versioning](https://semver.org/)
 
 All changes from the CZI CELLxGENE schema are documented in the scFAIR schema [Changelog](#appendix-a-changelog).
 
+## Schema split
+
+The scFAIR schema is split into multiple part, to differentiate the metadata specific to certain modalities:
+- This schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md]('schema.md') is the main schema for all types of single-cell data (scRNA-seq, scATAC-seq, perturbation, spatial, ...). It describes the core metadata between all modalities.
+- 
+
 ## Acknowledgments
 
 This document was forked and extended from [schema.md](https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md), a metadata schema made for CZI CELLxGENE.
