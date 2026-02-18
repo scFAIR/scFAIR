@@ -14,6 +14,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
 - The **core** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md]('schema.md') is the main schema for all types of single-cell data (scRNA-seq, scATAC-seq, perturbation, spatial, ...). It describes the core metadata between all modalities.
 - The **spatial** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md]('schema_spatial.md') describes the additional metadata that are specific to spatial datasets (Visium)
 - This **perturb** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md]('schema_perturb.md') describes the additional metadata that are specific to perturbation datasets (CRISPR screens, perturb-seq, ...)
+- The **atac** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md]('schema_atac.md') describes the additional metadata that are specific to scATAC datasets (scATAC-seq, multiomics)
 
 ## `obs` (Cell Metadata)
 
