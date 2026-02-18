@@ -6,7 +6,7 @@
 
 # Summary
 
-## Core schema (shared across all modalities)
+## Core schema (scRNA-seq + shared across all modalities)
 
 **Note:** Terms in italic are auto-filled by the CZI CELLxGENE submission pipeline. scFAIR schema still consider them as required. They should match their ontology id paired field entries and/or requirements.
 
@@ -32,34 +32,38 @@
   * *[`disease`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#disease)* [`str`] (Paired with `disease_ontology_term_id`) - Human-readable name(s) assigned to the value(s) of `disease_ontology_term_id`.
   * [`experimental_condition_ontology_term_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#experimental_condition_ontology_term_id) [`str`] - Terms(s) from CHEBI, EFO, uniprot, or anti-uniprot (or `"na"`) to describe experimental conditions. Can be multiple terms in ascending lexical order separated by the delimiter `" || "` with no duplication of identifiers.
   * *[`experimental_condition`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#experimental_condition)* [`str`] (Paired with `experimental_condition_ontology_term_id`) - Human-readable name(s) assigned to the value(s) of `experimental_condition_ontology_term_id`.
-  * *[`perturbation_types`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#perturbation_types)* [`str`] - One of `"no perturbations"`, `"chemical"` (if `experimental_condition_ontology_term_id` contains a `CHEBI:` term), "diet" (if `experimental_condition_ontology_term_id` contains the `"EFO:0002755"` term), "genetic" (if `genetic_perturbation_term_id` is not `"na"`, see [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbation_term_id](schema_perturb.md)), "protein" (if `experimental_condition_ontology_term_id` contains a `uniprot:` term), "temperature" (if `experimental_condition_ontology_term_id` contains the `"EFO:0001702"` term)
+  * *[`perturbation_types`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#perturbation_types)* [`str`] - One of `"no perturbations"`, `"chemical"` (if `experimental_condition_ontology_term_id` contains a `CHEBI:` term), "diet" (if `experimental_condition_ontology_term_id` contains the `"EFO:0002755"` term), "genetic" (if `genetic_perturbation_term_id` is not `"na"`, see [schema_perturb.md](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbation_term_id)), "protein" (if `experimental_condition_ontology_term_id` contains a `uniprot:` term), "temperature" (if `experimental_condition_ontology_term_id` contains the `"EFO:0001702"` term)
   * [`donor_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#donor_id) [`str`] - Identifies unique individuals (or `"pooled"`, or `"unknown"`, "or `"na"` if `tissue_type` is `"cell line"`)
   * [`is_primary_data`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#is_primary_data) [`bool`] - True or False depending on origin. For meta-analyses or integration study it should be False.
   * [`suspension_type`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#suspension_type) [`str`] - One of `"cell"`, `"nucleus"`, or `"na"`. Should match with selected `assay`.
-
-* [`obsm` (Embeddings)](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings), which describe each embedding in the dataset
-* [`obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp), which describe pairwise annotation of observations
+* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset
+  * [`X_{suffix}`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x_suffix) [`numpy.ndarray`] - One or multiple embeddings e.g. X_tSNE, X_PCA, X_UMAP, ...
+* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp) - Describes pairwise annotation of observations. Nothing is mandatory here.
 * [`var` and `raw.var` (Gene metadata)](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata), which describe each gene in the dataset
 * [`varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm), which describe multi-dimensional annotation of variables/features
 * [`varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp), which describe pairwise annotation of variables/features
 * [`uns` (Dataset metadata)](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata), which describe the dataset as a whole
 
-## Spatial data (Visium)
+## Spatial dataset (Visium)
 
 If no description -> same as core
 
+**AnnData.h5ad**
 * [`AnnData.raw.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
   * *(Same as core)*
-  * **[`array_col`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#array_col)** [`int`] - Value of the column coordinate for the corresponding spot from the `array_col` field in `tissue_positions_list.csv` or `tissue_positions.csv`.
-  * **[`array_row`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#array_row)** [`int`] - Value of the row coordinate for the corresponding spot from the `array_row` field in in `tissue_positions_list.csv` or `tissue_positions.csv`.
-  * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
+  * **[`array_col`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#array_col)** [`int`] - Value of the column coordinate for the corresponding spot from the `array_col` field in `tissue_positions_list.csv` or `tissue_positions.csv`.
+  * **[`array_row`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#array_row)** [`int`] - Value of the row coordinate for the corresponding spot from the `array_row` field in in `tissue_positions_list.csv` or `tissue_positions.csv`.
+  * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
+* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset
+  * **[`spatial`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatial)** [`numpy.ndarray`] - Spatial coordinates.
 
-## Genetic perturbation study (CRISPR screen, perturb-seq, ...)
+## Genetic perturbation dataset (CRISPR screen, perturb-seq, ...)
 
 If no description -> same as core
 
+**AnnData.h5ad**
 * [`AnnData.raw.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x-matrix-layers)
 * [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
@@ -67,3 +71,15 @@ If no description -> same as core
   * **[`genetic_perturbation_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_id)** [`str`] - `"na"` or one or more genetic perturbation identifiers in ascending lexical order separated by the delimiter `" || "` with no duplication of identifiers.
   * **[`genetic_perturbation_strategy`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_strategy)** [`str`] - One of `"control"`, `"CRISPR activation screen"`, `"CRISPR interference screen"`, `"CRISPR knockout mutant"`, or `"CRISPR knockout screen"` (or `"no perturbations"` if `genetic_perturbation_id` is `"na"`).
 
+## scATAC dataset (scATAC, multimodal)
+
+If no description -> same as core
+
+**AnnData.h5ad**
+* **[`AnnData.raw.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#x-matrix-layers)** - For paired assays (multiome), this should be the gene expression matrix (RNA data).
+* **[`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#x-matrix-layers)** - For unpaired assays (scATAC), this should be the gene activity matrix.
+* [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
+* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings)
+
+**Additional files:**
+* **[scATAC assets](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#scatac-seq-assets)** - Fragment/Peak files
