@@ -1,4 +1,3 @@
-
 # Schema
 
 Contact: vincent.gardeux@epfl.ch
@@ -6,6 +5,8 @@ Contact: vincent.gardeux@epfl.ch
 Document Status: _Drafting_
 
 Version: 7.1.0_scfair
+
+Current schema: **core**
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED" "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14](https://tools.ietf.org/html/bcp14), [RFC2119](https://www.rfc-editor.org/rfc/rfc2119.txt), and [RFC8174](https://www.rfc-editor.org/rfc/rfc8174.txt) when, and only when, they appear in all capitals, as shown here.
 
@@ -18,8 +19,9 @@ All changes from the CZI CELLxGENE schema are documented in the scFAIR schema [C
 ## Schema split
 
 The scFAIR schema is split into multiple part, to differentiate the metadata specific to certain modalities:
-- This schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md]('schema.md') is the main schema for all types of single-cell data (scRNA-seq, scATAC-seq, perturbation, spatial, ...). It describes the core metadata between all modalities.
-- 
+- This **core** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md]('schema.md') is the main schema for all types of single-cell data (scRNA-seq, scATAC-seq, perturbation, spatial, ...). It describes the core metadata between all modalities.
+- The **spatial** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md]('schema_spatial.md') describes the additional metadata that are specific to spatial datasets (Visium)
+- The **perturb** schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md]('schema_perturb.md') describes the additional metadata that are specific to perturbation datasets (CRISPR screens, perturb-seq, ...)
 
 ## Acknowledgments
 
@@ -296,6 +298,8 @@ The following gene annotation dependencies are *pinned* for this version of the 
 
 `obs` is a [`pandas.DataFrame`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
+**Note:** Terms in italic are auto-filled by the CZI CELLxGENE submission pipeline. scFAIR schema still consider them as required.
+
 Curators MUST annotate the following columns in the `obs` dataframe:
 
 ### index of pandas.DataFrame
@@ -312,88 +316,6 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     <tr>
       <th>Value</th>
         <td><code>str</code>. The index of the pandas.DataFrame MUST contain unique identifiers for observations.<br><br></td>
-    </tr>
-</tbody></table>
-<br>
-
-### array_col
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>array_col</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-         <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is  a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>int</code>. This MUST be the value of the column coordinate for the corresponding spot from the <code>array_col</code> field in <code>tissue_positions_list.csv</code> or <code>tissue_positions.csv</code>. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.<br>
-        <br>
-          <table>
-          <thead>
-          <tr>
-          <th>For Assay</th>
-          <th>Value MUST be in<br>the range between</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><i>Visium Spatial Gene Expression V1</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022857"><code>EFO:0022857</code></a>]</td>
-              <td><code>0</code> and <code>127</code></td>
-           </tr> 
-            <tr>
-              <td><i>Visium CytAssist Spatial Gene Expression, 6.5mm</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022859"><code>EFO:0022859</code></a>]</td>
-              <td><code>0</code> and <code>127</code></td>
-           </tr>
-            <tr>
-              <td><i>Visium CytAssist Spatial Gene Expression, 11mm</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022860"><code>EFO:0022860</code></a>]</td>
-              <td><code>0</code> and <code>223</code></td>
-           </tr>
-          </tbody></table>
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### array_row
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>array_row</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-         <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>int</code>. This MUST be value of the row coordinate for the corresponding spot from the <code>array_row</code> field in in <code>tissue_positions_list.csv</code> or <code>tissue_positions.csv</code>. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.<br>
-        <br>
-          <table>
-          <thead>
-          <tr>
-          <th>For Assay</th>
-          <th>Value MUST be in<br>the range between</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><i>Visium Spatial Gene Expression V1</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022857"><code>EFO:0022857</code></a>]</td>
-              <td><code>0</code> and <code>77</code></td>
-           </tr> 
-            <tr>
-              <td><i>Visium CytAssist Spatial Gene Expression, 6.5mm</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022859"><code>EFO:0022859</code></a>]</td>
-              <td><code>0</code> and <code>77</code></td>
-           </tr>
-            <tr>
-              <td><i>Visium CytAssist Spatial Gene Expression, 11mm</i> [<a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022860"><code>EFO:0022860</code></a>]</td>
-              <td><code>0</code> and <code>127</code></td>
-           </tr>
-          </tbody></table>
-        </td>
     </tr>
 </tbody></table>
 <br>
@@ -479,6 +401,130 @@ Curators MUST annotate the following columns in the `obs` dataframe:
 </tbody></table>
 <br>
 
+### *assay*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>assay</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>assay_ontology_term_id</code>. 
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### tissue_type
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>tissue_type</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories. This MUST be one of:
+          <ul>
+            <li><code>"cell line"</code></li>
+            <li><code>"organoid"</code></li>
+            <li><code>"primary cell culture"</code></li>
+            <li><code>"tissue"</code></li>
+         </ul>
+    </tr>
+</tbody></table>
+<br>
+
+### tissue_ontology_term_id
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>tissue_ontology_term_id</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>
+        categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be a Cellosaurus term.<br><br>If <code>tissue_type</code> is <code>"primary cell culture"</code>, this MUST follow the requirements for <code>cell_type_ontology_term_id</code>.<br><br>If <code>tissue_type</code> is <code>"organoid"</code>, this MUST NOT be <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000922"><code>UBERON:0000922</code></a> for <i>embryo</i>. If the organoid is an embryoid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0014374"><code>UBERON:0014374</code></a> for <i>embryoid body</i>. If the organoid is a gastruloid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0004734"><code>UBERON:0004734</code></a> for <i>gastrula</i>.<br><br>Otherwise, if <code>tissue_type</code> is <code>"organoid"</code> or <code>"tissue"</code> then:<br><br>
+        <table>
+          <thead>
+            <tr>
+              <th>For <code>organism_ontology_term_id</code></th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a><br>for <i>Caenorhabditis elegans</i>
+              </td>
+              <td>
+                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant<br>of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0005766"><code>WBbt:0005766</code></a> for <i>Anatomy</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007849"><code>WBbt:0007849</code></a> for <i>hermaphrodite</i>,<br><a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007850"><code>WBbt:0007850</code></a> for <i>male</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0008595"><code>WBbt:0008595</code></a> for <i>female</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0004017"><code>WBbt:0004017</code></a> for <i>Cell</i><br>and its descendants, and <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0006803"><code>WBbt:00006803</code></a> for <i>Nucleus</i> and its descendants
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a><br>for <i>Danio rerio</i>
+              </td>
+              <td>
+                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br><a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0100000"><code>ZFA:0100000</code></a> for <i>zebrafish anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0001093"><code>ZFA:0001093</code></a> for<br><i>unspecified</i> and <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0009000"><code>ZFA:0009000</code></a> for <i>cell</i> and its descendants
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a><br>for <i>Drosophila melanogaster</i>
+              </td>
+              <td>
+                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br><a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBBT%3A10000000"><code>FBbt:10000000</code></a> for <i>anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBbt%3A00007002"><code>FBbt:00007002</code></a> for <i>cell</i><br>and its descendants
+              </td>
+              </tr>    
+              <tr>
+              <td>
+                For all other organisms
+              </td>
+              <td>
+              MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i>
+              </td>
+              </tr>
+          </tbody>
+        </table>
+      </td>
+  </tr>
+</tbody></table>
+<br>
+
+### *tissue*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>tissue</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>tissue_ontology_term_id</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
 ### cell_type_ontology_term_id
 
 <table><tbody>
@@ -488,7 +534,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
   </tr>
   <tr>
     <th>Annotator</th>
-    <td>Curator MUST annotate if <code>uns['is_pre_analysis']</code> is <code>False</code>; otherwise, this key MUST NOT be present.</td>
+    <td>Curator MUST annotate.</td>
   </tr>
   <tr>
     <th>Value</th>
@@ -554,6 +600,25 @@ Curators MUST annotate the following columns in the `obs` dataframe:
       </table>
     </td>
   </tr>
+</tbody></table>
+<br>
+
+### *cell_type*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>cell_type</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of  <code>cell_type_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of  <code>cell_type_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>cell_type_ontology_term_id</code>.
+        </td>
+    </tr>
 </tbody></table>
 <br>
 
@@ -635,6 +700,121 @@ Curators MUST annotate the following columns in the `obs` dataframe:
 </tbody></table>
 <br>
 
+### *development_stage*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>development_stage</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of <code>development_stage_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of <code>development_stage_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>development_stage_ontology_term_id</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### sex_ontology_term_id
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>sex_ontology_term_id</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>.<br><br>If unavailable, this MUST be <code>"unknown"</code>.<br><br>If <code>organism_ontology_term_id</code> is <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a> for <i>Caenorhabditis elegans</i>, this MUST be <a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000384"><code>"PATO:0000384"</code></a> for <i>male</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0001340"><code>"PATO:0001340"</code></a> for <i>hermaphrodite</i>; otherwise, this MUST be one of:<br><br>
+        <ul>
+        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000383"><code>"PATO:0000383"</code></a> for  <i>female</i></li>
+        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000384"><code>"PATO:0000384"</code></a> for  <i>male</i></li>
+        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0001340"><code>"PATO:0001340"</code></a> for  <i>hermaphrodite</i></li>
+        </ul>
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### *sex*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>sex</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of  <code>sex_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of  <code>sex_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>sex_ontology_term_id</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
+### self_reported_ethnicity_ontology_term_id
+
+<table>
+  <tbody>
+    <tr>
+      <th>Key</th>
+      <td>self_reported_ethnicity_ontology_term_id</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>
+        categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code><br><br>If <code>organism_ontolology_term_id</code> is NOT
+        <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i>, this MUST be <code>"na"</code>.<br><br>Otherwise, if
+        <code>organism_ontolology_term_id</code> is
+        <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i>, this MUST be <code>"unknown"</code> if unavailable; otherwise, this MUST meet the following requirements:<br /><br />
+        <ul>
+          <li>
+            The value MUST be formatted as one or more AfPO or HANCESTRO terms in ascending lexical order separated by the delimiter <code>" || "</code> with no duplication of terms.
+          </li>
+          <li>
+            Each AfPO or HANCESTRO term MUST be a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/hancestro/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FHANCESTRO_0601"><code>"HANCESTRO:0601"</code></a> for <i>ethnicity category</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/hancestro/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FHANCESTRO_0602"><code>"HANCESTRO:0602"</code></a> for <i>geography-based population category</i>.<br><br>
+          </li>
+            For example, if the terms are <code>"HANCESTRO:0590</code> and <code>HANCESTRO:0580"</code> then the value of <code>self_reported_ethnicity_ontology_term_id</code> MUST be <code>"HANCESTRO:0580 || HANCESTRO:0590"</code>.<br><br>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />
+
+### *self_reported_ethnicity*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>self_reported_ethnicity</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories. This MUST be <code>"na"</code> if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"na"</code>. This MUST be <code>"unknown"</code> if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"unknown"</code>. Otherwise, this MUST be one or more human-readable names for the terms in <code>self_reported_ethnicity_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br> For example, if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"HANCESTRO:0005 || HANCESTRO:0014"</code> then the value of <code>self_reported_ethnicity</code> MUST be <code>"European || Hispanic or Latin American"</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br>
+
 ### disease_ontology_term_id
 
 <table><tbody>
@@ -662,23 +842,21 @@ Curators MUST annotate the following columns in the `obs` dataframe:
 </tbody></table>
 <br>
 
-### donor_id
+### *disease*
 
 <table><tbody>
     <tr>
       <th>Key</th>
-      <td>donor_id</td>
+      <td>disease</td>
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
+      <td>scFAIR Discover MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>; otherwise, this MUST NOT be <code>"na"</code>, but MUST be free-text that identifies a unique individual that data were derived from. It is STRONGLY RECOMMENDED that this identifier be designed so that it is unique to:<br><br>
-          <ul><li>a given individual within the collection of datasets that includes this dataset</li>
-          <li>a given individual across all collections in scFAIR Discover</li></ul><br>
-          It is STRONGLY RECOMMENDED that <code>"pooled"</code> be used  for observations from a sample of multiple individuals that were not confidently assigned to a single individual through demultiplexing.<br><br>It is STRONGLY RECOMMENDED that <code>"unknown"</code> ONLY be used for observations in a dataset when it is not known which observations are from the same individual.<br><br>
+        <td>categorical with <code>str</code> categories. This MUST be one or more human-readable names for the terms in <code>disease_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br>
+        For example, if the value of <code>disease_ontology_term_id</code> is <code>"MONDO:0004604 || MONDO:0043004 || MONDO:0800349 || MONDO:1030008"</code> then the value MUST be <code>"Hodgkin's lymphoma, lymphocytic-histiocytic predominance || Weil's disease || atrial fibrillation, familial, 16 || mitral valve insufficiency"</code>.<br><br>
         </td>
     </tr>
 </tbody></table>
@@ -850,84 +1028,79 @@ Curators MUST annotate the following columns in the `obs` dataframe:
   </tbody>
 </table>
 
-### genetic_perturbation_id
+### *experimental_condition*
 
 <table><tbody>
     <tr>
       <th>Key</th>
-      <td>genetic_perturbation_id</td>
+      <td>experimental_condition</td>
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>Curator MUST annotate if <code>uns['genetic_perturbations']</code> is present; otherwise this key MUST NOT be present.</td>
+      <td>Curator MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> is present; otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
-        <td>
-          categorical with <code>str</code> categories. The corresponding <code>organism_ontology_term_id</code> MUST be one of: 
-          <ul>
-            <li>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a> for <i>Danio rerio</i>
-            </li>
-            <li>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>"NCBITaxon:9606"</code></a> for <i>Homo sapiens</i>
-           </li>
-            <li>
-            <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10090"><code>"NCBITaxon:10090"</code></a> for <i>Mus musculus</i>
-           </li>
-         </ul>
-         The value MUST be either be <code>"na"</code> or one or more genetic perturbation identifiers in ascending lexical order separated by the delimiter <code>" || "</code> with no duplication of identifiers. Each identifier MUST match a <code>uns['genetic_perturbations'][<i>id</i>]</code>. If the corresponding value of <code>genetic_perturbation_strategy</code> is <code>"control"</code>, then the value of the role in <code>uns['genetic_perturbations'][<i>id</i>]['role']</code> for each matching <code>uns['genetic_perturbations'][<i>id</i>]</code> MUST be <code>"control"</code>.<br><br>All observations MUST NOT contain <code>"na"</code>.
+        <td>categorical with <code>str</code> categories.<br><br>
+          This MUST be <code>"na"</code> if the value of <code>experimental_condition_ontology_term_id</code> is <code>"na"</code>.<br><br>
+          Otherwise, this MUST be one or more human-readable names for the terms in <code>experimental_condition_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br>If an antibody value is present, then the human-readable name is prefixed with <code>"anti-"</code> such as <code>"anti-PTPRC_HUMAN"</code>.<br><br>For example, if the value of <code>experimental_condition_ontology_term_id</code> is <code>"CHEBI:16412 || CHEBI:41774 || EFO:0001702 || EFO:0002757 || anti-uniprot:Q99467 || uniprot:P05112"</code> then the value of <code>experimental_condition</code> MUST be <code>"lipopolysaccharide || tamoxifen || temperature || high fat diet || anti-CD180_HUMAN || IL4_HUMAN"</code>.
         </td>
     </tr>
 </tbody></table>
 <br>
 
-
-### genetic_perturbation_strategy
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>genetic_perturbation_strategy</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate if <code>obs['genetic_perturbation_id']</code> is present; otherwise, this key MUST NOT be present</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. If the corresponding value of <code>obs['genetic_perturbation_id']</code> is <code>"na"</code>, then the value MUST be <code>"no perturbations"</code>; otherwise, the value MUST be one of:
-          <ul>
-            <li><code>"control"</code></li>
-            <li><code>"CRISPR activation screen"</code></li>
-            <li><code>"CRISPR interference screen"</code></li>
-            <li><code>"CRISPR knockout mutant"</code> describes F0 (founder generation) samples and does not include subsequent generations of homozygous mutants.</li> 
-            <li><code>"CRISPR knockout screen"</code></li>
-         </ul>
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### in_tissue
+### *perturbation_types*
 
 <table><tbody>
     <tr>
       <th>Key</th>
-      <td>in_tissue</td>
+      <td>perturbation_types</td>
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
+      <td>Curator MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present; otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
-        <td><code>int</code>. This MUST be the value for the corresponding spot from the <code>in_tissue</code> field in <code>tissue_positions_list.csv</code> or <code>tissue_positions.csv</code> which is either <code>0</code> if the spot falls outside tissue or <code>1</code> if the spot falls inside tissue. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.
-        </td>
+        <td>categorical with <code>str</code> categories.<br><br>         The value MUST be <code>"no perturbations"</code> when:
+        <ul>
+          <li>only one of <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present and its value is <code>"na"</code></li>
+          <li>both <code>obs['experimental_condition_ontology_term_id']</code> and <code>obs['genetic_perturbation_id']</code> are present and their values are <code>"na"</code></li>
+       </ul>
+       Otherwise, the value MUST be the <b>set</b> of perturbation types present in the observation, limited to the following types:
+        <ul>
+          <li> <code>"chemical"</code></li>
+          <li> <code>"diet"</code></li>
+          <li> <code>"genetic"</code></li>
+          <li> <code>"protein"</code></li>
+          <li> <code>"temperature"</code></li>
+        </ul>and formatted in ascending lexical order separated by the delimiter <code>" || "</code> with no duplication of elements.<br><br>If <code>experimental_condition_ontology_term_id</code> contains a <code>"CHEBI:"</code> term identifier, then <code>"chemical"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains the <code>"EFO:0002755"</code> term identifier or its descendants, then <code>"diet"</code> MUST be added to the set of values.<br><br>If <code>genetic_perturbation_term_id</code> is present and its value is not <code>"na"</code>, then <code>"genetic"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains a <code>"uniprot:"</code> term identifier, then <code>"protein"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains the <code>"EFO:0001702"</code> term identifier, then <code>"temperature"</code> MUST be added to the set of values.<br><br> 
+      </td>
     </tr>
 </tbody></table>
 <br>
 
+### donor_id
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>donor_id</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>; otherwise, this MUST NOT be <code>"na"</code>, but MUST be free-text that identifies a unique individual that data were derived from. It is STRONGLY RECOMMENDED that this identifier be designed so that it is unique to:<br><br>
+          <ul><li>a given individual within the collection of datasets that includes this dataset</li>
+          <li>a given individual across all collections in scFAIR Discover</li></ul><br>
+          It is STRONGLY RECOMMENDED that <code>"pooled"</code> be used  for observations from a sample of multiple individuals that were not confidently assigned to a single individual through demultiplexing.<br><br>It is STRONGLY RECOMMENDED that <code>"unknown"</code> ONLY be used for observations in a dataset when it is not known which observations are from the same individual.<br><br>
+        </td>
+    </tr>
+</tbody></table>
+<br>
 
 ### is_primary_data
 
@@ -947,65 +1120,6 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
 </tbody></table>
 <br>
-
-### self_reported_ethnicity_ontology_term_id
-
-<table>
-  <tbody>
-    <tr>
-      <th>Key</th>
-      <td>self_reported_ethnicity_ontology_term_id</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-      <td>
-        categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code><br><br>If <code>organism_ontolology_term_id</code> is NOT
-        <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i>, this MUST be <code>"na"</code>.<br><br>Otherwise, if
-        <code>organism_ontolology_term_id</code> is
-        <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i>, this MUST be <code>"unknown"</code> if unavailable; otherwise, this MUST meet the following requirements:<br /><br />
-        <ul>
-          <li>
-            The value MUST be formatted as one or more AfPO or HANCESTRO terms in ascending lexical order separated by the delimiter <code>" || "</code> with no duplication of terms.
-          </li>
-          <li>
-            Each AfPO or HANCESTRO term MUST be a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/hancestro/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FHANCESTRO_0601"><code>"HANCESTRO:0601"</code></a> for <i>ethnicity category</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/hancestro/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FHANCESTRO_0602"><code>"HANCESTRO:0602"</code></a> for <i>geography-based population category</i>.<br><br>
-          </li>
-            For example, if the terms are <code>"HANCESTRO:0590</code> and <code>HANCESTRO:0580"</code> then the value of <code>self_reported_ethnicity_ontology_term_id</code> MUST be <code>"HANCESTRO:0580 || HANCESTRO:0590"</code>.<br><br>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br />   
-
-### sex_ontology_term_id
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>sex_ontology_term_id</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>.<br><br>If unavailable, this MUST be <code>"unknown"</code>.<br><br>If <code>organism_ontology_term_id</code> is <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a> for <i>Caenorhabditis elegans</i>, this MUST be <a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000384"><code>"PATO:0000384"</code></a> for <i>male</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0001340"><code>"PATO:0001340"</code></a> for <i>hermaphrodite</i>; otherwise, this MUST be one of:<br><br>
-        <ul>
-        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000383"><code>"PATO:0000383"</code></a> for  <i>female</i></li>
-        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0000384"><code>"PATO:0000384"</code></a> for  <i>male</i></li>
-        <li><a href="https://www.ebi.ac.uk/ols4/ontologies/pato/classes?obo_id=PATO%3A0001340"><code>"PATO:0001340"</code></a> for  <i>hermaphrodite</i></li>
-        </ul>
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
 
 ### suspension_type
 
@@ -1142,308 +1256,11 @@ Curators MUST annotate the following columns in the `obs` dataframe:
 </tbody></table>
 <br>
 
-### tissue_ontology_term_id
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>tissue_ontology_term_id</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-      <td>
-        categorical with <code>str</code> categories.<br><br>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be a Cellosaurus term.<br><br>If <code>tissue_type</code> is <code>"primary cell culture"</code>, this MUST follow the requirements for <code>cell_type_ontology_term_id</code>.<br><br>If <code>tissue_type</code> is <code>"organoid"</code>, this MUST NOT be <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000922"><code>UBERON:0000922</code></a> for <i>embryo</i>. If the organoid is an embryoid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0014374"><code>UBERON:0014374</code></a> for <i>embryoid body</i>. If the organoid is a gastruloid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0004734"><code>UBERON:0004734</code></a> for <i>gastrula</i>.<br><br>Otherwise, if <code>tissue_type</code> is <code>"organoid"</code> or <code>"tissue"</code> then:<br><br>
-        <table>
-          <thead>
-            <tr>
-              <th>For <code>organism_ontology_term_id</code></th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a><br>for <i>Caenorhabditis elegans</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant<br>of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0005766"><code>WBbt:0005766</code></a> for <i>Anatomy</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007849"><code>WBbt:0007849</code></a> for <i>hermaphrodite</i>,<br><a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007850"><code>WBbt:0007850</code></a> for <i>male</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0008595"><code>WBbt:0008595</code></a> for <i>female</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0004017"><code>WBbt:0004017</code></a> for <i>Cell</i><br>and its descendants, and <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0006803"><code>WBbt:00006803</code></a> for <i>Nucleus</i> and its descendants
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a><br>for <i>Danio rerio</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br><a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0100000"><code>ZFA:0100000</code></a> for <i>zebrafish anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0001093"><code>ZFA:0001093</code></a> for<br><i>unspecified</i> and <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0009000"><code>ZFA:0009000</code></a> for <i>cell</i> and its descendants
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a><br>for <i>Drosophila melanogaster</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br><a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBBT%3A10000000"><code>FBbt:10000000</code></a> for <i>anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBbt%3A00007002"><code>FBbt:00007002</code></a> for <i>cell</i><br>and its descendants
-              </td>
-              </tr>    
-              <tr>
-              <td>
-                For all other organisms
-              </td>
-              <td>
-              MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i>
-              </td>
-              </tr>
-          </tbody>
-        </table>
-      </td>
-  </tr>
-</tbody></table>
-<br>
-
-### tissue_type
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>tissue_type</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be one of:
-          <ul>
-            <li><code>"cell line"</code></li>
-            <li><code>"organoid"</code></li>
-            <li><code>"primary cell culture"</code></li>
-            <li><code>"tissue"</code></li>
-         </ul>
-    </tr>
-</tbody></table>
-<br>
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding ontology term to the `obs` dataframe. Curators MUST NOT annotate the following columns.
-
-### assay
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>assay</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>assay_ontology_term_id</code>. 
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### cell_type
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>cell_type</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of  <code>cell_type_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of  <code>cell_type_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>cell_type_ontology_term_id</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-
-### development_stage
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>development_stage</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of <code>development_stage_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of <code>development_stage_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>development_stage_ontology_term_id</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### disease
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>disease</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be one or more human-readable names for the terms in <code>disease_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br>
-        For example, if the value of <code>disease_ontology_term_id</code> is <code>"MONDO:0004604 || MONDO:0043004 || MONDO:0800349 || MONDO:1030008"</code> then the value MUST be <code>"Hodgkin's lymphoma, lymphocytic-histiocytic predominance || Weil's disease || atrial fibrillation, familial, 16 || mitral valve insufficiency"</code>.<br><br>
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### experimental_condition
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>experimental_condition</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> is present; otherwise this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>
-          This MUST be <code>"na"</code> if the value of <code>experimental_condition_ontology_term_id</code> is <code>"na"</code>.<br><br>
-          Otherwise, this MUST be one or more human-readable names for the terms in <code>experimental_condition_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br>If an antibody value is present, then the human-readable name is prefixed with <code>"anti-"</code> such as <code>"anti-PTPRC_HUMAN"</code>.<br><br>For example, if the value of <code>experimental_condition_ontology_term_id</code> is <code>"CHEBI:16412 || CHEBI:41774 || EFO:0001702 || EFO:0002757 || anti-uniprot:Q99467 || uniprot:P05112"</code> then the value of <code>experimental_condition</code> MUST be <code>"lipopolysaccharide || tamoxifen || temperature || high fat diet || anti-CD180_HUMAN || IL4_HUMAN"</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-When a dataset is uploaded, scFAIR Discover MUST annotate a unique observation identifier for each cell. Curators MUST NOT annotate the following column.
-
-### observation_joinid
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>observation_joinid</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>
-    </tr>
-</tbody></table>
-<br>
-
-### perturbation_types
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>perturbation_types</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate if <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present; otherwise this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>         The value MUST be <code>"no perturbations"</code> when:
-        <ul>
-          <li>only one of <code>obs['experimental_condition_ontology_term_id']</code> or <code>obs['genetic_perturbation_id']</code> is present and its value is <code>"na"</code></li>
-          <li>both <code>obs['experimental_condition_ontology_term_id']</code> and <code>obs['genetic_perturbation_id']</code> are present and their values are <code>"na"</code></li>
-       </ul>
-       Otherwise, the value MUST be the <b>set</b> of perturbation types present in the observation, limited to the following types:
-        <ul>
-          <li> <code>"chemical"</code></li>
-          <li> <code>"diet"</code></li>
-          <li> <code>"genetic"</code></li>
-          <li> <code>"protein"</code></li>
-          <li> <code>"temperature"</code></li>
-        </ul>and formatted in ascending lexical order separated by the delimiter <code>" || "</code> with no duplication of elements.<br><br>If <code>experimental_condition_ontology_term_id</code> contains a <code>"CHEBI:"</code> term identifier, then <code>"chemical"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains the <code>"EFO:0002755"</code> term identifier or its descendants, then <code>"diet"</code> MUST be added to the set of values.<br><br>If <code>genetic_perturbation_term_id</code> is present and its value is not <code>"na"</code>, then <code>"genetic"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains a <code>"uniprot:"</code> term identifier, then <code>"protein"</code> MUST be added to the set of values.<br><br>If <code>experimental_condition_ontology_term_id</code> contains the <code>"EFO:0001702"</code> term identifier, then <code>"temperature"</code> MUST be added to the set of values.<br><br> 
-      </td>
-    </tr>
-</tbody></table>
-<br>
-
-### self_reported_ethnicity
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>self_reported_ethnicity</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be <code>"na"</code> if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"na"</code>. This MUST be <code>"unknown"</code> if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"unknown"</code>. Otherwise, this MUST be one or more human-readable names for the terms in <code>self_reported_ethnicity_ontology_term_id</code> in the same order separated by the delimiter <code>" || "</code>.<br><br> For example, if the value of <code>self_reported_ethnicity_ontology_term_id</code> is <code>"HANCESTRO:0005 || HANCESTRO:0014"</code> then the value of <code>self_reported_ethnicity</code> MUST be <code>"European || Hispanic or Latin American"</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### sex
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>sex</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br><br>This MUST be <code>"na"</code> if the value of  <code>sex_ontology_term_id</code> is <code>"na"</code>.<br><br>This MUST be <code>"unknown"</code> if the value of  <code>sex_ontology_term_id</code> is <code>"unknown"</code>.<br><br>Otherwise, this MUST be the human-readable name assigned to the value of <code>sex_ontology_term_id</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-### tissue
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>tissue</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>tissue_ontology_term_id</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
 ## `obsm` (Embeddings)
 
 The value for each `str` key MUST be a  `numpy.ndarray` of shape `(n_obs, m)`, where `n_obs` is the number of rows in `X` and `m >= 1`. 
 
-`obsm` MUST NOT be present if <code>uns['is_pre_analysis']</code> is <code>True</code>.
-
-Otherwise, to display a dataset in scFAIR Explorer, Curators MUST annotate **one or more** embeddings of at least two-dimensions (e.g. tSNE, UMAP, PCA, spatial coordinates) as `numpy.ndarrays` in `obsm`.<br><br>
+Curators MUST annotate **one or more** embeddings of at least two-dimensions (e.g. tSNE, UMAP, PCA, spatial coordinates) as `numpy.ndarrays` in `obsm`.<br><br>
 
 ### spatial
 
@@ -2206,7 +2023,7 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>Curator MAY annotate only if <code>uns['is_pre_analysis']</code> is <code>False</code>; otherwise this key MUST NOT be present. </td>
+      <td>Curator MAY annotate. </td>
     </tr>
     <tr>
       <th>Value</th>
@@ -2278,27 +2095,6 @@ When a dataset is uploaded, scFAIR Discover MUST automatically add the `citation
           </tbody></table>
           A citation for a H5AD dataset with a Publication DOI:<br><br>"<code><b>Publication:</b> https://doi.org/10.1126/science.abl4896 <b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/dbd8b789-3efa-4a63-9243-90cff64f2045.h5ad <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5"</code><br><br>
           A citation for a RDS dataset without a Publication DOI:<br><br><code>"<b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/08ea16dc-3f4e-4c84-8692-74d70be22d12.rds <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31"</code><br><br>
-        </td>
-    </tr>
-</tbody></table>
-<br>
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the `is_pre_analysis` key and set its value.
-
-### is_pre_analysis
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>is_pre_analysis</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>bool</code>. This MUST be <code>True</code> if the dataset is included in a pre-analysis collection. Otherwise, this MUST be <code>False</code>.
         </td>
     </tr>
 </tbody></table>
@@ -3108,23 +2904,17 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
 ### Schema v7.1.0
 This is the first fork of CELLxGENE schema. So, here are recorded the differences with CZI CELLxGENE schema v7.1.0
 
-* [Required Gene Annotations](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#required-gene-annotations)
+* [Required Gene Annotations](#required-gene-annotations)
   * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), and [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)).
-* Required Ontologies
-  * Added Chemical Entities of Biological Interest (CHEBI) release 248
-  * Added UniProt Knowledgebase (uniprot) release 2025_04
-* obs (Cell metadata)
-  * Added `experimental_condition`
-  * Added `experimental_condition_ontology_term_id`
-  * Added `genetic_perturbation_id`
-  * Added `genetic_perturbation_strategy`
-  * Added `perturbation_types`
-  * Updated the requirements for `cell_type_ontology_term_id` to depend on `[uns]['is_pre_analysis']`
-  * Updated the requirements for `cell_type` to depend on `[uns]['is_pre_analysis']`
+* [obs](#obs-cell-metadata) (Cell metadata)
+  * Reordered the fields to organize them better semantically-speaking
+  * Removed `observation_joinid` as it is specific for CELLxGENE
+  * Moved `array_row`, `array_col`, and `in_tissue` to spatial-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md]('schema_spatial.md')
+  * Moved `genetic_perturbation_id`, `genetic_perturbation_strategy` to perturbation-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md]('schema_perturb.md')
 * obsm (Embeddings)
-  * Updated the general requirements to depend on `[uns]['is_pre_analysis']`
-* [uns](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) (Dataset Metadata)
-  * Added [`ensembl_release`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_release)
-  * Added [`ensembl_database`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_database)
-  * Added [`ensembl_assembly`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_assembly)
+* [uns](#uns-dataset-metadata) (Dataset Metadata)
+  * Added [`ensembl_release`](#ensembl_release) since scFAIR allows all available species in Ensembl
+  * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
+  * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
+  * Removed [`is_pre_analysis`] as it is specific for CELLxGENE collection handling
 
