@@ -56,7 +56,7 @@ If no description -> same as core
   * **[`array_row`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#array_row)** [`int`] - Value of the row coordinate for the corresponding spot from the `array_row` field in in `tissue_positions_list.csv` or `tissue_positions.csv`.
   * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
 
-## Perturbation study
+## Genetic perturbation study (CRISPR screen, perturb-seq, ...)
 
 If no description -> same as core
 
