@@ -152,15 +152,13 @@ Reserved Names from previous schema versions that have since been deprecated MUS
 
 **Redundant Metadata**. It is STRONGLY RECOMMENDED to avoid multiple metadata fields containing identical or similar information.
 
-**No Personal Identifiable Information (PII)**.  This is not strictly enforced by validation because it is difficult to predict what is and is not PII; however, curators MUST agree with this requirement:
+**No Personal Identifiable Information (PII)**. This is not strictly enforced by validation because it is difficult to predict what is and is not PII; however, curators MUST agree with this requirement:
 
 > It is my responsibility to ensure that this data is not identifiable. In particular, I commit that I will remove any [direct personal identifiers](https://docs.google.com/document/d/1sboOmbafvMh3VYjK1-3MAUt0I13UUJfkQseq8ANLPl8/edit) in the metadata portions of the data.
 
 This includes names, emails, or other PII for researchers or curators involved in the data generation and submission.
 
-### Ontology-dependent Metadata
-
-scFAIR requires ontology terms to enable search, comparison, and integration of data. With the exception of Cellosaurus, ontology terms for cell metadata MUST use [OBO-format identifiers](http://www.obofoundry.org/id-policy.html), meaning a CURIE (prefixed identifier) of the form **Ontology:Identifier**. For example, [EFO:0000001](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0000001) is a term in the Experimental Factor Ontology (EFO). Cellosaurus requires a prefixed identifier of the form **Ontology_Identifier** such as [CVCL_1P02](https://www.cellosaurus.org/CVCL_1P02).
+**Ontology-dependent Metadata**. scFAIR requires ontology terms to enable search, comparison, and integration of data. With the exception of Cellosaurus, ontology terms for cell metadata MUST use [OBO-format identifiers](http://www.obofoundry.org/id-policy.html), meaning a CURIE (prefixed identifier) of the form **Ontology:Identifier**. For example, [EFO:0000001](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0000001) is a term in the Experimental Factor Ontology (EFO). Cellosaurus requires a prefixed identifier of the form **Ontology_Identifier** such as [CVCL_1P02](https://www.cellosaurus.org/CVCL_1P02).
 
 The most accurate ontology term MUST always be used. If an exact or approximate ontology term is not available, a new term may be requested:
 
@@ -169,62 +167,6 @@ The most accurate ontology term MUST always be used. If an exact or approximate 
   To meet scFAIR schema requirements, the most accurate available CL term MUST be used until the new term is available. For example if `cell_type_ontology_term_id` describes a relay interneuron, but the most accurate available term in the CL ontology is [CL:0000099](https://www.ebi.ac.uk/ols4/ontologies/cl/classes?obo_id=CL%3A0000099) for *interneuron*, then the interneuron term can be used to fulfill this requirement and ensures that users searching for "neuron" are able to find these data.  If no appropriate term can be found (e.g. the cell type is unknown), then `"unknown"` MUST be used. Users will still be able to access more specific cell type annotations that have been submitted with the dataset (but aren't required by the schema).
 
 Terms documented as obsolete in an ontology MUST NOT be used. For example, [EFO:0009310](https://www.ebi.ac.uk/ols4/ontologies/efo/classes/http%253A%252F%252Fwww.ebi.ac.uk%252Fefo%252FEFO_0009310) for *obsolete_10x v2* was marked as obsolete in EFO version 3.31.0 and replaced by [EFO:0009899](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0009899) for *10x 3' v2*.
-
-#### Relevant Ontologies
-
-| Ontology | Prefix | Release | Download |
-|:--|:--|:--|:--|
-| [C. elegans Development Ontology] | WBls: |  [2025-08-12 WS298](https://github.com/obophenotype/c-elegans-development-ontology/releases/tag/v2025-08-12) | [wbls.owl](https://github.com/obophenotype/c-elegans-development-ontology/blob/v2025-08-12/wbls.owl) |
-| [C. elegans Gross Anatomy Ontology] | WBbt: | [2025-08-18 WS298](https://github.com/obophenotype/c-elegans-gross-anatomy-ontology/releases/tag/v2025-08-18) | [wbbt.owl](https://github.com/obophenotype/c-elegans-gross-anatomy-ontology/blob/v2025-08-18/wbbt.owl) |
-| [Cell Ontology] | CL: |  [2025-07-30](https://github.com/obophenotype/cell-ontology/releases/tag/v2025-07-30) | [cl.owl](https://github.com/obophenotype/cell-ontology/releases/download/v2025-07-30/cl.owl)|
-| [Cellosaurus] | CVCL_ | 53.0 | [cellosaurus.obo ](https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo)_(Cellosaurus may replace this download with a newer release. Previous releases are <b>unavailable</b>. )_  |
-| [Chemical Entities of Biological Interest] | CHEBI: | [2026-01-06](https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/)<br/>248 | [chebi-lite.owl](https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.owl.gz) _(CHEBI may replace this download with a newer release. Previous releases are [available](https://ftp.ebi.ac.uk/pub/databases/chebi/archive/). )_ |
-| [Drosophila Anatomy Ontology] | FBbt: | [2025-08-07](https://github.com/FlyBase/drosophila-anatomy-developmental-ontology/releases/tag/v2025-08-07)| [fbbt.owl](https://github.com/FlyBase/drosophila-anatomy-developmental-ontology/releases/download/v2025-08-07/fbbt.owl) |
-| [Drosophila Development Ontology] | FBdv: | [2025-05-29](https://github.com/FlyBase/drosophila-developmental-ontology/releases/tag/v2025-05-29) | [fbdv.owl](https://github.com/FlyBase/drosophila-developmental-ontology/releases/download/v2025-05-29/fbdv.owl) |
-| [Experimental Factor Ontology] | EFO: | [2025-09-15 EFO 3.82.0](https://github.com/EBISPOT/efo/releases/tag/v3.82.0) | [efo.owl](https://github.com/EBISPOT/efo/releases/download/v3.82.0/efo.owl) |
-| [Human Ancestry Ontology] | AfPO:<br/>HANCESTRO: | [2025-04-01](https://github.com/EBISPOT/hancestro/releases/tag/v2025-04-01) | [hancestro.owl](https://github.com/EBISPOT/hancestro/blob/v2025-04-01/hancestro.owl) |
-| [Human Developmental Stages] |  HsapDv: | [2025-01-23](https://github.com/obophenotype/developmental-stage-ontologies/releases/tag/v2025-01-23) | [hsapdv.owl](https://github.com/obophenotype/developmental-stage-ontologies/releases/download/v2025-01-23/hsapdv.owl) |
-| [Mondo Disease Ontology] | MONDO: | [2025-09-02](https://github.com/monarch-initiative/mondo/releases/tag/v2025-09-02) | [mondo.owl](https://github.com/monarch-initiative/mondo/releases/download/v2025-09-02/mondo.owl) |
-| [Mouse Developmental Stages]| MmusDv: | [2025-01-23](https://github.com/obophenotype/developmental-stage-ontologies/releases/tag/v2025-01-23) | [mmusdv.owl](https://github.com/obophenotype/developmental-stage-ontologies/releases/download/v2025-01-23/mmusdv.owl) |
-| [NCBI organismal classification] |  NCBITaxon: | [2025-09-11](https://github.com/obophenotype/ncbitaxon/releases/tag/v2025-09-11) | [ncbitaxon.owl](https://github.com/obophenotype/ncbitaxon/releases/download/v2025-09-11/ncbitaxon.owl.gz) |
-| [Phenotype And Trait Ontology] | PATO: | [2025-05-14](https://github.com/pato-ontology/pato/releases/tag/v2025-05-14) | [pato.owl](https://github.com/pato-ontology/pato/blob/v2025-05-14/pato.owl)  |
-| [Uberon multi-species anatomy ontology] |  UBERON: | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [uberon.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/uberon.owl) |
-| [UniProt Knowledgebase] | uniprot: | [08-Oct-2025](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/)<br/>2025_04 | [uniprot_sprot.xml](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.xml.gz) _(UniProt may replace this download with a newer release. Previous releases are [available](https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases/).)_ | 
-| [Zebrafish Anatomy Ontology] | ZFA:<br/>ZFS: | [2025-09-05](https://github.com/ZFIN/zebrafish-anatomical-ontology/releases/tag/v2025-09-05) | [zfa.owl](https://github.com/ZFIN/zebrafish-anatomical-ontology/blob/v2025-09-05/zfa.owl) |
-
-[C. elegans Development Ontology]: https://obofoundry.org/ontology/wbls.html
-
-[C. elegans Gross Anatomy Ontology]: https://obofoundry.org/ontology/wbbt.html
-
-[Cell Ontology]: https://obofoundry.org/ontology/cl.html
-
-[Cellosaurus]: https://www.cellosaurus.org/description.html
-
-[Chemical Entities of Biological Interest]: https://www.ebi.ac.uk/chebi/
-
-[Drosophila Anatomy Ontology]: https://obofoundry.org/ontology/fbbt.html
-
-[Drosophila Development Ontology]: https://obofoundry.org/ontology/fbdv.html
-
-[Experimental Factor Ontology]: https://www.ebi.ac.uk/efo
-
-[Human Ancestry Ontology]: https://www.obofoundry.org/ontology/hancestro.html
-
-[Human Developmental Stages]: https://obofoundry.org/ontology/hsapdv.html
-
-[Mondo Disease Ontology]: https://obofoundry.org/ontology/mondo.html
-
-[Mouse Developmental Stages]: https://obofoundry.org/ontology/mmusdv.html
-
-[NCBI organismal classification]: https://obofoundry.org/ontology/ncbitaxon.html
-
-[Phenotype And Trait Ontology]: https://www.obofoundry.org/ontology/pato.html
-
-[Uberon multi-species anatomy ontology]: https://www.obofoundry.org/ontology/uberon.html
-
-[UniProt Knowledgebase]: https://uniprot.org
-
-[Zebrafish Anatomy Ontology]: https://obofoundry.org/ontology/zfa.html
 
 #### *Note on types*
 The types below are python3 types. Note that a python3 `str` is a sequence of Unicode code points, which is stored null-terminated and UTF-8-encoded by AnnData.
@@ -2139,7 +2081,8 @@ Curators MUST annotate the following columns in the `var` dataframe and if prese
           <br/><br/>
           Here, we accept both genes and ERCC spike-ins. In short, ENSEMBL identifiers are required for genes and <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978944/">External RNA Controls Consortium (ERCC)</a> identifiers for <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mixes</a> to ensure that all datasets measure the same features and can therefore be integrated.
           <br/><br/>
-          If the feature is a gene then the value MUST be the <code>gene_id</code> attribute from the corresponding <code>organism_ontology_term_id</code>. scFAIR allows gene annotations from any species, and any release present in the Ensembl database. In particular, we accept terms from <a href="https://www.ensembl.org/index.html"><code>"Ensembl"</code></a>, <a href="https://bacteria.ensembl.org/index.html"><code>"Ensembl Bacteria"</code></a>, <a href="https://fungi.ensembl.org/index.html"><code>"Ensembl Fungi"</code></a>, <a href="https://plants.ensembl.org/index.html"><code>"Ensembl Plants"</code></a>, <a href="https://protists.ensembl.org/index.html"><code>"Ensembl Protists"</code></a>, <a href="https://metazoa.ensembl.org/index.html"><code>"Ensembl Metazoa"</code></a>, and <a href="https://covid-19.ensembl.org/"><code>"Ensembl COVID-19"</code></a>.
+          If the feature is a gene then the value MUST be the <code>gene_id</code> attribute from the corresponding <code>organism_ontology_term_id</code>. scFAIR allows gene annotations from any species, and any release present in the Ensembl database. In particular, we accept terms from <a href="https://www.ensembl.org/index.html"><code>"Ensembl"</code></a>, <a href="https://bacteria.ensembl.org/index.html"><code>"Ensembl Bacteria"</code></a>, <a href="https://fungi.ensembl.org/index.html"><code>"Ensembl Fungi"</code></a>, <a href="https://plants.ensembl.org/index.html"><code>"Ensembl Plants"</code></a>, <a href="https://protists.ensembl.org/index.html"><code>"Ensembl Protists"</code></a>, <a href="https://metazoa.ensembl.org/index.html"><code>"Ensembl Metazoa"</code></a>, and <a href="https://covid-19.ensembl.org/"><code>"Ensembl COVID-19"</code></a>.<br/>
+          The Ensembl database and assembly used for gene annotation should also be specified in <a href="#uns-dataset-metadata"><code>uns</code></a> entries <a href="#ensembl_release"><code>ensembl_release</code></a>, <a href="#ensembl_database"><code>ensembl_database</code></a>, and <a href="#ensembl_assembly"><code>ensembl_assembly</code></a>.
           <br/><br/>
           <b>Note</b>: Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the value MUST be <code>“ENSG00000186092”</code>.
           <br/><br/>
@@ -2860,9 +2803,10 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
 ### Schema v7.1.0
 This is the first fork of CELLxGENE schema. So, here are recorded the differences with CZI CELLxGENE schema v7.1.0
 
+* Moved the ontology table from General Requirements as Appendix B. Relevant ontologies. Since we don't enforce a schema version anymore.
 * [Required Gene Annotations](#required-gene-annotations)
-  * Moved to the [#index-of-pandasdataframe-1](`index`) subsection of [#var-and-rawvar-gene-metadata](`var` and `raw.var`) section where it immediately applies.
-  * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), and [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)).
+  * This section was removed, but its content was moved to the [#index-of-pandasdataframe-1](`index`) subsection of [#var-and-rawvar-gene-metadata](`var` and `raw.var`) section where it immediately applies.
+  * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)), and [Ensembl COVID-19](https://covid-19.ensembl.org/index.html).
 * [`X` (Matrix layers)](#x-matrix-layers)
   * Moved the scATAC-seq part (and requirement table) to scATAC-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md]('schema_atac.md')
 * [`obs`](#obs-cell-metadata) (Cell metadata)
@@ -2871,9 +2815,66 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
   * Moved `array_row`, `array_col`, and `in_tissue` to spatial-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md]('schema_spatial.md')
   * Moved `genetic_perturbation_id`, `genetic_perturbation_strategy` to perturbation-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md]('schema_perturb.md')
 * [`obsm`](#obsm-embeddings) (Embeddings)
+* [`var` and `raw.var`](#var-and-rawvar-gene-metadata) (Gene metadata)
+  * Modified [#index-of-pandasdataframe-1](`index`) subsection, as detailed above
 * [`uns`](#uns-dataset-metadata) (Dataset Metadata)
   * Added [`ensembl_release`](#ensembl_release) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
   * Removed [`is_pre_analysis`] as it is specific for CELLxGENE collection handling
 
+## Appendix B. Relevant ontologies
+
+| Ontology | Prefix | Release | Download |
+|:--|:--|:--|:--|
+| [C. elegans Development Ontology] | WBls: |  [2025-08-12 WS298](https://github.com/obophenotype/c-elegans-development-ontology/releases/tag/v2025-08-12) | [wbls.owl](https://github.com/obophenotype/c-elegans-development-ontology/blob/v2025-08-12/wbls.owl) |
+| [C. elegans Gross Anatomy Ontology] | WBbt: | [2025-08-18 WS298](https://github.com/obophenotype/c-elegans-gross-anatomy-ontology/releases/tag/v2025-08-18) | [wbbt.owl](https://github.com/obophenotype/c-elegans-gross-anatomy-ontology/blob/v2025-08-18/wbbt.owl) |
+| [Cell Ontology] | CL: |  [2025-07-30](https://github.com/obophenotype/cell-ontology/releases/tag/v2025-07-30) | [cl.owl](https://github.com/obophenotype/cell-ontology/releases/download/v2025-07-30/cl.owl)|
+| [Cellosaurus] | CVCL_ | 53.0 | [cellosaurus.obo ](https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo)_(Cellosaurus may replace this download with a newer release. Previous releases are <b>unavailable</b>. )_  |
+| [Chemical Entities of Biological Interest] | CHEBI: | [2026-01-06](https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/)<br/>248 | [chebi-lite.owl](https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.owl.gz) _(CHEBI may replace this download with a newer release. Previous releases are [available](https://ftp.ebi.ac.uk/pub/databases/chebi/archive/). )_ |
+| [Drosophila Anatomy Ontology] | FBbt: | [2025-08-07](https://github.com/FlyBase/drosophila-anatomy-developmental-ontology/releases/tag/v2025-08-07)| [fbbt.owl](https://github.com/FlyBase/drosophila-anatomy-developmental-ontology/releases/download/v2025-08-07/fbbt.owl) |
+| [Drosophila Development Ontology] | FBdv: | [2025-05-29](https://github.com/FlyBase/drosophila-developmental-ontology/releases/tag/v2025-05-29) | [fbdv.owl](https://github.com/FlyBase/drosophila-developmental-ontology/releases/download/v2025-05-29/fbdv.owl) |
+| [Experimental Factor Ontology] | EFO: | [2025-09-15 EFO 3.82.0](https://github.com/EBISPOT/efo/releases/tag/v3.82.0) | [efo.owl](https://github.com/EBISPOT/efo/releases/download/v3.82.0/efo.owl) |
+| [Human Ancestry Ontology] | AfPO:<br/>HANCESTRO: | [2025-04-01](https://github.com/EBISPOT/hancestro/releases/tag/v2025-04-01) | [hancestro.owl](https://github.com/EBISPOT/hancestro/blob/v2025-04-01/hancestro.owl) |
+| [Human Developmental Stages] |  HsapDv: | [2025-01-23](https://github.com/obophenotype/developmental-stage-ontologies/releases/tag/v2025-01-23) | [hsapdv.owl](https://github.com/obophenotype/developmental-stage-ontologies/releases/download/v2025-01-23/hsapdv.owl) |
+| [Mondo Disease Ontology] | MONDO: | [2025-09-02](https://github.com/monarch-initiative/mondo/releases/tag/v2025-09-02) | [mondo.owl](https://github.com/monarch-initiative/mondo/releases/download/v2025-09-02/mondo.owl) |
+| [Mouse Developmental Stages]| MmusDv: | [2025-01-23](https://github.com/obophenotype/developmental-stage-ontologies/releases/tag/v2025-01-23) | [mmusdv.owl](https://github.com/obophenotype/developmental-stage-ontologies/releases/download/v2025-01-23/mmusdv.owl) |
+| [NCBI organismal classification] |  NCBITaxon: | [2025-09-11](https://github.com/obophenotype/ncbitaxon/releases/tag/v2025-09-11) | [ncbitaxon.owl](https://github.com/obophenotype/ncbitaxon/releases/download/v2025-09-11/ncbitaxon.owl.gz) |
+| [Phenotype And Trait Ontology] | PATO: | [2025-05-14](https://github.com/pato-ontology/pato/releases/tag/v2025-05-14) | [pato.owl](https://github.com/pato-ontology/pato/blob/v2025-05-14/pato.owl)  |
+| [Uberon multi-species anatomy ontology] |  UBERON: | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [uberon.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/uberon.owl) |
+| [UniProt Knowledgebase] | uniprot: | [08-Oct-2025](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/)<br/>2025_04 | [uniprot_sprot.xml](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.xml.gz) _(UniProt may replace this download with a newer release. Previous releases are [available](https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases/).)_ | 
+| [Zebrafish Anatomy Ontology] | ZFA:<br/>ZFS: | [2025-09-05](https://github.com/ZFIN/zebrafish-anatomical-ontology/releases/tag/v2025-09-05) | [zfa.owl](https://github.com/ZFIN/zebrafish-anatomical-ontology/blob/v2025-09-05/zfa.owl) |
+
+[C. elegans Development Ontology]: https://obofoundry.org/ontology/wbls.html
+
+[C. elegans Gross Anatomy Ontology]: https://obofoundry.org/ontology/wbbt.html
+
+[Cell Ontology]: https://obofoundry.org/ontology/cl.html
+
+[Cellosaurus]: https://www.cellosaurus.org/description.html
+
+[Chemical Entities of Biological Interest]: https://www.ebi.ac.uk/chebi/
+
+[Drosophila Anatomy Ontology]: https://obofoundry.org/ontology/fbbt.html
+
+[Drosophila Development Ontology]: https://obofoundry.org/ontology/fbdv.html
+
+[Experimental Factor Ontology]: https://www.ebi.ac.uk/efo
+
+[Human Ancestry Ontology]: https://www.obofoundry.org/ontology/hancestro.html
+
+[Human Developmental Stages]: https://obofoundry.org/ontology/hsapdv.html
+
+[Mondo Disease Ontology]: https://obofoundry.org/ontology/mondo.html
+
+[Mouse Developmental Stages]: https://obofoundry.org/ontology/mmusdv.html
+
+[NCBI organismal classification]: https://obofoundry.org/ontology/ncbitaxon.html
+
+[Phenotype And Trait Ontology]: https://www.obofoundry.org/ontology/pato.html
+
+[Uberon multi-species anatomy ontology]: https://www.obofoundry.org/ontology/uberon.html
+
+[UniProt Knowledgebase]: https://uniprot.org
+
+[Zebrafish Anatomy Ontology]: https://obofoundry.org/ontology/zfa.html
