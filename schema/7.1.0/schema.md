@@ -2136,15 +2136,14 @@ Curators MUST annotate the following columns in the `var` dataframe and if prese
       <th>Value</th>
         <td>
           <code>str</code>. The index of the <code>pandas.DataFrame</code> MUST contain unique identifiers for features. If present, the index of <code>raw.var</code> MUST be identical to the index of <code>var</code>.
-
+          <br/><br/>
           Here, we accept both genes and ERCC spike-ins. In short, ENSEMBL identifiers are required for genes and <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978944/">External RNA Controls Consortium (ERCC)</a> identifiers for <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mixes</a> to ensure that all datasets measure the same features and can therefore be integrated.
-          
+          <br/><br/>
           If the feature is a gene then the value MUST be the <code>gene_id</code> attribute from the corresponding <code>organism_ontology_term_id</code>. scFAIR allows gene annotations from any species, and any release present in the Ensembl database. In particular, we accept terms from <a href="https://www.ensembl.org/index.html"><code>"Ensembl"</code></a>, <a href="https://bacteria.ensembl.org/index.html"><code>"Ensembl Bacteria"</code></a>, <a href="https://fungi.ensembl.org/index.html"><code>"Ensembl Fungi"</code></a>, <a href="https://plants.ensembl.org/index.html"><code>"Ensembl Plants"</code></a>, <a href="https://protists.ensembl.org/index.html"><code>"Ensembl Protists"</code></a>, <a href="https://metazoa.ensembl.org/index.html"><code>"Ensembl Metazoa"</code></a>, and <a href="https://covid-19.ensembl.org/"><code>"Ensembl COVID-19"</code></a>.
-          
+          <br/><br/>
           <b>Note</b>: Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the value MUST be <code>“ENSG00000186092”</code>.
-                 
-          If the feature is a <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mix</a> then the value MUST be an ERCC Spike-In identifier (e.g. <code>"ERCC-0003"</code>) from <a href="https://assets.thermofisher.com/TFS-Assets/LSG/manuals/cms_095047.txt">cms_095047.txt</a>.<br/>
-
+          <br/><br/>
+          If the feature is a <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mix</a> then the value MUST be an ERCC Spike-In identifier (e.g. <code>"ERCC-0003"</code>) from <a href="https://assets.thermofisher.com/TFS-Assets/LSG/manuals/cms_095047.txt">cms_095047.txt</a>.
         </td>
     </tr>
 </tbody></table>
