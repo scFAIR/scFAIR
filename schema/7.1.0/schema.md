@@ -1246,12 +1246,9 @@ Curators MUST annotate this column only in the `var` dataframe. This column MUST
 </tbody></table>
 <br/>
 
-Curators MUST NOT annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
+### *feature_biotype*
 
-When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding feature biotype, identifier, and the NCBITaxon term for the reference organism to the `var` and `raw.var` dataframes. In addition, it MUST
-add the feature length and type.
-
-### feature_biotype
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
 
 <table><tbody>
     <tr>
@@ -1260,7 +1257,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1270,7 +1267,9 @@ add the feature length and type.
 </tbody></table>
 <br/>
 
-### feature_length
+### *feature_length*
+
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
 
 <table><tbody>
     <tr>
@@ -1279,7 +1278,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1290,7 +1289,9 @@ add the feature length and type.
 </tbody></table>
 <br/>
 
-### feature_name
+### *feature_name*
+
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
 
 <table><tbody>
     <tr>
@@ -1299,7 +1300,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1309,7 +1310,9 @@ add the feature length and type.
 </tbody></table>
 <br/>
 
-### feature_reference
+### *feature_reference*
+
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
 
 <table><tbody>
     <tr>
@@ -1318,7 +1321,7 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -1419,7 +1422,9 @@ add the feature length and type.
 </tbody></table>
 <br/>
 
-### feature_type
+### *feature_type*
+
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
 
 <table><tbody>
     <tr>
@@ -1428,11 +1433,36 @@ add the feature length and type.
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
         <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the gene type assigned to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"synthetic"</code>.<br/><br/>See  <a href="https://www.gencodegenes.org/pages/biotypes.html ">GENCODE</a> and <a href="https://useast.ensembl.org/info/genome/genebuild/biotypes.html ">Ensembl</a> references.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_chromosome
+
+Curators MUST annotate this column in the `var` dataframe and if present, the `raw.var` dataframe.
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_chromosome</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the chromosome location corresponding to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"na"</code>.<br/><br/>
+          Each chromosome name MUST be a <a href="https://www.ncbi.nlm.nih.gov/genbank/fastaformat/">sequence identifier</a> from the FASTA reference for the <code>organism_ontology_term_id</code>. It MUST be encoded based on ENSEMBL identifiers, and eventually needs to be updated to:
+          <ul>
+            <li>Remove their <code>"chr"</code> prefix, if present</li>
+            <li>Rename the mitochondrial designator from <code>"M"</code> (**or any other identifier**) to <code>"MT"</code></li>
         </td>
     </tr>
 </tbody></table>
@@ -1444,6 +1474,7 @@ The size of the ndarray stored for a key in `varm` MUST NOT be zero.
 <br/>
 
 ## `varp`
+
 The size of the ndarray stored for a key in `varp` MUST NOT be zero.
 <br/>
 
@@ -2307,13 +2338,16 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 * [`obs`](#obs-cell-metadata) (Cell metadata)
   * Reordered the fields to organize them better semantically-speaking
   * Removed `observation_joinid` as it is specific for CELLxGENE
-  * Moved `array_row`, `array_col`, and `in_tissue` to spatial-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md]('schema_spatial.md')
-  * Moved `genetic_perturbation_id`, `genetic_perturbation_strategy` to perturbation-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md]('schema_perturb.md')
+  * Moved `array_row`, `array_col`, and `in_tissue` to spatial-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#array_row]('schema_spatial.md')
+  * Moved `genetic_perturbation_id`, `genetic_perturbation_strategy` to perturbation-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbation_id]('schema_perturb.md')
 * [`obsm`](#obsm-embeddings) (Embeddings)
+  * Moved `spatial` to the spatial-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatial]('schema_spatial.md').
 * [`var` and `raw.var`](#var-and-rawvar-gene-metadata) (Gene metadata)
-  * Modified [#index-of-pandasdataframe-1](`index`) subsection, as detailed above
+  * Modified [#index-of-pandasdataframe-1](`index`) subsection, as detailed above.
+  * We think [`feature_type`](#feature_type) and [`feature_biotype`](#feature_biotype) are probably intertwined in CxG definition but for now we keep them as is for compatibility purpose.
+  * Added [`feature_chromosome`](#feature_chromosome) to provide chromosome information for each feature. Useful for MT QC plot.
 * [`uns`](#uns-dataset-metadata) (Dataset Metadata)
-  * Moved this entire section after [`var` and `raw.var`](#var-and-rawvar-gene-metadata), 
+  * Moved this entire section after [`var` and `raw.var`](#var-and-rawvar-gene-metadata), I think it was misplaced before.
   * Added [`ensembl_release`](#ensembl_release) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
