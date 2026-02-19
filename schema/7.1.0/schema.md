@@ -1152,31 +1152,6 @@ The value for each `str` key MUST be a  `numpy.ndarray` of shape `(n_obs, m)`, w
 
 Curators MUST annotate **one or more** embeddings of at least two-dimensions (e.g. tSNE, UMAP, PCA, spatial coordinates) as `numpy.ndarrays` in `obsm`.<br/><br/>
 
-### spatial
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>spatial</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate if <code>uns['spatial']['is_single']</code> is <code>True</code>.<br/><br/>Curator MAY annotate if <code>uns['spatial']['is_single']</code> is <code>False</code>.
-      <br/><br/>Otherwise, this key MUST NOT be present.</td>
-    </tr>
-        <tr>
-      <th>Value</th>
-        <td><code>numpy.ndarray</code> with the following requirements<br/><br/>
-          <ul>
-          <li>MUST have the same number of rows as <code>X</code> and MUST include at least two columns</li>
-          <li>MUST be a <a href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.kind.html"><code>numpy.dtype.kind</code></a> of <code>"f"</code>, <code>"i"</code>, or "<code>u"</code></li>
-          <li>MUST NOT contain any <a href="https://numpy.org/devdocs/reference/constants.html#numpy.inf">positive infinity (<code>numpy.inf</code>)</a> or <a href="https://numpy.org/devdocs/reference/constants.html#numpy.NINF">negative infinity (<code>numpy.NINF</code>)</a> values </li>
-          <li>MUST NOT contain <a href="https://numpy.org/devdocs/reference/constants.html#numpy.nan">Not a Number (<code>numpy.nan</code>)</a> values</li></ul><br/>If <code>assay_ontology_term_id</code>is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>, the array MUST be created from the corresponding <code>pxl_row_in_fullres</code> and <code>pxl_col_in_fullres</code> fields from <code>tissue_positions_list.csv</code> or <code>tissue_positions.csv</code>. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
 ### X_{suffix}
 
 <table><tbody>
@@ -1211,6 +1186,265 @@ values</li></ul>
 ## `obsp`
 
 The size of the ndarray stored for a key in `obsp` MUST NOT be zero.
+<br/>
+
+## `var` and `raw.var` (Gene Metadata)
+
+`var` and `raw.var` are both of type [`pandas.DataFrame`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
+
+Curators MUST annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
+
+### index of pandas.DataFrame
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>index of <code>pandas.DataFrame</code></td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          <code>str</code>. The index of the <code>pandas.DataFrame</code> MUST contain unique identifiers for features. If present, the index of <code>raw.var</code> MUST be identical to the index of <code>var</code>.
+          <br/><br/>
+          Here, we accept both genes and ERCC spike-ins. In short, ENSEMBL identifiers are required for genes and <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978944/">External RNA Controls Consortium (ERCC)</a> identifiers for <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mixes</a> to ensure that all datasets measure the same features and can therefore be integrated.
+          <br/><br/>
+          If the feature is a gene then the value MUST be the <code>gene_id</code> attribute from the corresponding <code>organism_ontology_term_id</code>. scFAIR allows gene annotations from any species, and any release present in the Ensembl database. In particular, we accept terms from <a href="https://www.ensembl.org/index.html"><code>"Ensembl"</code></a>, <a href="https://bacteria.ensembl.org/index.html"><code>"Ensembl Bacteria"</code></a>, <a href="https://fungi.ensembl.org/index.html"><code>"Ensembl Fungi"</code></a>, <a href="https://plants.ensembl.org/index.html"><code>"Ensembl Plants"</code></a>, <a href="https://protists.ensembl.org/index.html"><code>"Ensembl Protists"</code></a>, <a href="https://metazoa.ensembl.org/index.html"><code>"Ensembl Metazoa"</code></a>, and <a href="https://covid-19.ensembl.org/"><code>"Ensembl COVID-19"</code></a>.<br/>
+          The Ensembl database and assembly used for gene annotation should also be specified in <a href="#uns-dataset-metadata"><code>uns</code></a> entries <a href="#ensembl_release"><code>ensembl_release</code></a>, <a href="#ensembl_database"><code>ensembl_database</code></a>, and <a href="#ensembl_assembly"><code>ensembl_assembly</code></a>.
+          <br/><br/>
+          <b>Note</b>: Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the value MUST be <code>“ENSG00000186092”</code>.
+          <br/><br/>
+          If the feature is a <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mix</a> then the value MUST be an ERCC Spike-In identifier (e.g. <code>"ERCC-0003"</code>) from <a href="https://assets.thermofisher.com/TFS-Assets/LSG/manuals/cms_095047.txt">cms_095047.txt</a>.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_is_filtered
+
+Curators MUST annotate this column only in the `var` dataframe. This column MUST NOT be present in `raw.var`:
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_is_filtered</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          <code>bool</code>. When a raw matrix is not present, the value for all features MUST be <code>False</code>.<br/><br/>
+          When both a raw and normalized matrix are present, this MUST be <code>True</code> if the feature was filtered out in the normalized matrix (<code>X</code>) but is present in the raw matrix (<code>raw.X</code>). The value for all cells of the given feature in the normalized matrix MUST be <code>0</code>. If a feature contains all zeroes in the normalized matrix, then either the corresponding feature in the raw matrix MUST be all zeroes or the value MUST be <code>True</code>.
+        <td>
+    </tr>
+</tbody></table>
+<br/>
+
+Curators MUST NOT annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
+
+When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding feature biotype, identifier, and the NCBITaxon term for the reference organism to the `var` and `raw.var` dataframes. In addition, it MUST
+add the feature length and type.
+
+### feature_biotype
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_biotype</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>This MUST be <code>"gene"</code> or <code>"spike-in"</code>.  
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_length
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_length</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+        <code>uint</code> number of base-pairs (bps). The value is the median of the lengths of isoforms, reusing the median calculation from <a href="https://doi.org/10.1093/bioinformatics/btac561">GTFtools: a software package for analyzing various features of gene models.</a>
+      </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_name
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_name</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be the ERCC Spike-In identifier appended with <code>" (spike-in control)"</code>.<br/><br/>If the <code>feature_biotype</code> is <code>"gene"</code> and a <code>gene_name</code> attribute is assigned to the <code>var.index</code> feature identifier in its corresponding gene reference, this MUST be the value of the <code>gene_name</code>. If a <code>gene_name</code> attribute is not assigned, then this MUST default to the <code>var.index</code> feature identifier. 
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_reference
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_reference</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td><code>str</code>. This MUST be the reference organism for a feature:
+          <br/><br/>
+          <table>
+          <thead>
+          <tr>
+          <th>Reference Organism</th>
+          <th>MUST Use</th>
+          </tr>
+          </thead>
+          <tbody>
+         <tr>
+            <td><i>Caenorhabditis elegans</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6293"</code></a>
+            </td>
+          </tr>
+         <tr>
+            <td><i>Callithrix jacchus</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9483"><code>"NCBITaxon:9483"</code></a>
+            </td>
+          </tr>
+          <tr>
+            <td><i>Danio rerio</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a></td>
+          </tr>
+          <tr>
+            <td><i>Drosophila melanogaster</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a>
+            </td>
+          </tr>
+          <tr>
+            <td><i>Gorilla gorilla gorilla</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9595"><code>"NCBITaxon:9595"</code></a>
+            </td>
+           </tr>
+            <tr>
+              <td><i>Homo sapiens</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>"NCBITaxon:9606"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>Macaca fascicularis</i></td>
+              <td>
+                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9541"><code>"NCBITaxon:9541"</code></a>
+              </td>
+            </tr>
+           <tr>
+            <td><i>Macaca mulatta</i></td>
+            <td>
+              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9544"><code>"NCBITaxon:9544"</code></a>
+            </td>
+            </tr>
+            <tr>
+              <td><i>Microcebus murinus</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A30608"><code>"NCBITaxon:30608"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>Mus musculus</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10090"><code>"NCBITaxon:10090"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>Oryctolagus cuniculus</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9986"><code>"NCBITaxon:9986"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>Pan troglodytes</i></td>
+              <td>
+                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9598"><code>"NCBITaxon:9598"</code></a>
+             </td>
+            </tr>
+            <tr>
+              <td><i>Rattus norvegicus</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10116"><code>"NCBITaxon:10116"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>SARS-CoV-2</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A2697049"><code>"NCBITaxon:2697049"</code></a></td>
+            </tr>
+            <tr>
+              <td><i>Sus scrofa</i></td>
+              <td>
+               <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9823"><code>"NCBITaxon:9823"</code></a>
+            </td>
+          </tr>
+            <tr>
+              <td><i>ERCC Spike-Ins</i></td>
+              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A32630"><code>"NCBITaxon:32630"</code></a></td>
+            </tr>
+          </tbody></table>
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### feature_type
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>feature_type</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>scFAIR Discover MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the gene type assigned to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"synthetic"</code>.<br/><br/>See  <a href="https://www.gencodegenes.org/pages/biotypes.html ">GENCODE</a> and <a href="https://useast.ensembl.org/info/genome/genebuild/biotypes.html ">Ensembl</a> references.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+## `varm`
+
+The size of the ndarray stored for a key in `varm` MUST NOT be zero.
+<br/>
+
+## `varp`
+The size of the ndarray stored for a key in `varp` MUST NOT be zero.
 <br/>
 
 ## `uns` (Dataset Metadata)
@@ -2057,745 +2291,6 @@ When a dataset is uploaded, scFAIR Discover MUST automatically add the `schema_v
 </tbody></table>
 <br/>
 
-## `var` and `raw.var` (Gene Metadata)
-
-`var` and `raw.var` are both of type [`pandas.DataFrame`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
-
-Curators MUST annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
-
-### index of pandas.DataFrame
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>index of <code>pandas.DataFrame</code></td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>str</code>. The index of the <code>pandas.DataFrame</code> MUST contain unique identifiers for features. If present, the index of <code>raw.var</code> MUST be identical to the index of <code>var</code>.
-          <br/><br/>
-          Here, we accept both genes and ERCC spike-ins. In short, ENSEMBL identifiers are required for genes and <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4978944/">External RNA Controls Consortium (ERCC)</a> identifiers for <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mixes</a> to ensure that all datasets measure the same features and can therefore be integrated.
-          <br/><br/>
-          If the feature is a gene then the value MUST be the <code>gene_id</code> attribute from the corresponding <code>organism_ontology_term_id</code>. scFAIR allows gene annotations from any species, and any release present in the Ensembl database. In particular, we accept terms from <a href="https://www.ensembl.org/index.html"><code>"Ensembl"</code></a>, <a href="https://bacteria.ensembl.org/index.html"><code>"Ensembl Bacteria"</code></a>, <a href="https://fungi.ensembl.org/index.html"><code>"Ensembl Fungi"</code></a>, <a href="https://plants.ensembl.org/index.html"><code>"Ensembl Plants"</code></a>, <a href="https://protists.ensembl.org/index.html"><code>"Ensembl Protists"</code></a>, <a href="https://metazoa.ensembl.org/index.html"><code>"Ensembl Metazoa"</code></a>, and <a href="https://covid-19.ensembl.org/"><code>"Ensembl COVID-19"</code></a>.<br/>
-          The Ensembl database and assembly used for gene annotation should also be specified in <a href="#uns-dataset-metadata"><code>uns</code></a> entries <a href="#ensembl_release"><code>ensembl_release</code></a>, <a href="#ensembl_database"><code>ensembl_database</code></a>, and <a href="#ensembl_assembly"><code>ensembl_assembly</code></a>.
-          <br/><br/>
-          <b>Note</b>: Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the value MUST be <code>“ENSG00000186092”</code>.
-          <br/><br/>
-          If the feature is a <a href="https://www.thermofisher.com/document-connect/document-connect.html?url=https%3A%2F%2Fassets.thermofisher.com%2FTFS-Assets%2FLSG%2Fmanuals%2Fcms_086340.pdf&title=VXNlciBHdWlkZTogRVJDQyBSTkEgU3Bpa2UtSW4gQ29udHJvbCBNaXhlcyAoRW5nbGlzaCAp">RNA Spike-In Control Mix</a> then the value MUST be an ERCC Spike-In identifier (e.g. <code>"ERCC-0003"</code>) from <a href="https://assets.thermofisher.com/TFS-Assets/LSG/manuals/cms_095047.txt">cms_095047.txt</a>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### feature_is_filtered
-
-Curators MUST annotate this column only in the `var` dataframe. This column MUST NOT be present in `raw.var`:
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_is_filtered</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>bool</code>. When a raw matrix is not present, the value for all features MUST be <code>False</code>.<br/><br/>
-          When both a raw and normalized matrix are present, this MUST be <code>True</code> if the feature was filtered out in the normalized matrix (<code>X</code>) but is present in the raw matrix (<code>raw.X</code>). The value for all cells of the given feature in the normalized matrix MUST be <code>0</code>. If a feature contains all zeroes in the normalized matrix, then either the corresponding feature in the raw matrix MUST be all zeroes or the value MUST be <code>True</code>.
-        <td>
-    </tr>
-</tbody></table>
-<br/>
-
-Curators MUST NOT annotate the following columns in the `var` dataframe and if present, the `raw.var` dataframe.
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the matching human-readable name for the corresponding feature biotype, identifier, and the NCBITaxon term for the reference organism to the `var` and `raw.var` dataframes. In addition, it MUST
-add the feature length and type.
-
-### feature_biotype
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_biotype</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>This MUST be <code>"gene"</code> or <code>"spike-in"</code>.  
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### feature_length
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_length</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-        <code>uint</code> number of base-pairs (bps). The value is the median of the lengths of isoforms, reusing the median calculation from <a href="https://doi.org/10.1093/bioinformatics/btac561">GTFtools: a software package for analyzing various features of gene models.</a>
-      </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### feature_name
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_name</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be the ERCC Spike-In identifier appended with <code>" (spike-in control)"</code>.<br/><br/>If the <code>feature_biotype</code> is <code>"gene"</code> and a <code>gene_name</code> attribute is assigned to the <code>var.index</code> feature identifier in its corresponding gene reference, this MUST be the value of the <code>gene_name</code>. If a <code>gene_name</code> attribute is not assigned, then this MUST default to the <code>var.index</code> feature identifier. 
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### feature_reference
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_reference</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. This MUST be the reference organism for a feature:
-          <br/><br/>
-          <table>
-          <thead>
-          <tr>
-          <th>Reference Organism</th>
-          <th>MUST Use</th>
-          </tr>
-          </thead>
-          <tbody>
-         <tr>
-            <td><i>Caenorhabditis elegans</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6293"</code></a>
-            </td>
-          </tr>
-         <tr>
-            <td><i>Callithrix jacchus</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9483"><code>"NCBITaxon:9483"</code></a>
-            </td>
-          </tr>
-          <tr>
-            <td><i>Danio rerio</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a></td>
-          </tr>
-          <tr>
-            <td><i>Drosophila melanogaster</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a>
-            </td>
-          </tr>
-          <tr>
-            <td><i>Gorilla gorilla gorilla</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9595"><code>"NCBITaxon:9595"</code></a>
-            </td>
-           </tr>
-            <tr>
-              <td><i>Homo sapiens</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>"NCBITaxon:9606"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Macaca fascicularis</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9541"><code>"NCBITaxon:9541"</code></a>
-              </td>
-            </tr>
-           <tr>
-            <td><i>Macaca mulatta</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9544"><code>"NCBITaxon:9544"</code></a>
-            </td>
-            </tr>
-            <tr>
-              <td><i>Microcebus murinus</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A30608"><code>"NCBITaxon:30608"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Mus musculus</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10090"><code>"NCBITaxon:10090"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Oryctolagus cuniculus</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9986"><code>"NCBITaxon:9986"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Pan troglodytes</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9598"><code>"NCBITaxon:9598"</code></a>
-             </td>
-            </tr>
-            <tr>
-              <td><i>Rattus norvegicus</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10116"><code>"NCBITaxon:10116"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>SARS-CoV-2</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A2697049"><code>"NCBITaxon:2697049"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Sus scrofa</i></td>
-              <td>
-               <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9823"><code>"NCBITaxon:9823"</code></a>
-            </td>
-          </tr>
-            <tr>
-              <td><i>ERCC Spike-Ins</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A32630"><code>"NCBITaxon:32630"</code></a></td>
-            </tr>
-          </tbody></table>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### feature_type
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>feature_type</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the gene type assigned to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"synthetic"</code>.<br/><br/>See  <a href="https://www.gencodegenes.org/pages/biotypes.html ">GENCODE</a> and <a href="https://useast.ensembl.org/info/genome/genebuild/biotypes.html ">Ensembl</a> references.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-
-## `varm`
-
-The size of the ndarray stored for a key in `varm` MUST NOT be zero.
-<br/>
-
-## `varp`
-The size of the ndarray stored for a key in `varp` MUST NOT be zero.
-<br/>
-
----
-
-## scATAC-seq assets
-
-### Requirements
-
-A Dataset MUST meet all of the following requirements to be eligible for scATAC-seq assets:
-* <code>assay_ontology_term_id</code> values MUST be either all <i>paired assays</i> or <i>unpaired assays</i>
-* <code>is_primary_data</code> values MUST be all <code>True</code>
-* <code>organism_ontology_term_id</code> value MUST be either <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i> or <code>"NCBITaxon:10090"</code> for <i>Mus musculus</i> or one of its descendants. The value determines the required Chromosome Table.
-
-If the <code>assay_ontology_term_id</code> values are all <i>paired assays</i> then the Dataset MAY have a fragments file asset.
-
-If the <code>assay_ontology_term_id</code> values are all <i>unpaired assays</i> then the Dataset MUST have a fragments file asset.
-
-## scATAC-seq Asset: Submitted Fragment File
-
-This MUST be a gzipped tab-separated values (TSV) file.
-
-The curator MUST annotate the following header-less columns. Additional columns and header lines beginning with `#` MUST NOT be included. Each row MUST represent a unique fragment.
-
-### first column
-
-<table><tbody>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>str</code>. This MUST be the reference genome chromosome the fragment is located on.<br/><br/>If the value of organism_ontology_term_id</code> in the associated Dataset is <code>"NCBITaxon:9606"</code> for <i>Homo sapiens</i> then the first column value MUST be a value from the <code>Chromosome</code> column in the <a href="#human-grch38p14">Human Chromosome Table</a>.<br/><br/>
-          If the value of <code>organism_ontology_term_id</code> in the associated Dataset is <code>"NCBITaxon:10090"</code> for <i>Mus musculus</i> then the first column value MUST be a value from the <code>Chromosome</code> column in the <a href="#mouse-grcm39">Mouse Chromosome Table</a>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-
-### second column
-
-<table><tbody>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>int</code>. This MUST be the 0-based start coordinate of the fragment.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### third column
-
-<table><tbody>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>int</code>. This MUST be the 0-based end coordinate of the fragment. The end position is exclusive, representing the position immediately following the fragment interval. The value MUST be greater than the start coordinate specified in the second column and less than or equal to the <code>Length</code> of the <code>Chromosome</code> specified in the first column, as specified in the appropriate Chromosome Table.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### fourth column
-
-<table><tbody>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. This MUST be an observation identifier from the <a href="#index-of-pandasdataframe"><code>obs</code> index</a> of the associated Dataset. Every <code>obs</code> index value of the associated Dataset MUST appear at least once in this column.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-### fifth column
-
-<table><tbody>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>int</code>. This MUST be the total number of read pairs associated with this fragment. The value MUST be <code>1</code> or greater.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-## scATAC-seq Asset: Processed Fragments File
-
-From every submitted fragments file asset, scFAIR Discover MUST generate <code>{artifact_id}-fragments.tsv.gz</code>, a tab-separated values (TSV) file position-sorted and compressed by bgzip.
-
-## scATAC-seq Asset: Fragments File index
-
-From every processed fragments file asset, scFAIR Discover MUST generate <code>{artifact_id}-fragments.tsv.gz.tbi</code>, a <a href="https://www.htslib.org/doc/tabix.html">tabix</a> index of the fragment intervals from the fragments file.
-
-## Chromosome Tables
-
-Chromosome Tables are determined by the reference assembly for the gene annotation versions pinned in this version of the schema. Only chromosomes or scaffolds that have at least one gene feature present are included.
-
-### <a href="https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_48/GRCh38.primary_assembly.genome.fa.gz">Human (GRCh38.p14)</a>
-
-<table>
-  <thead>
-  <tr>
-  <th>Chromosome</th>
-  <th>Length</th>
-  </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <td>chr1</td>
-        <td>248956422</td>
-    </tr>
-    <tr>
-        <td>chr2</td>
-        <td>242193529</td>
-    </tr>
-    <tr>
-        <td>chr3</td>
-        <td>198295559</td>
-    </tr>
-    <tr>
-        <td>chr4</td>
-        <td>190214555</td>
-    </tr>
-    <tr>
-        <td>chr5</td>
-        <td>181538259</td>
-    </tr>
-    <tr>
-        <td>chr6</td>
-        <td>170805979</td>
-    </tr>
-    <tr>
-        <td>chr7</td>
-        <td>159345973</td>
-    </tr>
-    <tr>
-        <td>chr8</td>
-        <td>145138636</td>
-    </tr>
-    <tr>
-        <td>chr9</td>
-        <td>138394717</td>
-    </tr>
-    <tr>
-        <td>chr10</td>
-        <td>133797422</td>
-    </tr>
-    <tr>
-        <td>chr11</td>
-        <td>135086622</td>
-    </tr>
-    <tr>
-        <td>chr12</td>
-        <td>133275309</td>
-    </tr>
-    <tr>
-        <td>chr13</td>
-        <td>114364328</td>
-    </tr>
-    <tr>
-        <td>chr14</td>
-        <td>107043718</td>
-    </tr>
-    <tr>
-        <td>chr15</td>
-        <td>101991189</td>
-    </tr>
-    <tr>
-        <td>chr16</td>
-        <td>90338345</td>
-    </tr>
-    <tr>
-        <td>chr17</td>
-        <td>83257441</td>
-    </tr>
-    <tr>
-        <td>chr18</td>
-        <td>80373285</td>
-    </tr>
-    <tr>
-        <td>chr19</td>
-        <td>58617616</td>
-    </tr>
-    <tr>
-        <td>chr20</td>
-        <td>64444167</td>
-    </tr>
-    <tr>
-        <td>chr21</td>
-        <td>46709983</td>
-    </tr>
-    <tr>
-        <td>chr22</td>
-        <td>50818468</td>
-    </tr>
-    <tr>
-        <td>chrX</td>
-        <td>156040895</td>
-    </tr>
-    <tr>
-        <td>chrY</td>
-        <td>57227415</td>
-    </tr>
-    <tr>
-        <td>chrM</td>
-        <td>16569</td>
-    </tr>
-    <tr>
-        <td>GL000009.2</td>
-        <td>201709</td>
-    </tr>
-    <tr>
-        <td>GL000194.1</td>
-        <td>191469</td>
-    </tr>
-    <tr>
-        <td>GL000195.1</td>
-        <td>182896</td>
-    </tr>
-    <tr>
-        <td>GL000205.2</td>
-        <td>185591</td>
-    </tr>
-    <tr>
-        <td>GL000213.1</td>
-        <td>164239</td>
-    </tr>
-    <tr>
-        <td>GL000216.2</td>
-        <td>176608</td>
-    </tr>
-    <tr>
-        <td>GL000218.1</td>
-        <td>161147</td>
-    </tr>
-    <tr>
-        <td>GL000219.1</td>
-        <td>179198</td>
-    </tr>
-    <tr>
-        <td>GL000220.1</td>
-        <td>161802</td>
-    </tr>
-    <tr>
-        <td>GL000225.1</td>
-        <td>211173</td>
-    </tr>
-    <tr>
-        <td>KI270442.1</td>
-        <td>392061</td>
-    </tr>
-    <tr>
-        <td>KI270711.1</td>
-        <td>42210</td>
-    </tr>
-    <tr>
-        <td>KI270713.1</td>
-        <td>40745</td>
-    </tr>
-    <tr>
-        <td>KI270721.1</td>
-        <td>100316</td>
-    </tr>
-    <tr>
-        <td>KI270726.1</td>
-        <td>43739</td>
-    </tr>
-    <tr>
-        <td>KI270727.1</td>
-        <td>448248</td>
-    </tr>
-    <tr>
-        <td>KI270728.1</td>
-        <td>1872759</td>
-    </tr>
-    <tr>
-        <td>KI270731.1</td>
-        <td>150754</td>
-    </tr>
-    <tr>
-        <td>KI270733.1</td>
-        <td>179772</td>
-    </tr>
-    <tr>
-        <td>KI270734.1</td>
-        <td>165050</td>
-    </tr>
-    <tr>
-        <td>KI270744.1</td>
-        <td>168472</td>
-    </tr>
-    <tr>
-        <td>KI270750.1</td>
-        <td>148850</td>
-    </tr>
-</tbody></table>
-
-### <a href="https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M37/GRCm39.primary_assembly.genome.fa.gz">Mouse (GRCm39)</a>
-
-<table>
-  <thead>
-  <tr>
-  <th>Chromosome</th>
-  <th>Length</th>
-  </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <td>chr1</td>
-        <td>195154279</td>
-    </tr>
-    <tr>
-        <td>chr2</td>
-        <td>181755017</td>
-    </tr>
-    <tr>
-        <td>chr3</td>
-        <td>159745316</td>
-    </tr>
-    <tr>
-        <td>chr4</td>
-        <td>156860686</td>
-    </tr>
-    <tr>
-        <td>chr5</td>
-        <td>151758149</td>
-    </tr>
-    <tr>
-        <td>chr6</td>
-        <td>149588044</td>
-    </tr>
-    <tr>
-        <td>chr7</td>
-        <td>144995196</td>
-    </tr>
-    <tr>
-        <td>chr8</td>
-        <td>130127694</td>
-    </tr>
-    <tr>
-        <td>chr9</td>
-        <td>124359700</td>
-    </tr>
-    <tr>
-        <td>chr10</td>
-        <td>130530862</td>
-    </tr>
-    <tr>
-        <td>chr11</td>
-        <td>121973369</td>
-    </tr>
-    <tr>
-        <td>chr12</td>
-        <td>120092757</td>
-    </tr>
-    <tr>
-        <td>chr13</td>
-        <td>120883175</td>
-    </tr>
-    <tr>
-        <td>chr14</td>
-        <td>125139656</td>
-    </tr>
-    <tr>
-        <td>chr15</td>
-        <td>104073951</td>
-    </tr>
-    <tr>
-        <td>chr16</td>
-        <td>98008968</td>
-    </tr>
-    <tr>
-        <td>chr17</td>
-        <td>95294699</td>
-    </tr>
-    <tr>
-        <td>chr18</td>
-        <td>90720763</td>
-    </tr>
-    <tr>
-        <td>chr19</td>
-        <td>61420004</td>
-    </tr>
-    <tr>
-        <td>chrX</td>
-        <td>169476592</td>
-    </tr>
-    <tr>
-        <td>chrY</td>
-        <td>91455967</td>
-    </tr>
-    <tr>
-        <td>chrM</td>
-        <td>16299</td>
-    </tr>
-    <tr>
-        <td>GL456210.1</td>
-        <td>169725</td>
-    </tr>
-    <tr>
-        <td>GL456211.1</td>
-        <td>241735</td>
-    </tr>
-    <tr>
-        <td>GL456212.1</td>
-        <td>153618</td>
-    </tr>
-    <tr>
-        <td>GL456219.1</td>
-        <td>175968</td>
-    </tr>
-    <tr>
-        <td>GL456221.1</td>
-        <td>206961</td>
-    </tr>
-    <tr>
-        <td>GL456239.1</td>
-        <td>40056</td>
-    </tr>
-    <tr>
-        <td>GL456354.1</td>
-        <td>195993</td>
-    </tr>
-    <tr>
-        <td>GL456372.1</td>
-        <td>28664</td>
-    </tr>
-    <tr>
-        <td>GL456381.1</td>
-        <td>25871</td>
-    </tr>
-    <tr>
-        <td>GL456385.1</td>
-        <td>35240</td>
-    </tr>
-    <tr>
-        <td>JH584295.1</td>
-        <td>1976</td>
-    </tr>
-    <tr>
-        <td>JH584296.1</td>
-        <td>199368</td>
-    </tr>
-    <tr>
-        <td>JH584297.1</td>
-        <td>205776</td>
-    </tr>
-    <tr>
-        <td>JH584298.1</td>
-        <td>184189</td>
-    </tr>
-    <tr>
-        <td>JH584299.1</td>
-        <td>953012</td>
-    </tr>
-    <tr>
-        <td>JH584303.1</td>
-        <td>158099</td>
-    </tr>
-    <tr>
-        <td>JH584304.1</td>
-        <td>114452</td>
-    </tr>
-</tbody></table>
-
 ---
 
 ## Appendix A. Changelog
@@ -2803,7 +2298,7 @@ Chromosome Tables are determined by the reference assembly for the gene annotati
 ### Schema v7.1.0
 This is the first fork of CELLxGENE schema. So, here are recorded the differences with CZI CELLxGENE schema v7.1.0
 
-* Moved the ontology table from General Requirements as Appendix B. Relevant ontologies. Since we don't enforce a schema version anymore.
+* Moved the ontology table from [#general-requirements](General Requirements) as [#appendix-b-relevant-ontologies](Appendix B. Relevant ontologies). Since we don't enforce a schema-specific version anymore.
 * [Required Gene Annotations](#required-gene-annotations)
   * This section was removed, but its content was moved to the [#index-of-pandasdataframe-1](`index`) subsection of [#var-and-rawvar-gene-metadata](`var` and `raw.var`) section where it immediately applies.
   * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)), and [Ensembl COVID-19](https://covid-19.ensembl.org/index.html).
@@ -2818,10 +2313,12 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 * [`var` and `raw.var`](#var-and-rawvar-gene-metadata) (Gene metadata)
   * Modified [#index-of-pandasdataframe-1](`index`) subsection, as detailed above
 * [`uns`](#uns-dataset-metadata) (Dataset Metadata)
+  * Moved this entire section after [`var` and `raw.var`](#var-and-rawvar-gene-metadata), 
   * Added [`ensembl_release`](#ensembl_release) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
   * Removed [`is_pre_analysis`] as it is specific for CELLxGENE collection handling
+* Move scTAC-seq assets to atac-specific schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#scatac-seq-assets]('schema_atac.md')
 
 ## Appendix B. Relevant ontologies
 
