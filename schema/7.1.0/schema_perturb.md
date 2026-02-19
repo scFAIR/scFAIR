@@ -84,6 +84,8 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
 
 `uns` is a ordered dictionary with a `str` key. The data stored as a value for a key in `uns` MUST be `True`, `False`, `None`, or its size MUST NOT be zero.
 
+**Note:** Terms in italic are auto-filled by the CZI CELLxGENE submission pipeline. scFAIR schema still consider them as required.
+
 **In addition** to the metadata described in the *core* schema [https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md]('schema.md'), curators MUST annotate the following keys and values in `uns`:
 
 ### genetic_perturbations
@@ -203,7 +205,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
 </tbody></table>
 <br/>
 
-#### genetic_perturbations[<i>id</i>]['derived_genomic_regions']
+#### *genetic_perturbations[<i>id</i>]['derived_genomic_regions']*
 
 <table><tbody>
     <tr>
@@ -212,7 +214,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
     </tr>
     <tr>
       <th>Annotation</th>
-        <td>scFAIR Discover MUST annotate if <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03488-8">Genome-wide CRISPR guide RNA design and specificity analysis with GuideScan2</a> successfully matched the values of <code>genetic_perturbations[<i>id</i>]['protospacer']</code> and <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code> to genomic regions in the following FASTA references:<br/><br/>
+        <td>Curator MUST annotate if <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03488-8">Genome-wide CRISPR guide RNA design and specificity analysis with GuideScan2</a> successfully matched the values of <code>genetic_perturbations[<i>id</i>]['protospacer']</code> and <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code> to genomic regions in the following FASTA references:<br/><br/>
           <table>
             <thead>
               <tr>
@@ -252,7 +254,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
 </tbody></table>
 <br/>
 
-#### genetic_perturbations[<i>id</i>]['derived_features']
+#### *genetic_perturbations[<i>id</i>]['derived_features']*
 
 <table><tbody>
     <tr>
@@ -261,7 +263,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
     </tr>
     <tr>
       <th>Annotation</th>
-      <td>scFAIR Discover MUST annotate when <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> is annotated and one or more features in the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> overlapped a genomic region by at least one nucleotide; otherwise, this key MUST NOT be present.  
+      <td>Curator MUST annotate when <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> is annotated and one or more features in the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> overlapped a genomic region by at least one nucleotide; otherwise, this key MUST NOT be present.  
     </tr>
     <tr>
       <th>Value</th>
@@ -275,7 +277,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
 </tbody></table>
 <br/>
 
-#### genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]
+#### *genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]*
 
 <table><tbody>
     <tr>
@@ -286,7 +288,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
     </tr>
     <tr>
       <th>Annotation</th>
-      <td>scFAIR Discover MUST annotate.  The key MUST be the <code>gene_id</code> attribute from the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> for a feature that overlapped a genomic region in <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> by at least one nucleotide.<br/><br/> Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the <code><i>feature_id</i></code> MUST be <code>“ENSG00000186092”</code>.</td>
+      <td>Curator MUST annotate. The key MUST be the <code>gene_id</code> attribute from the <a href="#required-gene-annotations">corresponding gene reference</a> of the <code>organism_ontology_term_id</code> for a feature that overlapped a genomic region in <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code> by at least one nucleotide.<br/><br/> Version numbers MUST be removed from the <code>gene_id</code> if it is prefixed with <code>"ENS"</code> for <i>Ensembl stable identifier</i>. See <a href="https://ensembl.org/Help/Faq?id=488">I have an Ensembl ID, what can I tell about it from the ID?</a> For example, if the <code>gene_id</code> is <code>“ENSG00000186092.7”</code>, then the <code><i>feature_id</i></code> MUST be <code>“ENSG00000186092”</code>.</td>
     </tr>
     <tr>
       <th>Value</th>
