@@ -38,11 +38,11 @@
   * [`suspension_type`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#suspension_type) [`str`] - One of `"cell"`, `"nucleus"`, or `"na"`. Should match with selected `assay`.
 * [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset
   * [`X_{suffix}`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x_suffix) [`numpy.ndarray`] - One or multiple embeddings e.g. X_tSNE, X_PCA, X_UMAP, ...
-* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp) - Describes pairwise annotation of observations. Nothing is mandatory here.
-* [`var` and `raw.var` (Gene metadata)](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata), which describe each gene in the dataset
-* [`varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm), which describe multi-dimensional annotation of variables/features
-* [`varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp), which describe pairwise annotation of variables/features
-* [`uns` (Dataset metadata)](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata), which describe the dataset as a whole
+* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp) - Describe pairwise annotation of observations. Nothing is mandatory here.
+* [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata) - Gene metadata. Describe each gene in the dataset.
+* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm) - Describe multi-dimensional annotation of variables/features.
+* [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp) - Describe pairwise annotation of variables/features. Nothing is mandatory here.
+* [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) - Dataset metadata. Describe the dataset as a whole.
 
 ## Spatial dataset (Visium)
 
@@ -58,6 +58,11 @@ If no description -> same as core
   * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
 * [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset
   * **[`spatial`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatial)** [`numpy.ndarray`] - Spatial coordinates.
+* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp)
+* [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata)
+* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm)
+* [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp)
+* [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata)
 
 ## Genetic perturbation dataset (CRISPR screen, perturb-seq, ...)
 
@@ -70,6 +75,12 @@ If no description -> same as core
   * *(Same as core)*
   * **[`genetic_perturbation_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_id)** [`str`] - `"na"` or one or more genetic perturbation identifiers in ascending lexical order separated by the delimiter `" || "` with no duplication of identifiers.
   * **[`genetic_perturbation_strategy`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbation_strategy)** [`str`] - One of `"control"`, `"CRISPR activation screen"`, `"CRISPR interference screen"`, `"CRISPR knockout mutant"`, or `"CRISPR knockout screen"` (or `"no perturbations"` if `genetic_perturbation_id` is `"na"`).
+* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings)
+* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp)
+* [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata)
+* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm)
+* [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp)
+* [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata)
 
 ## scATAC dataset (scATAC, multimodal)
 
@@ -80,6 +91,11 @@ If no description -> same as core
 * **[`AnnData.X`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#x-matrix-layers)** - For unpaired assays (scATAC), this should be the gene activity matrix.
 * [`AnnData.obs`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obs-cell-metadata)
 * [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings)
+* [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp)
+* [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata)
+* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm)
+* [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp)
+* [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata)
 
 **Additional files:**
 * **[scATAC assets](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#scatac-seq-assets)** - Fragment/Peak files
