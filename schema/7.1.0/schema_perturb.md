@@ -273,6 +273,7 @@ The scFAIR schema is split into multiple part, to differentiate the metadata spe
         </td>
     </tr>
 </tbody></table>
+<br/>
 
 #### genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]
 
