@@ -40,6 +40,13 @@
   * [`X_{suffix}`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#x_suffix) [`numpy.ndarray`] - One or multiple embeddings e.g. X_tSNE, X_PCA, X_UMAP, ...
 * [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp) - Describe pairwise annotation of observations. Nothing is mandatory here.
 * [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata) - Gene metadata. Describe each gene in the dataset.
+  * [`feature_is_filtered`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_is_filtered) - Describe which genes in the normalized matrix are filtered as compared to the raw matrix.
+  * *[`feature_biotype`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_biotype)* [`str`] - One of `"gene"` or `"spike-in"`.
+  * *[`feature_length`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_length)* [`uint`] - Number of base-pairs (bps). The value is the median of the lengths of isoforms, reusing the median calculation from [GTFtools](https://academic.oup.com/bioinformatics/article/38/20/4806/6674500). This is used for RPKM-like normalization.
+  * *[`feature_name`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_name)* [`str`] - Human-readable name for the spike-in or the gene name (not the Ensembl Id)
+  * *[`feature_reference`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_reference)* [`str`] - NCBITaxon organism id the feature comes from, e.g. `"NCBITaxon:10090"` for *mus musculus* or `"NCBITaxon:32630"` for ERCC Spike-Ins.
+  * *[`feature_type`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_type)* [`str`] - Biotype of the corresponding genes, e.g. `"protein coding"` or `"ncRNA"`. If `feature_biotype` is `"spike-in"` then this MUST be `"synthetic"`.
+  * *[`feature_chromosome`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_chromosome)* [`str`] - Chromosome location of the corresponding genes, e.g. `"MT"` or `"1"`.
 * [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm) - Describe multi-dimensional annotation of variables/features.
 * [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp) - Describe pairwise annotation of variables/features. Nothing is mandatory here.
 * [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) - Dataset metadata. Describe the dataset as a whole.
