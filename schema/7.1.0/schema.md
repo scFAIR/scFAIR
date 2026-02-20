@@ -1657,201 +1657,6 @@ Curators MUST annotate the following keys and values in `uns`:
 </tbody></table>
 <br/>
 
-
-### spatial
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>spatial</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0030062"><code>"EFO:0030062"</code></a> for <i>Slide-seqV2</i>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>dict</code>. The requirements for the key-value pairs are documented in the following sections:
-          <ul>
-          <li>spatial['is_single']</li>         
-          <li>spatial[<i>library_id</i>]</li>
-          <li>spatial[<i>library_id</i>]['images']</li>
-          <li>spatial[<i>library_id</i>]['images']['fullres']</li>
-          <li>spatial[<i>library_id</i>]['images']['hires']</li>
-          <li>spatial[<i>library_id</i>]['scalefactors']</li>
-          <li>spatial[<i>library_id</i>]['scalefactors']['spot_diameter_fullres']</li>
-          <li>spatial[<i>library_id</i>]['scalefactors']['tissue_hires_scalef']</li>
-         </ul><br/>Additional key-value pairs MUST NOT be present.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### is_single
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>is_single</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> or <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0030062"><code>"EFO:0030062"</code></a> for <i>Slide-seqV2</i>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>bool</code>. This MUST be <code>True</code>:
-        <ul>
-        <li>if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and the dataset represents one Space Ranger output for a single tissue section
-      </li>
-      <li> if <code>assay_ontology_term_id</code> is <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0030062"><code>"EFO:0030062"</code></a> for <i>Slide-seqV2</i> and the dataset represents the output for a single array on a puck </li>
-        </ul>
-        Otherwise, this MUST be <code>False</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>Identifier for the Visium library</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>dict</code>. There MUST be only one <code><i>library_id</i></code>.</td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['images']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>images</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>dict</code>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['images']['fullres']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>fullres</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MAY annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          The full resolution image MUST be converted to a<code>numpy.ndarray</code> with the following requirements:<br/><br/>
-          <ul>
-          <li>The length of <code>numpy.ndarray.shape</code> MUST be <code>3</code></li>
-          <li>The <code>numpy.ndarray.dtype</code> MUST be <code>numpy.uint8</code></li>
-          <li>The <code>numpy.ndarray.shape[2]</code> MUST be either <code>3</code> (RGB color model for example) or <code>4</code> (RGBA color model for example)</li>
-          </ul>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['images']['hires']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>hires</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>tissue_hires_image.png</code> MUST be converted to a<code>numpy.ndarray</code> with the following requirements:<br/><br/>
-          <ul>
-          <li>The length of <code>numpy.ndarray.shape</code> MUST be <code>3</code></li>
-          <li>The <code>numpy.ndarray.dtype</code> MUST be <code>numpy.uint8</code></li>
-          <li>If <code>assay_ontology_term_id</code> is <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0022860"><code>"EFO:0022860"</code></a> for <i>Visium CytAssist Spatial Gene Expression, 11mm</i>, the largest dimension in <code>numpy.ndarray.shape[:2]</code> MUST be <code>4000</code>pixels; otherwise, the largest dimension in <code>numpy.ndarray.shape[:2]</code> MUST be <code>2000</code>pixels. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a></li>
-          <li>The <code>numpy.ndarray.shape[2]</code> MUST be either <code>3</code> (RGB color model for example) for <code>4</code> (RGBA color model for example)</li>
-          </ul>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['scalefactors']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>scalefactors</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>dict</code>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['scalefactors']['spot_diameter_fullres']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>spot_diameter_fullres</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>float</code>. This must be the value of the <code>spot_diameter_fullres</code> field from <code>scalefactors_json.json</code>. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.</td>
-    </tr>
-</tbody></table>
-<br/>
-
-#### spatial[_library_id_]['scalefactors']['tissue_hires_scalef']
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>tissue_hires_scalef</td>
-    </tr>
-    <tr>
-      <th>Annotation</th>
-      <td>Curator MUST annotate if <code>assay_ontology_term_id</code> is a descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0010961"><code>"EFO:0010961"</code></a> for <i>Visium Spatial Gene Expression</i> and <code>uns['spatial']['is_single']</code> is <code>True</code>; otherwise, this key MUST NOT be present.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          <code>float</code>. This must be the value of the <code>tissue_hires_scalef</code> field from <code>scalefactors_json.json</code>. See <a href="https://www.10xgenomics.com/support/software/space-ranger/analysis/outputs/spatial-outputs">Space Ranger Spatial Outputs</a>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
 ### title
 
 <table><tbody>
@@ -2122,7 +1927,7 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 
 * Moved the ontology table from [General Requirements](#general-requirements) as [Appendix B. Relevant ontologies](#appendix-b-relevant-ontologies). Since we don't enforce a schema-specific version anymore.
 * Moved the **Important note on types** section to the [General Requirements](#general-requirements) section. Expanding on the difference between reported Python types and HDF5 inner typing.
-* `Required Gene Annotations`
+* **Required Gene Annotations**
   * This section was removed, but its content was moved to the [`index`](#index-of-pandasdataframe-1) subsection of [`var` and `raw.var`](#var-and-rawvar-gene-metadata) section where it immediately applies.
   * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)), and [Ensembl COVID-19](https://covid-19.ensembl.org/index.html).
 * [`X` (Matrix layers)](#x-matrix-layers)
@@ -2144,7 +1949,7 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
   * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
   * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
   * Removed `is_pre_analysis` as it is specific for CELLxGENE collection handling
-  * Moved `genetic_perturbations`, `genetic_perturbations[<i>id</i>]`, `genetic_perturbations[<i>id</i>]['role']`, `genetic_perturbations[<i>id</i>]['protospacer_sequence']`, `genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']`, `genetic_perturbations[<i>id</i>]['derived_genomic_regions']`, `genetic_perturbations[<i>id</i>]['derived_features']`, and `genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]` to perturb-specific schema ['schema_perturb.md'](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema_perturb.md#genetic_perturbations)
+  * Moved <code>genetic_perturbations</code>, <code>genetic_perturbations[<i>id</i>]</code>, <code>genetic_perturbations[<i>id</i>]['role']</code>, <code>genetic_perturbations[<i>id</i>]['protospacer_sequence']</code>, <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code>, <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code>, <code>genetic_perturbations[<i>id</i>]['derived_features']</code>, and <code>genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]</code> to perturb-specific schema ['schema_perturb.md'](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema_perturb.md#genetic_perturbations)
   * 
 * Move scTAC-seq assets to atac-specific schema ['schema_atac.md'](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#scatac-seq-assets)
 
