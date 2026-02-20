@@ -189,7 +189,7 @@ scFAIR's matrix layer requirements are tailored to optimize data reuse. Because 
 
 `obs` is a [`pandas.DataFrame`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
-**Note:** Terms in italic are auto-filled by the CZI CELLxGENE submission pipeline. scFAIR schema still consider them as required.
+**Note:** Terms in italic are auto-filled by the CZI CELLxGENE submission pipeline. scFAIR schema now consider them as required.
 
 Curators MUST annotate the following columns in the `obs` dataframe:
 
@@ -406,7 +406,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -503,7 +503,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
+      <td>Curator MUST annotate if <code>cell_type_ontology_term_id</code> is present; otherwise, otherwise this key MUST NOT be present.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -600,7 +600,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -643,7 +643,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -696,7 +696,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -742,7 +742,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
+      <td>Curator MUST annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
@@ -984,10 +984,8 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     </tr>
     <tr>
       <th>Value</th>
-        <td>categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>; otherwise, this MUST NOT be <code>"na"</code>, but MUST be free-text that identifies a unique individual that data were derived from. It is STRONGLY RECOMMENDED that this identifier be designed so that it is unique to:<br/><br/>
-          <ul><li>a given individual within the collection of datasets that includes this dataset</li>
-          <li>a given individual across all collections in scFAIR Discover</li></ul><br/>
-          It is STRONGLY RECOMMENDED that <code>"pooled"</code> be used  for observations from a sample of multiple individuals that were not confidently assigned to a single individual through demultiplexing.<br/><br/>It is STRONGLY RECOMMENDED that <code>"unknown"</code> ONLY be used for observations in a dataset when it is not known which observations are from the same individual.<br/><br/>
+        <td>categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>; otherwise, this MUST NOT be <code>"na"</code>, but MUST be free-text that identifies a unique individual that data were derived from. It is STRONGLY RECOMMENDED that this identifier be designed so that it is unique to all datasets, specifically datasets from a same collection (sharing the same DOI).
+          It is STRONGLY RECOMMENDED that <code>"pooled"</code> be used  for observations from a sample of multiple individuals that were not confidently assigned to a single individual through demultiplexing.<br/><br/>It is STRONGLY RECOMMENDED that <code>"unknown"</code> ONLY be used for observations in a dataset when it is not known which observations are from the same individual.
         </td>
     </tr>
 </tbody></table>
@@ -1438,7 +1436,7 @@ Curators MUST annotate this column in the `var` dataframe and if present, the `r
     </tr>
     <tr>
       <th>Value</th>
-        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the gene type assigned to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"synthetic"</code>.<br/><br/>See  <a href="https://www.gencodegenes.org/pages/biotypes.html ">GENCODE</a> and <a href="https://useast.ensembl.org/info/genome/genebuild/biotypes.html ">Ensembl</a> references.
+        <td><code>str</code>. If the <code>feature_biotype</code> is <code>"gene"</code> then this MUST be the gene type assigned to the feature identifier in <code>var.index</code>. If the <code>feature_biotype</code> is <code>"spike-in"</code> then this MUST be <code>"synthetic"</code>.<br/><br/>See <a href="https://useast.ensembl.org/info/genome/genebuild/biotypes.html ">Ensembl</a> references.
         </td>
     </tr>
 </tbody></table>
@@ -1499,7 +1497,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>int</code>. The key MUST be the <b>Ensembl</b> release number of the assembly used for gene annotation. E.g. <code>115</code> for <a href="https://ftp.ensembl.org/pub/release-115/">Ensembl r.115</a>.
+          <code>int</code>. The key MUST be the <b>Ensembl</b> release number of the assembly used for gene annotation, e.g. <code>115</code> for <a href="https://ftp.ensembl.org/pub/release-115/">Ensembl r.115</a>.
         </td>
     </tr>
 </tbody></table>
@@ -1527,6 +1525,7 @@ Curators MUST annotate the following keys and values in `uns`:
             <tr><td><a href="https://plants.ensembl.org/"><code>"EnsemblPlants"</code></a></td></tr>
             <tr><td><a href="https://protists.ensembl.org/"><code>"EnsemblProtists"</code></a></td></tr>
             <tr><td><a href="https://metazoa.ensembl.org/"><code>"EnsemblMetazoa"</code></a></td></tr>
+            <tr><td><a href="https://covid-19.ensembl.org/"><code>"EnsemblCOVID-19"</code></a></td></tr>
           </table>
         </td>
     </tr>
@@ -1547,7 +1546,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. The key MUST be the <b>Ensembl</b> assembly name of the assembly used for gene annotation. For e.g. <code>"GRCh38.p14"</code> for Homo Sapiens release 115. You can relate for e.g. to this <a href="https://www.ensembl.org/info/website/archives/assembly.html">correspondance table</a> for the main Ensembl database.
+          <code>str</code>. The key MUST be the <b>Ensembl</b> assembly name of the assembly used for gene annotation, e.g. <code>"GRCh38.p14"</code> for Homo Sapiens release 115. You can relate for e.g. to this <a href="https://www.ensembl.org/info/website/archives/assembly.html">correspondance table</a> for the main Ensembl database.
         </td>
     </tr>
 </tbody></table>
@@ -1566,92 +1565,26 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Value</th>
-        <td><code>str</code>. One of the following terms MUST be used:
-          <br/><br/>
-          <table>
-          <thead>
-          <tr>
-          <th>For Organism</th>
-          <th>MUST Use</th>
-          </tr>
-          </thead>
-          <tbody>
-         <tr>
-            <td><i>Caenorhabditis elegans</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6293"</code></a>
-            </td>
-          </tr>
-         <tr>
-            <td><i>Callithrix jacchus</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9483"><code>"NCBITaxon:9483"</code></a>
-            </td>
-          </tr>
-          <tr>
-            <td><i>Danio rerio</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a></td>
-          </tr>
-          <tr>
-            <td><i>Drosophila melanogaster</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a>
-            </td>
-          </tr>
-          <tr>
-            <td><i>Gorilla gorilla gorilla</i></td>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9595"><code>"NCBITaxon:9595"</code></a>
-            </td>
-           </tr>
-            <tr>
-              <td><i>Homo sapiens</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>"NCBITaxon:9606"</code></a>
-              </td>
-            </tr>
-            <tr>
-              <td><i>Macaca fascicularis<br/>and its descendants</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9541"><code>"NCBITaxon:9541"</code></a>or one of its descendants
-              </td>
-            </tr>
-          <tr>
-              <td><i>Macaca mulatta<br/>and its descendants</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9544"><code>"NCBITaxon:9544"</code></a>or one of its descendants
-              </td>
-            </tr>
-            <tr>
-              <td><i>Microcebus murinus</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A30608"><code>"NCBITaxon:30608"</code></a></td>
-            </tr>
-            <tr>
-              <td><i>Mus musculus<br/>and its descendants</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10090"><code>"NCBITaxon:10090"</code></a>or one of its descendants</td>
-            </tr>
-            <tr>
-              <td><i>Oryctolagus cuniculus<br/>and its descendants</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9986"><code>"NCBITaxon:9986"</code></a>or one of its descendants</td>
-            </tr>
-            <tr>
-              <td><i>Pan troglodytes<br/>and its descendants</i></td>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9598"><code>"NCBITaxon:9598"</code></a>or one of its descendants
-             </td>
-            </tr>
-            <tr>
-              <td><i>Rattus norvegicus<br/>and its descendants</i></td>
-              <td><a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10116"><code>"NCBITaxon:10116"</code></a>or one of its descendants</td>
-            </tr>
-            <tr>
-              <td><i>Sus scrofa<br/>and its descendants</i></td>
-              <td>
-               <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9823"><code>"NCBITaxon:9823"</code></a>or one of its descendants
-            </td>
-          </tr>
-          </tbody></table>
+        <td><code>str</code>. Should be the `"NCBITaxon"` ontology term corresponding to the main organism of the study, e.g. `"NCBITaxon:7227"` for *Drosophila Melanogaster*, `"NCBITaxon:9606"` for *Homo Sapiens*, or `"NCBITaxon:10090"` for <i>Mus musculus<br/>and its descendants</i>.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### *organism*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>organism</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>organism_ontology_term_id</code>.
         </td>
     </tr>
 </tbody></table>
@@ -1671,11 +1604,53 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. This text describes and differentiates the dataset from other datasets in the same collection. It is displayed on a page in scFAIR Discover that also has the collection name. To illustrate, the first dataset name in the <a href="https://scFAIR.cziscience.com/collections/b52eb423-5d0d-4645-b217-e1c6d38b2e72">Cells of the adult human heart collection</a> is "All — Cells of the adult human heart".<br/><br/>It is STRONGLY RECOMMENDED that each dataset <code>title</code> in a collection is unique and does not depend on other metadata such as a different  <code>assay</code> to disambiguate it from other datasets in the collection.
+          <code>str</code>. This text describes and differentiates the dataset from other datasets. It is STRONGLY RECOMMENDED to make sure that each dataset <code>title</code> is unique and does not depend on other metadata such as a different <code>assay</code> to disambiguate it from other datasets.
         </td>
     </tr>
 </tbody></table>
 <br/>
+
+### *schema_reference*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>schema_reference</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          This MUST be <code>"https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md"</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+### *schema_version*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>schema_version</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MUST annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td>
+          This MUST be <code>"7.1.0_scfair"</code>.
+        </td>
+    </tr>
+</tbody></table>
+<br/>
+
+---
 
 ​Curators MAY also annotate the following optional keys and values in `uns`. If the key is present, then its value MUST NOT be empty.
 ​
@@ -1699,6 +1674,23 @@ Curators MUST annotate the following keys and values in `uns`:
 </tbody></table>
 <br/>
 
+### *citation*
+
+<table><tbody>
+    <tr>
+      <th>Key</th>
+      <td>citation</td>
+    </tr>
+    <tr>
+      <th>Annotator</th>
+      <td>Curator MAY annotate.</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+        <td><code>str</code>. Publication DOI url associated with the dataset.</td>
+    </tr>
+</tbody></table>
+<br/>
 
 ### {column}_colors
 
@@ -1706,18 +1698,8 @@ Curators MUST annotate the following keys and values in `uns`:
   <tr>
     <th>Key</th>
       <td>
-        {column}_colors where {column} MUST be the name of a <code>category</code> data type column in <code>obs</code> that<br/> is annotated by the data submitter or curator. The following columns that are annotated by scFAIR<br/> Discover MUST NOT be specified as {column}:<br/><br/>
-      <ul>
-        <li>assay</li>
-        <li>cell_type</li>
-        <li>development_stage</li>
-        <li>disease</li>
-        <li>self_reported_ethnicity</li>
-        <li>sex</li>
-        <li>tissue</li>       
-      </ul><br/>
-      Instead annotate {column}_ontology_term_id_colors for these columns such as <code>assay_ontology_term_id</code>.<br/><br/>
-    </td>
+        {column}_colors where {column} MUST be the name of a <code>category</code> data type column in <code>obs</code> that<br/> is annotated by the data submitter or curator. {column} can be for example <code>assay</code>, <code>assay_ontology_term_id</code>, <code>cell_type</code>, or any other categorical <code>obs</code>.
+      </td>
   </tr>
   <tr>
     <th>Annotator</th>
@@ -1774,12 +1756,12 @@ Curators MUST annotate the following keys and values in `uns`:
     </tr>
     <tr>
       <th>Annotator</th>
-      <td>Curator MAY annotate. </td>
+      <td>Curator MAY annotate.</td>
     </tr>
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. The value MUST match a key to an embedding in <code>obsm</code> for the embedding to display by default in scFAIR Explorer.
+          <code>str</code>. The value MUST match a key to an embedding in <code>obsm</code> for the embedding to be displayed by default in any portal.
         </td>
     </tr>
 </tbody></table>
@@ -1799,120 +1781,7 @@ Curators MUST annotate the following keys and values in `uns`:
     <tr>
       <th>Value</th>
         <td>
-          <code>str</code>. scFAIR Discover runs a heuristic to detect the approximate distribution of the data in X so that it can accurately calculate statistical properties of the data. This field enables the curator to override this heuristic and specify the data distribution explicitly. The value MUST be <code>"count"</code> (for data whose distributions are best approximated by counting distributions like Poisson, Binomial, or Negative Binomial) or <code>"normal"</code> (for data whose distributions are best approximated by the Gaussian distribution.)
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-Curators MUST NOT annotate the following keys and values in `uns`.
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the `citation` key and set its value.
-
-### citation
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>citation</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td><code>str</code>. Its format MUST use the following template:
-          <br/><br/>
-          <table>
-          <thead>
-          <tr>
-          <th>Citation Element</th>
-          <th>Value</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><i><code>"Publication: "</code></i></td>
-              <td>Publication DOI url for the collection<br/><br/> This element MUST only be present if a<br/> Publication DOI is defined for the collection;<br/> otherwise, it MUST NOT be present.</td>
-            </tr>
-            <tr>
-              <td><i><code>"Dataset Version: "</code></i></td>
-              <td>Permanent url to this version of the dataset</td>
-            </tr>
-              <td><i><code>" curated and distributed by<br/> CZ scFAIR Discover in Collection: "</code> </i></td>
-              <td>Permanent url to the collection</td>
-            </tr>
-          </tbody></table>
-          A citation for a H5AD dataset with a Publication DOI:<br/><br/>"<code><b>Publication:</b> https://doi.org/10.1126/science.abl4896 <b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/dbd8b789-3efa-4a63-9243-90cff64f2045.h5ad <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5"</code><br/><br/>
-          A citation for a RDS dataset without a Publication DOI:<br/><br/><code>"<b>Dataset Version:</b> https://datasets.scFAIR.cziscience.com/08ea16dc-3f4e-4c84-8692-74d70be22d12.rds <b>curated and distributed by CZ scFAIR Discover in Collection:</b> https://scFAIR.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31"</code><br/><br/>
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the `organism` key and set its value to the matching human-readable name for the corresponding ontology term.
-
-### organism
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>organism</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>categorical with <code>str</code> categories. This MUST be the human-readable name assigned to the value of <code>organism_ontology_term_id</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the `schema_reference` key and set its value to the permanent URL of this document. 
-
-### schema_reference
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>schema_reference</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          This MUST be <code>"https://github.com/chanzuckerberg/single-cell-curation/blob/main/schema/7.1.0/schema.md"</code>.
-        </td>
-    </tr>
-</tbody></table>
-<br/>
-
----
-
-When a dataset is uploaded, scFAIR Discover MUST automatically add the `schema_version` key and its value to `uns`.
-
-### schema_version
-
-<table><tbody>
-    <tr>
-      <th>Key</th>
-      <td>schema_version</td>
-    </tr>
-    <tr>
-      <th>Annotator</th>
-      <td>scFAIR Discover MUST annotate.</td>
-    </tr>
-    <tr>
-      <th>Value</th>
-        <td>
-          This MUST be <code>"7.1.0"</code>.
+          <code>str</code>. This field enables the curator to specify the data distribution explicitly and not relying on portal automatic detection of the type of data (raw counts, or normalized). The value MUST be <code>"count"</code> (for data whose distributions are best approximated by counting distributions like Poisson, Binomial, or Negative Binomial) or <code>"normal"</code> (for data whose distributions are best approximated by the Gaussian distribution.)
         </td>
     </tr>
 </tbody></table>
@@ -1930,6 +1799,7 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 * **Required Gene Annotations**
   * This section was removed, but its content was moved to the [`index`](#index-of-pandasdataframe-1) subsection of [`var` and `raw.var`](#var-and-rawvar-gene-metadata) section where it immediately applies.
   * CZI CELLxGENE schema only handles certain Taxons, and specify a fixed Ensembl release for each species that they "attach" to the schema version as fixed. scFAIR allows gene annotations from any species, and any release present in one of the Ensembl database ([Main Ensembl](https://www.ensembl.org/index.html), [Ensembl Bacteria](https://bacteria.ensembl.org/index.html), [Ensembl Fungi](https://fungi.ensembl.org/index.html), [Ensembl Plants](https://plants.ensembl.org/index.html), [Ensembl Protists](https://protists.ensembl.org/index.html), [Ensembl Metazoa](https://metazoa.ensembl.org/index.html)), and [Ensembl COVID-19](https://covid-19.ensembl.org/index.html).
+  * Removed GENCODE from authorized gene names. Only Ensembl is allowed.
 * [`X` (Matrix layers)](#x-matrix-layers)
   * Moved the scATAC-seq part (and requirement table) to scATAC-specific schema ['schema_atac.md'](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md)
 * [`obs`](#obs-cell-metadata) (Cell metadata)
@@ -1945,12 +1815,15 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
   * Added [`feature_chromosome`](#feature_chromosome) to provide chromosome information for each feature. Useful for MT QC plot.
 * [`uns`](#uns-dataset-metadata) (Dataset Metadata)
   * Moved this entire section after [`var` and `raw.var`](#var-and-rawvar-gene-metadata), I think it was misplaced before.
-  * Added [`ensembl_release`](#ensembl_release) since scFAIR allows all available species in Ensembl
-  * Added [`ensembl_database`](#ensembl_database) since scFAIR allows all available species in Ensembl
-  * Added [`ensembl_assembly`](#ensembl_assembly) since scFAIR allows all available species in Ensembl
+  * Added [`ensembl_release`](#ensembl_release) to inform on the Ensembl release used for gene annotation, since scFAIR allows all available species in Ensembl
+  * Added [`ensembl_database`](#ensembl_database) to inform on the Ensembl database used for gene annotation, since scFAIR allows all available species in Ensembl
+  * Added [`ensembl_assembly`](#ensembl_assembly) to inform on the Ensembl assembly used for gene annotation, since scFAIR allows all available species in Ensembl
   * Removed `is_pre_analysis` as it is specific for CELLxGENE collection handling
   * Moved <code>genetic_perturbations</code>, <code>genetic_perturbations[<i>id</i>]</code>, <code>genetic_perturbations[<i>id</i>]['role']</code>, <code>genetic_perturbations[<i>id</i>]['protospacer_sequence']</code>, <code>genetic_perturbations[<i>id</i>]['protospacer_adjacent_motif']</code>, <code>genetic_perturbations[<i>id</i>]['derived_genomic_regions']</code>, <code>genetic_perturbations[<i>id</i>]['derived_features']</code>, and <code>genetic_perturbations[<i>id</i>]['derived_features'][<i>feature_id</i>]</code> to perturb-specific schema ['schema_perturb.md'](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema_perturb.md#genetic_perturbations)
-  * 
+  * Moved <code>spatial</code>, <code>spatial[<i>library_id</i>]</code>, <code>spatial[<i>library_id</i>]['is_single']</code>, <code>spatial[<i>library_id</i>]['images']</code>, <code>spatial[<i>library_id</i>]['images']['fullres']</code>, <code>spatial[<i>library_id</i>]['images']['hires']</code>, <code>spatial[<i>library_id</i>]['scalefactors']</code>, <code>spatial[<i>library_id</i>]['scalefactors']['spot_diameter_fullres']</code>, and <code>spatial[<i>library_id</i>]['scalefactors']['tissue_hires_scalef']</code> to spatial-specific schema ['schema_spatial.md'](https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema_spatial.md#spatial)
+  * Modified `{column}_colors` so that anything can be edited by the curator, and everything is thus optional.
+  * Modified `organism_ontology_term_id` to allow any species
+  * Modified `citation` so that it contains only the DOI. Made this field Optional.
 * Move scTAC-seq assets to atac-specific schema ['schema_atac.md'](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_atac.md#scatac-seq-assets)
 
 ## Appendix B. Relevant ontologies
