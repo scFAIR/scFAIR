@@ -50,6 +50,19 @@
 * [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm) - Describe multi-dimensional annotation of variables/features. Nothing is mandatory here.
 * [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp) - Describe pairwise annotation of variables/features. Nothing is mandatory here.
 * [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) - Dataset metadata. Describe the dataset as a whole.
+  * [`ensembl_release`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_release) [`int`] - <b>Ensembl</b> release number of the assembly used for gene annotation, e.g. <code>115</code> for <a href="https://ftp.ensembl.org/pub/release-115/">Ensembl r.115</a>.
+  * [`ensembl_database`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_database)  [`str`] - <b>Ensembl</b> database name of the assembly used for gene annotation. One of <code>"Ensembl"</code>, <code>"EnsemblBacteria"</code>, <code>"EnsemblFungi"</code>, <code>"EnsemblPlants"</code>, <code>"EnsemblProtists"</code>, <code>"EnsemblMetazoa"</code>, or <code>"EnsemblCOVID-19"</code>.
+  * [`ensembl_assembly`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#ensembl_assembly)  [`str`] - <b>Ensembl</b> assembly name of the assembly used for gene annotation, e.g. <code>"GRCh38.p14"</code> for Homo Sapiens release 115.
+  * [`organism_ontology_term_id`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#organism_ontology_term_id) [`str`] - NCBITaxon ontology term corresponding to the main organism of the study, e.g. `"NCBITaxon:7227"` for *Drosophila Melanogaster*/.
+  * *[`organism`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#organism)* [`str`] (Paired with `organism_ontology_term_id`) - Human-readable name assigned to the value of `organism_ontology_term_id`.
+  * [`title`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#title) [`str`] - Main title of the study.
+  * *[`shema_reference`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#shema_reference)* [`str`] - This schema: <code>"https://github.com/scFAIR/scFAIR/edit/main/schema/7.1.0/schema.md"</code>.
+  * *[`shema_version`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#shema_version)* [`str`] - This schema version: <code>"7.1.0_scfair"</code>.
+  * *&lt;Optional&gt;*[`batch_condition`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#batch_condition) [`str`] - One of the cell metadata keys in <code>obs</code> defining the <i>batches</i> (for integration).
+  * *&lt;Optional&gt;**[`citation`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#citation)* [`str`] - DOI of the study associated with the dataset.
+  * *&lt;Optional&gt;*[`{column}_colors`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#column_colors) [`numpy.ndarray`] - Array of hex or color names for categorical metadata in `obs`.
+  * *&lt;Optional&gt;*[`default_embedding`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#default_embedding) [`str`] - An embedding in <code>obsm</code> for the embedding to be displayed by default in any portal.
+  * *&lt;Optional&gt;*[`X_approximate_distribution`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#X_approximate_distribution) [`str`] - One of `"count"` or `"normal"` describing the distribution of the main dataset.
 
 ## Spatial dataset (Visium)
 
