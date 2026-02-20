@@ -47,7 +47,7 @@
   * *[`feature_reference`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_reference)* [`str`] - NCBITaxon organism id the feature comes from, e.g. `"NCBITaxon:10090"` for *mus musculus* or `"NCBITaxon:32630"` for ERCC Spike-Ins.
   * *[`feature_type`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_type)* [`str`] - Biotype of the corresponding genes, e.g. `"protein coding"` or `"ncRNA"`. If `feature_biotype` is `"spike-in"` then this MUST be `"synthetic"`.
   * *[`feature_chromosome`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#feature_chromosome)* [`str`] - Chromosome location of the corresponding genes, e.g. `"MT"` or `"1"`.
-* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm) - Describe multi-dimensional annotation of variables/features.
+* [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm) - Describe multi-dimensional annotation of variables/features. Nothing is mandatory here.
 * [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp) - Describe pairwise annotation of variables/features. Nothing is mandatory here.
 * [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata) - Dataset metadata. Describe the dataset as a whole.
 
@@ -63,13 +63,22 @@ If no description -> same as core
   * **[`array_col`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#array_col)** [`int`] - Value of the column coordinate for the corresponding spot from the `array_col` field in `tissue_positions_list.csv` or `tissue_positions.csv`.
   * **[`array_row`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#array_row)** [`int`] - Value of the row coordinate for the corresponding spot from the `array_row` field in in `tissue_positions_list.csv` or `tissue_positions.csv`.
   * **[`in_tissue`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#in_tissue)** [`int`] - Value for the corresponding spot from the in_tissue field in `tissue_positions_list.csv` or `tissue_positions.csv` which is either 0 if the spot falls outside tissue or 1 if the spot falls inside tissue.
-* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset
+* [`AnnData.obsm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsm-embeddings) - Embeddings. Describe each embedding in the dataset.
   * **[`spatial`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatial)** [`numpy.ndarray`] - Spatial coordinates.
 * [`Anndata.obsp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#obsp)
 * [`Anndata.var` and `Anndata.raw.var`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#var-and-rawvar-gene-metadata)
 * [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm)
 * [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp)
 * [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata)
+  * **[`spatial`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatial)** [`dict`] - This `dict` contains Space Ranger spatial outputs such as numerized full-res images and scalefactors. Structure of the dict is detailed below.
+    * **[`spatial['is_single']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatialis_single)** [`bool`] - True if the dataset represents one Space Ranger output for a single tissue section (`Visium Spatial Gene Expression`) or the dataset represents the output for a single array on a puck (`Slide-seqV2`).
+    * **[`spatial[*library_id*]`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_id)** [`dict`] - This `dict` maps a unique identifier to the following values.
+      ▸ **[`spatial[*library_id*]['images']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idimages)** [`dict`] - This `dict` contains multiple numerized images.
+        - **[`spatial[*library_id*]['images']['fullres']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idimagesfullres)** [`numpy.ndarray`] - The full resolution image, converted to a `numpy.ndarray`.
+        - **[`spatial[*library_id*]['images']['hires']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idimageshires)** [`numpy.ndarray`] - The `tissue_hires_image.png` image, converted to a `numpy.ndarray`.
+      ▸ **[`spatial[*library_id*]['scalefactors']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idiscalefactors)** [`dict`] - This `dict` contains fields extracted from the `scalefactors_json.json`.
+        - **[`spatial[*library_id*]['scalefactors']['spot_diameter_fullres']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idscalefactorsspot_diameter_fullres)** [`float`] - This must be the value of the `spot_diameter_fullres` field from `scalefactors_json.json`.
+        - **[`spatial[*library_id*]['scalefactors']['tissue_hires_scalef']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_spatial.md#spatiallibrary_idscalefactorstissue_hires_scalef)** [`float`] - This must be the value of the `tissue_hires_scalef` field from `scalefactors_json.json`.
 
 ## Genetic perturbation dataset (CRISPR screen, perturb-seq, ...)
 
@@ -88,7 +97,7 @@ If no description -> same as core
 * [`Anndata.varm`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varm)
 * [`Anndata.varp`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#varp)
 * [`Anndata.uns`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#uns-dataset-metadata)
-  * **[`genetic_perturbations`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema.md#genetic_perturbations)** [`dict`] - This `dict` contains multiple informations on the controls, targets, sequences, and genomic regions. Structure of the dict is detailed below.
+  * **[`genetic_perturbations`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbations)** [`dict`] - This `dict` contains multiple informations on the controls, targets, sequences, and genomic regions. Structure of the dict is detailed below.
     * **[`genetic_perturbations[*id*]`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbationsid)** [`dict`] - This `dict` maps a unique identifier for the genetic perturbation to the following values.
       ▸ **[`genetic_perturbations[*id*]['role']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbationsidrole)** [`str`] - One of `"control"` or `"targeting"`.<br/>
       ▸ **[`genetic_perturbations[*id*]['protospacer_sequence']`](https://github.com/scFAIR/scFAIR/blob/main/schema/7.1.0/schema_perturb.md#genetic_perturbationsidprotospacer_sequence)** [`str`] - Protospacer DNA sequence which represent the primary DNA nucleotide base codes. Its length MUST be 14-22 nucleotides in ('A', 'C', 'G', 'T').<br/>
