@@ -172,6 +172,12 @@ The most accurate ontology term MUST always be used. If an exact or approximate 
 
 Terms documented as obsolete in an ontology MUST NOT be used. For example, [EFO:0009310](https://www.ebi.ac.uk/ols4/ontologies/efo/classes/http%253A%252F%252Fwww.ebi.ac.uk%252Fefo%252FEFO_0009310) for *obsolete_10x v2* was marked as obsolete in EFO version 3.31.0 and replaced by [EFO:0009899](https://www.ebi.ac.uk/ols4/ontologies/efo/classes?obo_id=EFO%3A0009899) for *10x 3' v2*.
 
+Of note, for tissue, cell type, and stage terms, the collected-metazoan or composite-metazoan version of the [Uberon multi-species anatomy ontology] SHOULD be used. The collected ontology merges Uberon itself with the CL ontology, and several taxon-specific ontologies (e.g., FBbt, ZFA, FBdv, HsapDv), describing anatomy, and developmental and life stages. The composite ontology is derived from the collected ontology, by removing, wherever possible, the taxon-specific terms, and mapping them to the corresponding taxon-neutral terms from Uberon, resulting in less redundancy (see [Combined Multispecies Ontologies document](https://obophenotype.github.io/uberon/combined_multispecies/) for more information). <br />
+- Whenever possible, the taxon-neutral Uberon term SHOULD be used.
+- If a taxon-specific term is used, it MAY be automatically remapped to the corresponding taxon-neutral Uberon term, if such a mapping exists.
+- A taxon-specific term MUST be used if it is the most precise term available, and corresponds to the correct taxon for the experiment.<br />
+- From the composite and collected versions of Uberon, any term descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/cl/terms?obo_id=CL:0000000"><code>CL:0000000</code></a> for <i>cell</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000105"><code>UBERON:0000105</code></a> for <i>life cycle stage</i>, or any term from an imported ontology cross-referenced to them, MUST be used.
+
 ## `X` (Matrix Layers)
 
 The data stored in the `AnnData.X` data matrix is the main dataset viewable in a portal resource. For `AnnData.X`, `AnnData.raw.X`, and all layers, if a data matrix contains 50% or more values that are zeros, it MUST be encoded as a [`scipy.sparse.csr_matrix`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html) with zero values encoded as <a href="https://docs.scipy.org/doc/scipy/tutorial/sparse.html#sparse-arrays-implicit-zeros-and-duplicates">implicit zeros</a>.
@@ -349,49 +355,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     <tr>
       <th>Value</th>
       <td>
-        categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be a Cellosaurus term.<br/><br/>If <code>tissue_type</code> is <code>"primary cell culture"</code>, this MUST follow the requirements for <code>cell_type_ontology_term_id</code>.<br/><br/>If <code>tissue_type</code> is <code>"organoid"</code>, this MUST NOT be <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000922"><code>UBERON:0000922</code></a> for <i>embryo</i>. If the organoid is an embryoid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0014374"><code>UBERON:0014374</code></a> for <i>embryoid body</i>. If the organoid is a gastruloid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0004734"><code>UBERON:0004734</code></a> for <i>gastrula</i>.<br/><br/>Otherwise, if <code>tissue_type</code> is <code>"organoid"</code> or <code>"tissue"</code> then:<br/><br/>
-        <table>
-          <thead>
-            <tr>
-              <th>For <code>organism_ontology_term_id</code></th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a><br/>for <i>Caenorhabditis elegans</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant<br/>of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0005766"><code>WBbt:0005766</code></a> for <i>Anatomy</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007849"><code>WBbt:0007849</code></a> for <i>hermaphrodite</i>,<br/><a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0007850"><code>WBbt:0007850</code></a> for <i>male</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0008595"><code>WBbt:0008595</code></a> for <i>female</i>, <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0004017"><code>WBbt:0004017</code></a> for <i>Cell</i><br/>and its descendants, and <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBBT%3A0006803"><code>WBbt:00006803</code></a> for <i>Nucleus</i> and its descendants
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a><br/>for <i>Danio rerio</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br/><a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0100000"><code>ZFA:0100000</code></a> for <i>zebrafish anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0001093"><code>ZFA:0001093</code></a> for<br/><i>unspecified</i> and <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0009000"><code>ZFA:0009000</code></a> for <i>cell</i> and its descendants
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a><br/>for <i>Drosophila melanogaster</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> or the most accurate descendant of<br/><a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBBT%3A10000000"><code>FBbt:10000000</code></a> for <i>anatomical entity</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBbt%3A00007002"><code>FBbt:00007002</code></a> for <i>cell</i><br/>and its descendants
-              </td>
-              </tr>    
-              <tr>
-              <td>
-                For all other organisms
-              </td>
-              <td>
-              MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i>
-              </td>
-              </tr>
-          </tbody>
-        </table>
+        categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be a Cellosaurus term.<br/><br/>If <code>tissue_type</code> is <code>"primary cell culture"</code>, this MUST follow the requirements for <code>cell_type_ontology_term_id</code>.<br/><br/>If <code>tissue_type</code> is <code>"organoid"</code>, this MUST NOT be <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000922"><code>UBERON:0000922</code></a> for <i>embryo</i>. If the organoid is an embryoid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0014374"><code>UBERON:0014374</code></a> for <i>embryoid body</i>. If the organoid is a gastruloid, it is STRONGLY RECOMMENDED that the value is <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0004734"><code>UBERON:0004734</code></a> for <i>gastrula</i>.<br/><br/>Otherwise, if <code>tissue_type</code> is <code>"organoid"</code> or <code>"tissue"</code> then MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0001062"><code>UBERON:0001062</code></a> for <i>anatomical entity</i> (or any term from an imported ontology cross-referenced to it, e.g., <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes?obo_id=FBBT%3A10000000"><code>FBbt:10000000</code></a> for <i>anatomical entity</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>NCBITaxon:7227</code></a> for <i>Drosophila melanogaster</i>), excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000468"><code>UBERON:0000468</code></a> for <i>multicellular organism</i> (or any term from an imported ontology cross-referenced to it, e.g. <a href="https://www.ebi.ac.uk/ols4/ontologies/wbphenotype/classes?obo_id=WBbt%3A0007833"><code>WBbt:0007833</code></a> for <i>organism</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>NCBITaxon:6239</code></a> for <i>Caenorhabditis elegans</i>) and its descendants , and excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=CL%3A0000000"><code>CL:0000000</code></a> (or any term from an imported ontology cross-referenced to it, e.g. <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0009000"><code>ZFA:0009000</code></a> for <i>cell</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>NCBITaxon:7955</code></a> for <i>Danio rerio</i>) and its descendants, and excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0001093"><code>ZFA:0001093</code></a> for <i>unspecified</i> and <a href="https://www.ebi.ac.uk/ols4/ontologies/xao/classes?obo_id=XAO%3A0003003"><code>XAO:0003003</code></a> for <i>unspecified</i>. A taxon-specific term MUST be used if it is the most precise term available, and corresponds to the correct taxon for the experiment. Otherwise, a taxon-neutral Uberon term SHOULD be used.
       </td>
   </tr>
 </tbody></table>
@@ -449,46 +413,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
         <li>
             <a href="https://www.ebi.ac.uk/ols4/ontologies/cl/terms?obo_id=CL:0000548"><code>"CL:0000548"</code></a> for <i>animal cell</i>
          </li></ul><br/>
-      <table>
-        <thead><tr>
-          <th>For <code>organism_ontology_term_id</code></th>
-          <th>Value</th>
-        </tr></thead>
-        <tbody>
-          <tr>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a><br/>for <i>Caenorhabditis elegans</i>
-            </td>
-            <td>
-              MUST be either a CL term or the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBbt%3A0004017"><code>WBbt:0004017</code></a><br/>for <i>Cell</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBbt%3A0006803"><code>WBbt:0006803</code></a> for <i>Nucleus</i> and its descendants
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a><br/>for <i>Danio rerio</i>
-            </td>
-            <td>
-              MUST be either a CL term or the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFA%3A0009000"><code>ZFA:0009000</code></a> <br/>for <i>cell</i>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a><br/>for <i>Drosophila melanogaster</i>
-            </td>
-            <td>
-              MUST be either a CL term or the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FFBbt_00007002?lang=en"><code>FBbt:00007002</code></a><br/>for <i>cell</i>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              For all other organisms
-            </td>
-            <td>
-              MUST be a CL term
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      Otherwise, this MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/cl/terms?obo_id=CL:0000000"><code>CL:0000000</code></a> for <i>cell</i> (or any term from an imported ontology cross-referenced to it, e.g., <a href="https://www.ebi.ac.uk/ols4/ontologies/fbbt/terms?obo_id=FBbt:00007002"><code>FBbt:00007002</code></a> for <i>cell</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/terms?obo_id=NCBITaxon:7227"><code>NCBITaxon:7227</code></a> for <i>Drosophila melanogaster</i>), excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/wbbt/classes?obo_id=WBbt%3A0006803"><code>WBbt:0006803</code></a> for <i>Nucleus</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>NCBITaxon:6239</code></a>for <i>Caenorhabditis elegans</i>, and its descendants. A taxon-specific term MUST be used if it is the most precise term available, and corresponds to the correct taxon for the experiment. Otherwise, a taxon-neutral CL term SHOULD be used.<br/><br/>
     </td>
   </tr>
 </tbody></table>
@@ -527,65 +452,7 @@ Curators MUST annotate the following columns in the `obs` dataframe:
     <tr>
       <th>Value</th>
       <td>
-        categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>.<br/><br/>If unavailable, this MUST be <code>"unknown"</code>.<br/><br/>
-        <table>
-          <thead>
-            <tr>
-              <th>For <code>organism_ontology_term_id</code></th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A6239"><code>"NCBITaxon:6239"</code></a><br/>for <i>Caenorhabditis elegans</i>
-              </td>
-              <td>
-                MUST be <a href="https://www.ebi.ac.uk/ols4/ontologies/wbls/classes?obo_id=WBls%3A0000669"><code>WBls:0000669</code></a> for <i>unfertilized egg Ce</i>,<br/>the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbls/classes?obo_id=WBls%3A0000803"><code>WBls:0000803</code></a><br/>for <i>C. elegans life stage occurring during embryogenesis</i>, or<br/>the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/wbls/classes?obo_id=WBls%3A0000804"><code>WBls:0000804</code></a><br/>for <i>C. elegans life stage occurring post embryogenesis</i> 
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>"NCBITaxon:7955"</code></a><br/>for <i>Danio rerio</i>
-              </td>
-              <td>
-                MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/zfs/classes?obo_id=ZFS%3A0100000"><code>ZFS:0100000</code></a> for <i>zebrafish stage</i><br/>excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfs/classes?obo_id=ZFS%3A0000000"><code>ZFS:0000000</code></a> for <i>Unknown</i>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7227"><code>"NCBITaxon:7227"</code></a><br/>for <i>Drosophila melanogaster</i>
-              </td>
-              <td>
-                MUST be either the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/fbdv/classes?obo_id=FBdv%3A00007014"><code>FBdv:00007014</code></a> for<br/><i>adult age in days</i> or the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/fbdv/classes?obo_id=FBdv%3A00005259"><code>FBdv:00005259</code></a> for<br/><i>developmental stage</i> excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/fbdv/classes?obo_id=FBdv%3A00007012"><code>FBdv:00007012</code></a> for <i>life stage</i>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>"NCBITaxon:9606"</code></a><br/>for <i>Homo sapiens</i>
-              </td>
-              <td>
-                MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/hsapdv/classes?obo_id=HsapDv%3A0000001"><code>HsapDv:0000001</code></a> for <i>life cycle</i>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A10090"><code>"NCBITaxon:10090"</code></a><br/>for <i>Mus musculus</i> or one of its descendants
-              </td>
-              <td>
-                MUST be the accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/mmusdv/classes?obo_id=MmusDv%3A0000001"><code>MmusDv:0000001</code></a> for <i>life cycle</i>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                For all other organisms
-              </td>
-              <td>
-                MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000105"><code>UBERON:0000105</code></a> for <i>life cycle stage</i>, excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000071"><code>UBERON:0000071</code></a> for <i>death stage</i>.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        categorical with <code>str</code> categories.<br/><br/>If <code>tissue_type</code> is <code>"cell line"</code>, this MUST be <code>"na"</code>.<br/><br/>If unavailable, this MUST be <code>"unknown"</code>.<br/><br/>Otherwise, this MUST be the most accurate descendant of <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/terms?obo_id=UBERON%3A0000105"><code>UBERON:0000105</code></a> for <i>life cycle stage</i> (or any term from an imported ontology cross-referenced to it, e.g., <a href="https://www.ebi.ac.uk/ols4/ontologies/hsapdv/terms?obo_id=HsapDv%3A0000001"><code>HsapDv:0000001</code></a> for <i>life cycle</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A9606"><code>NCBITaxon:9606</code></a> for <i>Homo sapiens</i>), excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/uberon/classes?obo_id=UBERON%3A0000071"><code>UBERON:0000071</code></a> for <i>death stage</i> (or any term from an imported ontology cross-referenced to it, e.g., <a href="https://www.ebi.ac.uk/ols4/ontologies/xao/terms?obo_id=XAO:0000437"><code>XAO:0000437</code></a> for <i>death</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A8353"><code>NCBITaxon:8353</code></a> for <i>Xenopus <genus></i>), and excluding <a href="https://www.ebi.ac.uk/ols4/ontologies/zfa/classes?obo_id=ZFS%3A0000000"><code>ZFS:0000000</code></a> for <i>Unknown</i> in <a href="https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon/classes?obo_id=NCBITaxon%3A7955"><code>NCBITaxon:7955</code></a> for <i>Danio rerio</i>. A taxon-specific term MUST be used if it is the most precise term available, and corresponds to the correct taxon for the experiment. Otherwise, a taxon-neutral Uberon term SHOULD be used.<br/><br/>
       </td>
   </tr>
 </tbody></table>
@@ -1794,7 +1661,9 @@ Curators MUST annotate the following keys and values in `uns`:
 ### Schema v7.1.0
 This is the first fork of CELLxGENE schema. So, here are recorded the differences with CZI CELLxGENE schema v7.1.0
 
-* Moved the ontology table from [General Requirements](#general-requirements) as [Appendix B. Relevant ontologies](#appendix-b-relevant-ontologies). Since we don't enforce a schema-specific version anymore.
+* **Required ontologies**
+  * Moved the ontology table from [General Requirements](#general-requirements) as [Appendix B. Relevant ontologies](#appendix-b-relevant-ontologies). Since we don't enforce a schema-specific version anymore.
+  * Recommended using the [Uberon collected metazoan ontology] or [Uberon composite metazoan ontology] version of [Uberon multi-species anatomy ontology], instead of taxon-specific ontologies, for anatomy, cell types, developemental and life stages.
 * Moved the **Important note on types** section to the [General Requirements](#general-requirements) section. Expanding on the difference between reported Python types and HDF5 inner typing.
 * **Required Gene Annotations**
   * This section was removed, but its content was moved to the [`index`](#index-of-pandasdataframe-1) subsection of [`var` and `raw.var`](#var-and-rawvar-gene-metadata) section where it immediately applies.
@@ -1845,6 +1714,8 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 | [NCBI organismal classification] |  NCBITaxon: | [2025-09-11](https://github.com/obophenotype/ncbitaxon/releases/tag/v2025-09-11) | [ncbitaxon.owl](https://github.com/obophenotype/ncbitaxon/releases/download/v2025-09-11/ncbitaxon.owl.gz) |
 | [Phenotype And Trait Ontology] | PATO: | [2025-05-14](https://github.com/pato-ontology/pato/releases/tag/v2025-05-14) | [pato.owl](https://github.com/pato-ontology/pato/blob/v2025-05-14/pato.owl)  |
 | [Uberon multi-species anatomy ontology] |  UBERON: | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [uberon.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/uberon.owl) |
+| [Uberon composite metazoan ontology] | UBERON:, CL:, and taxon-specific prefixes from imported ontologies | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [composite-metazoan.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/composite-metazoan.owl) |
+| [Uberon collected metazoan ontology] | UBERON:, CL:, and taxon-specific prefixes from imported ontologies | [2025-08-15](https://github.com/obophenotype/uberon/releases/tag/v2025-08-15) | [collected-metazoan.owl](https://github.com/obophenotype/uberon/releases/download/v2025-08-15/collected-metazoan.owl) |
 | [UniProt Knowledgebase] | uniprot: | [08-Oct-2025](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/)<br/>2025_04 | [uniprot_sprot.xml](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.xml.gz) _(UniProt may replace this download with a newer release. Previous releases are [available](https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases/).)_ | 
 | [Zebrafish Anatomy Ontology] | ZFA:<br/>ZFS: | [2025-09-05](https://github.com/ZFIN/zebrafish-anatomical-ontology/releases/tag/v2025-09-05) | [zfa.owl](https://github.com/ZFIN/zebrafish-anatomical-ontology/blob/v2025-09-05/zfa.owl) |
 
@@ -1877,6 +1748,10 @@ This is the first fork of CELLxGENE schema. So, here are recorded the difference
 [Phenotype And Trait Ontology]: https://www.obofoundry.org/ontology/pato.html
 
 [Uberon multi-species anatomy ontology]: https://www.obofoundry.org/ontology/uberon.html
+
+[Uberon collected metazoan ontology]: https://obophenotype.github.io/uberon/combined_multispecies/#collected-ontologies
+
+[Uberon composite metazoan ontology]: https://obophenotype.github.io/uberon/combined_multispecies/#composite-ontologies
 
 [UniProt Knowledgebase]: https://uniprot.org
 
